@@ -4,8 +4,8 @@ Feature: A payment authorization request is made against the Worldpay payment ga
         When I authorize the following payment
             | order_code                | 3279686                                                                |
             | description               | This is a beautiful order                                              |
-            | amount_currency_code      | GBP                                                                    |
-            | amount_value              | 15                                                                     |
+            | currency_code             | GBP                                                                    |
+            | value                     | 15                                                                     |
             | encrypted_data            | eyJhbGciOiJSU0ExXzUiL                                                  |
             | address1                  | 4                                                                      |
             | address2                  | Braford Gardens                                                        |
