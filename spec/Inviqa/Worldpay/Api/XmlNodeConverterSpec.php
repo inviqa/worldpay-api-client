@@ -2,11 +2,7 @@
 
 namespace spec\Inviqa\Worldpay\Api;
 
-use Inviqa\Worldpay\Api\Request\Order\PaymentDetails\Session;
-use Inviqa\Worldpay\Api\Request\Order\PaymentDetails\Session\Id;
-use Inviqa\Worldpay\Api\Request\Order\PaymentDetails\Session\ShopperIPAddress;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Sabre\Xml\Writer;
 use Services\OrderFactory;
 
@@ -17,11 +13,15 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $this->beConstructedWith($writer);
     }
 
-    function it_converts_an_order_to_xml_format(Writer $writer)
+    function it_converts_a_payment_service_order_request_to_xml_format(Writer $writer)
     {
-        $xml = OrderFactory::simpleCseOrderXml();
+        $xml = OrderFactory::simpleCsePaymentServiceRequestXml();
 
         $writer->openMemory()->shouldBeCalled();
+        $writer->startElement('paymentService')->shouldBeCalled();
+        $writer->startAttribute('version')->shouldBeCalled();
+        $writer->startAttribute('merchantCode')->shouldBeCalled();
+        $writer->startElement('submit')->shouldBeCalled();
         $writer->startElement('order')->shouldBeCalled();
         $writer->startAttribute('orderCode')->shouldBeCalled();
         $writer->startElement('description')->shouldBeCalled();
@@ -50,13 +50,32 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $writer->startElement('acceptHeader')->shouldBeCalled();
         $writer->startElement('userAgentHeader')->shouldBeCalled();
 
-
-        $writer->write(Argument::any())->shouldBeCalled();
+        $writer->write("1.4")->shouldBeCalled();
+        $writer->write("SESSIONECOM")->shouldBeCalled();
+        $writer->write("order-reiss-test-03")->shouldBeCalled();
+        $writer->write("test reiss order")->shouldBeCalled();
+        $writer->write("GBP")->shouldBeCalled();
+        $writer->write("2")->shouldBeCalled();
+        $writer->write("1500")->shouldBeCalled();
+        $writer->write("eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiMSIsImNvbS53b3JsZHBheS5hcGlWZXJzaW9uIjoiMS4wIiwiY29tLndvcmxkcGF5LmxpYlZlcnNpb24iOiIxLjAuMSIsImNvbS53b3JsZHBheS5jaGFubmVsIjoiamF2YXNjcmlwdCJ9.dKfhn7pnZKfMA4Sy8ODL30o0IAsJgGkYqgaObvWpahlhW2owo-Y3xwyeXc82_kd4UJ-UN4VNxJPuENYCNEa0iq4WE_vSMiBV9d_vZK91e-lJvpHqtucc9HI0T7fh5t7-QU0qhkLj_06W57hE3-HkKhI8-ZfOLbxN0XsQk7ZFpCrK4MT-IPJTk4Twrk2b9eAbnRuTMT-mFNh8lFeZZLp42FaTuLuchPGh1SqE3ln_1oUQppnm8mYkKWNgZlY3pjFpmJFlyrhK-7y-OxVz_FtKpd79fyxtAY1nLB_WO_gmAwFVGOnKwvdsTk_FDVPZ8lRe3LRLJ7pc9gzmw8oyH1gSRQ.dTOinx-7v0pFKvhA.8ZLx2l-HUrG6rFKOqELSyCNXw69CAEvY2F1xRoSiKtiHrxvmdBs5Wz_VPwjnYEEyhf-1Brioyq6A9O0NZZgmAMwk7GBbSKmxzoszbZ-ItSRumG714iDuQ0mqAYPPkq3bxY4mNavPreBXp7eXNg.IVkvoJ3Z2iH-6XgUMDR2LQ")
+            ->shouldBeCalled();
+        $writer->write("47A")->shouldBeCalled();
+        $writer->write("Queensbridge Road")->shouldBeCalled();
+        $writer->write("Suburbia")->shouldBeCalled();
+        $writer->write("CB94BQ")->shouldBeCalled();
+        $writer->write("Cambridge")->shouldBeCalled();
+        $writer->write("Cambridgeshire")->shouldBeCalled();
+        $writer->write("GB")->shouldBeCalled();
+        $writer->write("123.123.123.123")->shouldBeCalled();
+        $writer->write("0215ui8ib1")->shouldBeCalled();
+        $writer->write("lpanainte+test@inviqa.com")->shouldBeCalled();
+        $writer->write("text/html")->shouldBeCalled();
+        $writer->write("Mozilla/5.0")->shouldBeCalled();
         $writer->endElement()->shouldBeCalled();
-        $writer->endAttribute(Argument::any())->shouldBeCalled();
+        $writer->endAttribute()->shouldBeCalled();
         $writer->outputMemory()->willReturn($xml)->shouldBeCalled();
 
-        $this->toXml(OrderFactory::simpleCseOrder())->shouldReturn($xml);
+        $this->toXml(OrderFactory::simpleCsePaymentService())->shouldReturn($xml);
     }
 
 }

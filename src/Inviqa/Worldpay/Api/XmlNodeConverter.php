@@ -33,6 +33,8 @@ class XmlNodeConverter
                 foreach ($children as $child) {
                     $this->convertNode($child);
                 }
+            } else {
+                $this->writer->write((string)$node);
             }
         } else {
             $this->writer->startAttribute($node->xmlLabel());

@@ -1,9 +1,0 @@
-<?php
-
-namespace Inviqa\Worldpay\Api\Request\Order\PaymentDetails\Session;
-
-use Inviqa\Worldpay\Api\XmlAttributeDefaults;
-
-class ShopperIPAddress extends XmlAttributeDefaults
-{
-}
