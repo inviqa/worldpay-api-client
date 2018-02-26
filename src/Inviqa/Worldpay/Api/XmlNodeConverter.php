@@ -16,13 +16,16 @@ class XmlNodeConverter
     public function toXml(XmlConvertibleNode $node)
     {
         $this->writer->openMemory();
+        $this->writer->setIndent(true);
+        $this->writer->startDocument("1.0","UTF-8");
+        $this->writer->write('<!DOCTYPE paymentService PUBLIC "-//Worldpay//DTD Worldpay PaymentService v1//EN" "http://dtd.worldpay.com/paymentService_v1.dtd">');
 
         $this->convertNode($node);
 
         return $this->writer->outputMemory();
     }
 
-    public function convertNode(XmlConvertibleNode $node)
+    private function convertNode(XmlConvertibleNode $node)
     {
         $children = $node->xmlChildren();
 
@@ -36,12 +39,12 @@ class XmlNodeConverter
             } else {
                 $this->writer->write((string)$node);
             }
+
+            $this->writer->endElement();
         } else {
             $this->writer->startAttribute($node->xmlLabel());
             $this->writer->write((string)$node);
             $this->writer->endAttribute();
         }
-
-        $this->writer->endElement();
     }
 }

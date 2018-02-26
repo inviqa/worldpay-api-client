@@ -2,11 +2,21 @@
 
 namespace Inviqa\Worldpay\Api;
 
+use Inviqa\Worldpay\Api\Exception\InvalidRequestParameterException;
+
 class XmlNodeDefaults implements XmlConvertibleNode
 {
     protected $string;
 
-    public function __construct(string $string) {
+    public function __construct(string $string = null) {
+        if (empty($string)) {
+            throw new InvalidRequestParameterException(sprintf(
+                "Invalid %s request parameter. Expected a non-empty value. Got '%s'.",
+                $this->xmlLabel(),
+                $string
+            ));
+        }
+
         $this->string = $string;
     }
 
