@@ -2,6 +2,8 @@
 
 namespace Inviqa\Worldpay\Api\Request\Order\Shopper;
 
-class ShopperEmailAddress
+use Inviqa\Worldpay\Api\XmlNodeDefaults;
+
+class ShopperEmailAddress extends XmlNodeDefaults
 {
 }

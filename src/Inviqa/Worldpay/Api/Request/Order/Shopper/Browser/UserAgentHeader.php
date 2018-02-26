@@ -2,6 +2,8 @@
 
 namespace Inviqa\Worldpay\Api\Request\Order\Shopper\Browser;
 
-class UserAgentHeader
+use Inviqa\Worldpay\Api\XmlNodeDefaults;
+
+class UserAgentHeader extends XmlNodeDefaults
 {
 }

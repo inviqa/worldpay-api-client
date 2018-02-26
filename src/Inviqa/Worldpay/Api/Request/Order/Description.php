@@ -2,6 +2,9 @@
 
 namespace Inviqa\Worldpay\Api\Request\Order;
 
-class Description
+use Inviqa\Worldpay\Api\XmlConvertibleNode;
+use Inviqa\Worldpay\Api\XmlNodeDefaults;
+
+class Description extends XmlNodeDefaults implements XmlConvertibleNode
 {
 }

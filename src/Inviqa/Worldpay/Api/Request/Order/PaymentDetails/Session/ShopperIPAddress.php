@@ -2,6 +2,8 @@
 
 namespace Inviqa\Worldpay\Api\Request\Order\PaymentDetails\Session;
 
-class ShopperIPAddress
+use Inviqa\Worldpay\Api\XmlAttributeDefaults;
+
+class ShopperIPAddress extends XmlAttributeDefaults
 {
 }

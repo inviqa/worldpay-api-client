@@ -2,6 +2,8 @@
 
 namespace Inviqa\Worldpay\Api\Request\Order;
 
-class OrderCode
+use Inviqa\Worldpay\Api\XmlAttributeDefaults;
+
+class OrderCode extends XmlAttributeDefaults
 {
 }

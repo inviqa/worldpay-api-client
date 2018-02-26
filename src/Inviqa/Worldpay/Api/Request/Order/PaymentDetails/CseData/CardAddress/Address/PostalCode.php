@@ -2,6 +2,8 @@
 
 namespace Inviqa\Worldpay\Api\Request\Order\PaymentDetails\CseData\CardAddress\Address;
 
-class PostalCode
+use Inviqa\Worldpay\Api\XmlNodeDefaults;
+
+class PostalCode extends XmlNodeDefaults
 {
 }

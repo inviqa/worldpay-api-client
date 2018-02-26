@@ -9,8 +9,9 @@ use Inviqa\Worldpay\Api\Request\Order\PaymentDetails\CseData\CardAddress\Address
 use Inviqa\Worldpay\Api\Request\Order\PaymentDetails\CseData\CardAddress\Address\CountryCode;
 use Inviqa\Worldpay\Api\Request\Order\PaymentDetails\CseData\CardAddress\Address\PostalCode;
 use Inviqa\Worldpay\Api\Request\Order\PaymentDetails\CseData\CardAddress\Address\State;
+use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class Address
+class Address extends XmlNodeDefaults
 {
     private $addressOne;
     private $addressTwo;
@@ -36,5 +37,18 @@ class Address
         $this->city = $city;
         $this->state = $state;
         $this->countryCode = $countryCode;
+    }
+
+    public function xmlChildren()
+    {
+        return [
+            $this->addressOne,
+            $this->addressTwo,
+            $this->addressThree,
+            $this->postalCode,
+            $this->city,
+            $this->state,
+            $this->countryCode,
+        ];
     }
 }

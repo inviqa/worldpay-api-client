@@ -2,6 +2,8 @@
 
 namespace Inviqa\Worldpay\Api\Request\Order\PaymentDetails\CseData\CardAddress\Address;
 
-class CountryCode
+use Inviqa\Worldpay\Api\XmlNodeDefaults;
+
+class CountryCode extends XmlNodeDefaults
 {
 }
