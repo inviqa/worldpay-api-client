@@ -9,7 +9,8 @@
     ],
     "require": {
         "php": "^7.0",
-        "sabre/xml": "^2.1"
+        "sabre/xml": "^2.1",
+        "guzzlehttp/guzzle": "^6.3"
     },
     "require-dev": {
         "phpspec/phpspec": "^4.3",

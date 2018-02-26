@@ -92,7 +92,7 @@ class OrderFactory
   <submit>
     <order orderCode="order-reiss-test-03">
       <description>test reiss order</description>
-      <amount currencyCode="GBP" exponent="2" value="15"/>
+      <amount currencyCode="GBP" exponent="2" value="1500"/>
       <paymentDetails>
         <CSE-DATA>
           <encryptedData>
@@ -116,7 +116,7 @@ class OrderFactory
         <shopperEmailAddress>lpanainte+test@inviqa.com</shopperEmailAddress>
         <browser>
           <acceptHeader>text/html</acceptHeader>
-          <userAgentHeader>Mozilla/5.0 ...</userAgentHeader>
+          <userAgentHeader>Mozilla/5.0</userAgentHeader>
         </browser>
       </shopper>
     </order>
@@ -127,5 +127,29 @@ XML;
         $strippedXml = preg_replace('/\s+/', '', $xml);
 
         return $strippedXml;
+    }
+
+    public static function simpleCseRequestParameters(): array
+    {
+        return [
+            'merchantCode' => 'SESSIONECOM',
+            'orderCode' => 'order-reiss-test-03',
+            'description' => 'test reiss order',
+            'currencyCode' => 'GBP',
+            'value' => '1500',
+            'encryptedData' => 'eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiMSIsImNvbS53b3JsZHBheS5hcGlWZXJzaW9uIjoiMS4wIiwiY29tLndvcmxkcGF5LmxpYlZlcnNpb24iOiIxLjAuMSIsImNvbS53b3JsZHBheS5jaGFubmVsIjoiamF2YXNjcmlwdCJ9.dKfhn7pnZKfMA4Sy8ODL30o0IAsJgGkYqgaObvWpahlhW2owo-Y3xwyeXc82_kd4UJ-UN4VNxJPuENYCNEa0iq4WE_vSMiBV9d_vZK91e-lJvpHqtucc9HI0T7fh5t7-QU0qhkLj_06W57hE3-HkKhI8-ZfOLbxN0XsQk7ZFpCrK4MT-IPJTk4Twrk2b9eAbnRuTMT-mFNh8lFeZZLp42FaTuLuchPGh1SqE3ln_1oUQppnm8mYkKWNgZlY3pjFpmJFlyrhK-7y-OxVz_FtKpd79fyxtAY1nLB_WO_gmAwFVGOnKwvdsTk_FDVPZ8lRe3LRLJ7pc9gzmw8oyH1gSRQ.dTOinx-7v0pFKvhA.8ZLx2l-HUrG6rFKOqELSyCNXw69CAEvY2F1xRoSiKtiHrxvmdBs5Wz_VPwjnYEEyhf-1Brioyq6A9O0NZZgmAMwk7GBbSKmxzoszbZ-ItSRumG714iDuQ0mqAYPPkq3bxY4mNavPreBXp7eXNg.IVkvoJ3Z2iH-6XgUMDR2LQ',
+            'address1' => '47A',
+            'address2' => 'Queensbridge Road',
+            'address3' => 'Suburbia',
+            'postalCode' => 'CB94BQ',
+            'city' => 'Cambridge',
+            'state' => 'Cambridgeshire',
+            'countryCode' => 'GB',
+            'shopperIPAddress' => '123.123.123.123',
+            'email' => 'lpanainte+test@inviqa.com',
+            'sessionId' => '0215ui8ib1',
+            'acceptHeader' => 'text/html',
+            'userAgentHeader' => 'Mozilla/5.0',
+        ];
     }
 }

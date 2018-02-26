@@ -1,10 +1,9 @@
 <?php
 
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
-use Inviqa\Worldpay\Api\OrderCode;
 use Inviqa\Worldpay\Api\Response\AuthorizedResponse;
+use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
 use Inviqa\Worldpay\Api\Response\Response;
 use Inviqa\Worldpay\Application;
 

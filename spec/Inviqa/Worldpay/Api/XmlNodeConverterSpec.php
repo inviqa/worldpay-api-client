@@ -18,6 +18,10 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $xml = OrderFactory::simpleCsePaymentServiceRequestXml();
 
         $writer->openMemory()->shouldBeCalled();
+        $writer->setIndent(true)->shouldBeCalled();
+        $writer->startDocument("1.0","UTF-8")->shouldBeCalled();
+        $writer->write('<!DOCTYPE paymentService PUBLIC "-//Worldpay//DTD Worldpay PaymentService v1//EN" "http://dtd.worldpay.com/paymentService_v1.dtd">')
+            ->shouldBeCalled();
         $writer->startElement('paymentService')->shouldBeCalled();
         $writer->startAttribute('version')->shouldBeCalled();
         $writer->startAttribute('merchantCode')->shouldBeCalled();
