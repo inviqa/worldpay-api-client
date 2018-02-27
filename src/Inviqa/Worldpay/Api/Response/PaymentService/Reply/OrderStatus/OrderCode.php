@@ -15,4 +15,9 @@ class OrderCode
     {
         return $this->string === $orderCode->string;
     }
+
+    public function __toString()
+    {
+        return (string)$this->string;
+    }
 }

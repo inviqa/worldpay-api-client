@@ -152,4 +152,54 @@ XML;
             'userAgentHeader' => 'Mozilla/5.0',
         ];
     }
+
+    public static function simpleCseResponseXml(): string
+    {
+        return self::cseResponseXmlForOrderCode("order-reiss-test-03");
+    }
+
+    public static function cseResponseXmlForOrderCode($orderCode)
+    {
+        $xml = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE paymentService PUBLIC "-//WorldPay//DTD WorldPay PaymentService v1//EN"
+                                "http://dtd.worldpay.com/paymentService_v1.dtd">
+<paymentService version="1.4" merchantCode="SESSIONECOM">
+    <reply>
+        <orderStatus orderCode="$orderCode">
+            <payment>
+                <paymentMethod>VISA-SSL</paymentMethod>
+                <paymentMethodDetail>
+                    <card number="4111********1111" type="creditcard">
+                        <expiryDate>
+                            <date month="11" year="2020"/>
+                        </expiryDate>
+                    </card>
+                </paymentMethodDetail>
+                <amount value="1500" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
+                <lastEvent>AUTHORISED</lastEvent>
+                <AuthorisationId id="830835"/>
+                <CVCResultCode description="NOT SENT TO ACQUIRER"/>
+                <AVSResultCode description="E"/>
+                <AAVAddressResultCode description="B"/>
+                <AAVPostcodeResultCode description="B"/>
+                <AAVCardholderNameResultCode description="B"/>
+                <AAVTelephoneResultCode description="B"/>
+                <AAVEmailResultCode description="B"/>
+                <cardHolderName>
+                    <![CDATA[liviu]]>
+                </cardHolderName>
+                <issuerCountryCode>N/A</issuerCountryCode>
+                <balance accountType="IN_PROCESS_AUTHORISED">
+                    <amount value="1500" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
+                </balance>
+                <riskScore value="1"/>
+            </payment>
+        </orderStatus>
+    </reply>
+</paymentService>
+XML;
+
+        return $xml;
+    }
 }

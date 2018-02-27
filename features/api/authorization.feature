@@ -20,5 +20,5 @@ Feature: A payment authorization request is made against the Worldpay payment ga
       | email            | lpanainte+test@inviqa.com                                              |
       | acceptHeader     | text/html                                                              |
       | userAgentHeader  | Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) |
-    Then I should receive an authorized response
+    Then I should receive an authorised response
     And the response should reference the "3279686" order code

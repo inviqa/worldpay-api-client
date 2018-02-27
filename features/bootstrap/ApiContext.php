@@ -2,7 +2,7 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
-use Inviqa\Worldpay\Api\Response\AuthorizedResponse;
+use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
 use Inviqa\Worldpay\Api\Response\Response;
 use Inviqa\Worldpay\Application;
@@ -43,14 +43,14 @@ class ApiContext implements Context
     }
 
     /**
-     * @Then I should receive an authorized response
+     * @Then I should receive an authorised response
      */
-    public function iShouldReceiveAnAuthorizedResponse()
+    public function iShouldReceiveAnAuthorisedResponse()
     {
-        if (!$this->response instanceof Response) {
+        if (!$this->response instanceof AuthorisedResponse) {
             throw new InvalidArgumentException(sprintf(
                 "Invalid response type.\nExpected '%s'\nActual '%s'",
-                AuthorizedResponse::class,
+                AuthorisedResponse::class,
                 gettype($this->response)
             ));
         }

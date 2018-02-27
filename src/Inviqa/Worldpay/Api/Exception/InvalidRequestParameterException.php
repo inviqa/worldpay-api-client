@@ -2,6 +2,6 @@
 
 namespace Inviqa\Worldpay\Api\Exception;
 
-class InvalidRequestParameterException extends \InvalidArgumentException
+class InvalidRequestParameterException extends WorldpayException
 {
 }
