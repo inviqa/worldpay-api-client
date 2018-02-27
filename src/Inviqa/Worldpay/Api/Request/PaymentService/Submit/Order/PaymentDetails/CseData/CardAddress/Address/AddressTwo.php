@@ -8,7 +8,7 @@ class AddressTwo extends XmlNodeDefaults
 {
     public function __construct(string $string = null)
     {
-        parent::__construct($string);
+        $this->string = $string;
     }
 
     public function xmlLabel()
