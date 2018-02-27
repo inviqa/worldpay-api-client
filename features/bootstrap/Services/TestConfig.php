@@ -8,7 +8,7 @@ class TestConfig implements Config
 {
     public function isTestMode(): bool
     {
-        return false;
+        return true;
     }
 
     public function username(): string
