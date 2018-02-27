@@ -11,8 +11,14 @@ class ApiContext implements Context
 {
     const VALID_RESPONSE = "OK";
 
+    /**
+     * @var Application
+     */
     private $application;
 
+    /**
+     * @var AuthorisedResponse
+     */
     private $response;
 
     public function __construct()
@@ -63,7 +69,7 @@ class ApiContext implements Context
     {
         if (!$orderCode->equals($this->response->orderCode())) {
             throw new InvalidArgumentException(sprintf(
-                "The response doesn't reference the expected order code..\nExpected '%s'\nActual '%s'",
+                "The response doesn't reference the expected order code.\nExpected '%s'\nActual '%s'",
                 $orderCode,
                 $this->response->orderCode()
             ));
@@ -78,4 +84,51 @@ class ApiContext implements Context
         return new OrderCode($orderCode);
     }
 
+    /**
+     * @Then the response should be successful
+     */
+    public function theResponseShouldBeSuccessful()
+    {
+        if (!$this->response->isSuccessful()) {
+            throw new \Exception("Expected a successful response, but got an unsuccessful one.");
+        }
+    }
+
+    /**
+     * @Then the response should not be successful
+     */
+    public function theResponseShouldNotBeSuccessful()
+    {
+        if ($this->response->isSuccessful()) {
+            throw new \Exception("Did not expect a successful response, but got one.");
+        }
+    }
+
+    /**
+     * @Then the response error message should be :message
+     */
+    public function theResponseErrorMessageShouldBe($message)
+    {
+        if ($this->response->errorMessage() !== $message) {
+            throw new InvalidArgumentException(sprintf(
+                "The response doesn't reference the correct error message.\nExpected '%s'\nActual '%s'",
+                $message,
+                $this->response->errorMessage()
+            ));
+        }
+    }
+
+    /**
+     * @Then the response error code should be :code
+     */
+    public function theResponseErrorCodeShouldBe($code)
+    {
+        if ($this->response->errorCode() !== $code) {
+            throw new InvalidArgumentException(sprintf(
+                "The response doesn't reference the correct error code.\nExpected '%s'\nActual '%s'",
+                $code,
+                $this->response->errorCode()
+            ));
+        }
+    }
 }

@@ -10,25 +10,25 @@ use Inviqa\Worldpay\Api\Request\RequestFactory;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\XmlNodeConverter;
 use Sabre\Xml\Writer;
-use Services\FakeClient;
 
 class Application
 {
     private $paymentAuthorizer;
+    private $client;
 
     public function __construct(Config $config)
     {
         $clientFactory = new ClientFactory($config);
 
         /** @var Client $client */
-        $client = $clientFactory->getClient();
+        $this->client = $clientFactory->getClient();
 
         $this->paymentAuthorizer = new PaymentAuthorizer(
             new RequestFactory(),
             new XmlNodeConverter(
                 new Writer()
             ),
-            $client
+            $this->client
         );
     }
 

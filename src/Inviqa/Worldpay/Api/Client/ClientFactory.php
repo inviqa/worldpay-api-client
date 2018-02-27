@@ -22,7 +22,13 @@ class ClientFactory
         }
 
         return new GuzzleClient(
-            new GuzzleHttpClient()
+            new GuzzleHttpClient([
+                'base_uri' => $this->config->uri(),
+                'auth' => [
+                    $this->config->username(),
+                    $this->config->password()
+                ]
+            ])
         );
     }
 }

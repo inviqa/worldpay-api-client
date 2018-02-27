@@ -43,6 +43,25 @@ class AuthorisedResponse
         return $this->orderCode;
     }
 
+    public function errorCode()
+    {
+        return $this->nodeAttributeValue("error", "code");
+    }
+
+    public function errorMessage()
+    {
+        return $this->nodeValueFromCData("error");
+    }
+
+    private function nodeValueFromCData(string $nodeName): string
+    {
+        if (preg_match("~${nodeName}[^>]*>\s*<!\[CDATA\[(.*?)\]\]>~", $this->rawXml, $matches)) {
+            return $matches[1];
+        }
+
+        return '';
+    }
+
     private function nodeValue(string $nodeName): string
     {
         if (preg_match("~$nodeName>([^<]+)</$nodeName~", $this->rawXml, $matches)) {
@@ -54,7 +73,7 @@ class AuthorisedResponse
 
     private function nodeAttributeValue(string $nodeName, string $attributeName): string
     {
-        if (preg_match("~<$nodeName.*$attributeName=['\"](.*)['\"]/?>~", $this->rawXml, $matches)) {
+        if (preg_match("~<$nodeName.*$attributeName=['\"]([^'\"]*)['\"]/?>~", $this->rawXml, $matches)) {
             return $matches[1];
         }
 

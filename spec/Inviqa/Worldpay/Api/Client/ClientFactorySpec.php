@@ -24,6 +24,9 @@ class ClientFactorySpec extends ObjectBehavior
     function it_returns_a_guzzle_client_when_test_mode_is_enabled(Config $config)
     {
         $config->isTestMode()->willReturn(false);
+        $config->uri()->shouldBeCalled();
+        $config->username()->shouldBeCalled();
+        $config->password()->shouldBeCalled();
 
         $this->getClient()->shouldBeAnInstanceOf(GuzzleClient::class);
     }

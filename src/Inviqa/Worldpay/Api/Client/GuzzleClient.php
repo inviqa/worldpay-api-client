@@ -16,6 +16,13 @@ class GuzzleClient implements Client
 
     public function sendAuthorizationRequest(string $xml)
     {
-        // TODO: Implement sendAuthorizationRequest() method.
+        $response = $this->client->post("", [
+            "body" => $xml,
+            "headers" => [
+                "content-type" => "application/xml",
+            ],
+        ]);
+
+        return $response->getBody()->getContents();
     }
 }

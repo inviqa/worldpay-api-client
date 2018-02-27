@@ -202,4 +202,22 @@ XML;
 
         return $xml;
     }
+
+    public static function cseResponseXmlWithError($errorCode, $errorMessage)
+    {
+$xml = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE paymentService PUBLIC "-//WorldPay//DTD WorldPay PaymentService v1//EN"
+                                "http://dtd.worldpay.com/paymentService_v1.dtd">
+<paymentService version="1.4" merchantCode="SESSIONECOM">
+    <reply>
+        <error code="$errorCode">
+            <![CDATA[$errorMessage]]>
+        </error>
+    </reply>
+</paymentService>
+XML;
+
+        return $xml;
+    }
 }
