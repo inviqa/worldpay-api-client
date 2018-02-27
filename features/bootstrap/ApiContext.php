@@ -4,8 +4,8 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
-use Inviqa\Worldpay\Api\Response\Response;
 use Inviqa\Worldpay\Application;
+use Services\TestConfig;
 
 class ApiContext implements Context
 {
@@ -17,7 +17,7 @@ class ApiContext implements Context
 
     public function __construct()
     {
-        $this->application = new Application();
+        $this->application = new Application(new TestConfig());
     }
 
     /**

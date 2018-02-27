@@ -2,6 +2,8 @@
 
 namespace Inviqa\Worldpay;
 
+use Inviqa\Worldpay\Api\Client;
+use Inviqa\Worldpay\Api\Client\ClientFactory;
 use Inviqa\Worldpay\Api\Exception\WorldpayException;
 use Inviqa\Worldpay\Api\PaymentAuthorizer;
 use Inviqa\Worldpay\Api\Request\RequestFactory;
@@ -14,14 +16,19 @@ class Application
 {
     private $paymentAuthorizer;
 
-    public function __construct($testMode = false)
+    public function __construct(Config $config)
     {
+        $clientFactory = new ClientFactory($config);
+
+        /** @var Client $client */
+        $client = $clientFactory->getClient();
+
         $this->paymentAuthorizer = new PaymentAuthorizer(
             new RequestFactory(),
             new XmlNodeConverter(
                 new Writer()
             ),
-            new FakeClient()
+            $client
         );
     }
 
