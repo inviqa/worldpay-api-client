@@ -1,5 +1,7 @@
 # Worldpay API Client
 
+[ ![Codeship Status for inviqa/worldpay-api-client](https://app.codeship.com/projects/a13b5690-fe9e-0135-5a6d-462e71abe528/status?branch=master)](https://app.codeship.com/projects/279504)
+
 The purpose of this library is to abstract payment requests performed against the Worldpay XML API.
 
 ## Supported payment requests and planned features
