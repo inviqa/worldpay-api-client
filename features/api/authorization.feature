@@ -27,11 +27,11 @@ Feature: A payment authorization request is made against the Worldpay payment ga
   Scenario: Failed payment authorization
     When I authorize the following payment
       | merchantCode     | SESSIONECOM                                                            |
-      | orderCode        | 3279687812                                                              |
+      | orderCode        | 3279687812                                                             |
       | description      | This is a beautiful order                                              |
       | currencyCode     | GBP                                                                    |
       | value            | 15                                                                     |
-      | encryptedData    | trigger-an-error                                               |
+      | encryptedData    | trigger-an-error                                                       |
       | address1         | 4                                                                      |
       | address2         | Braford Gardens                                                        |
       | address3         | Shenley Brook End                                                      |
