@@ -35,8 +35,8 @@ class OrderFactory
 {
     public static function simpleCsePaymentService(): XmlConvertibleNode
     {
-        $orderCode = new OrderCode("order-reiss-test-03");
-        $description = new Description("test reiss order");
+        $orderCode = new OrderCode("order-ecomm-test-03");
+        $description = new Description("test ecomm order");
         $amount = new Amount(
             new CurrencyCode("GBP"),
             new Exponent("2"),
@@ -90,8 +90,8 @@ class OrderFactory
         $xml = <<<XML
 <paymentService version="1.4" merchantCode="SESSIONECOM">
   <submit>
-    <order orderCode="order-reiss-test-03">
-      <description>test reiss order</description>
+    <order orderCode="order-ecomm-test-03">
+      <description>test ecomm order</description>
       <amount currencyCode="GBP" exponent="2" value="1500"/>
       <paymentDetails>
         <CSE-DATA>
@@ -133,8 +133,8 @@ XML;
     {
         return [
             'merchantCode' => 'SESSIONECOM',
-            'orderCode' => 'order-reiss-test-03',
-            'description' => 'test reiss order',
+            'orderCode' => 'order-ecomm-test-03',
+            'description' => 'test ecomm order',
             'currencyCode' => 'GBP',
             'value' => '1500',
             'encryptedData' => 'eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiMSIsImNvbS53b3JsZHBheS5hcGlWZXJzaW9uIjoiMS4wIiwiY29tLndvcmxkcGF5LmxpYlZlcnNpb24iOiIxLjAuMSIsImNvbS53b3JsZHBheS5jaGFubmVsIjoiamF2YXNjcmlwdCJ9.dKfhn7pnZKfMA4Sy8ODL30o0IAsJgGkYqgaObvWpahlhW2owo-Y3xwyeXc82_kd4UJ-UN4VNxJPuENYCNEa0iq4WE_vSMiBV9d_vZK91e-lJvpHqtucc9HI0T7fh5t7-QU0qhkLj_06W57hE3-HkKhI8-ZfOLbxN0XsQk7ZFpCrK4MT-IPJTk4Twrk2b9eAbnRuTMT-mFNh8lFeZZLp42FaTuLuchPGh1SqE3ln_1oUQppnm8mYkKWNgZlY3pjFpmJFlyrhK-7y-OxVz_FtKpd79fyxtAY1nLB_WO_gmAwFVGOnKwvdsTk_FDVPZ8lRe3LRLJ7pc9gzmw8oyH1gSRQ.dTOinx-7v0pFKvhA.8ZLx2l-HUrG6rFKOqELSyCNXw69CAEvY2F1xRoSiKtiHrxvmdBs5Wz_VPwjnYEEyhf-1Brioyq6A9O0NZZgmAMwk7GBbSKmxzoszbZ-ItSRumG714iDuQ0mqAYPPkq3bxY4mNavPreBXp7eXNg.IVkvoJ3Z2iH-6XgUMDR2LQ',
@@ -155,7 +155,7 @@ XML;
 
     public static function simpleCseResponseXml(): string
     {
-        return self::cseResponseXmlForOrderCode("order-reiss-test-03");
+        return self::cseResponseXmlForOrderCode("order-ecomm-test-03");
     }
 
     public static function cseResponseXmlForOrderCode($orderCode)

@@ -9,7 +9,7 @@ use Prophecy\Argument;
 
 class AuthorisedResponseSpec extends ObjectBehavior
 {
-    const XML = "<reply><orderStatus orderCode=\"order-reiss-test-123\"><lastEvent>AUTHORISED</lastEvent></orderStatus></reply>";
+    const XML = "<reply><orderStatus orderCode=\"order-ecomm-test-123\"><lastEvent>AUTHORISED</lastEvent></orderStatus></reply>";
     const ERROR_XML = "<reply><error code=\"" . self::ERROR_CODE . "\"><![CDATA[" . self::ERROR_MSG . "]]></error></reply>";
     const ERROR_MSG = "An internal CSE service error has occurred.";
     const ERROR_CODE = "5";
@@ -20,7 +20,7 @@ class AuthorisedResponseSpec extends ObjectBehavior
 
         $this->isSuccessful()->shouldReturn(true);
         $this->rawXml()->shouldReturn(self::XML);
-        $this->orderCode()->shouldBeLike(new OrderCode("order-reiss-test-123"));
+        $this->orderCode()->shouldBeLike(new OrderCode("order-ecomm-test-123"));
     }
 
     function it_returns_the_error_code_and_message()

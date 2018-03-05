@@ -56,8 +56,8 @@ class XmlNodeConverterSpec extends ObjectBehavior
 
         $writer->write("1.4")->shouldBeCalled();
         $writer->write("SESSIONECOM")->shouldBeCalled();
-        $writer->write("order-reiss-test-03")->shouldBeCalled();
-        $writer->write("test reiss order")->shouldBeCalled();
+        $writer->write("order-ecomm-test-03")->shouldBeCalled();
+        $writer->write("test ecomm order")->shouldBeCalled();
         $writer->write("GBP")->shouldBeCalled();
         $writer->write("2")->shouldBeCalled();
         $writer->write("1500")->shouldBeCalled();
