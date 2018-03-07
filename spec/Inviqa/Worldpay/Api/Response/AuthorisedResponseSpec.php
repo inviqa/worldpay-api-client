@@ -10,7 +10,7 @@ use Prophecy\Argument;
 class AuthorisedResponseSpec extends ObjectBehavior
 {
     const XML = "<reply><orderStatus orderCode=\"order-ecomm-test-123\"><lastEvent>AUTHORISED</lastEvent></orderStatus></reply>";
-    const XML_3DS = "<reply><orderStatus orderCode=\"order-ecomm-test-123\"><request3DSecure><paRequest>abc</paRequest><issuerURL>localhost</issuerURL></request3DSecure></orderStatus></reply>";
+    const XML_3DS = "<reply><orderStatus orderCode=\"order-ecomm-test-123\"><request3DSecure><paRequest>abc</paRequest><issuerURL><![CDATA[localhost]]></issuerURL></request3DSecure></orderStatus></reply>";
     const ERROR_XML = "<reply><error code=\"" . self::ERROR_CODE . "\"><![CDATA[" . self::ERROR_MSG . "]]></error></reply>";
     const ERROR_MSG = "An internal CSE service error has occurred.";
     const ERROR_CODE = "5";

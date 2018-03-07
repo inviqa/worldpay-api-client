@@ -160,7 +160,7 @@ class ApiContext implements Context
      */
     public function theResponseShouldReferenceTheFollowingIssuerurl($url)
     {
-        if ($this->response->issuerURL() === $url) {
+        if ($this->response->issuerURL() !== $url) {
             throw new InvalidArgumentException(sprintf(
                 "The response doesn't reference the expected issuer URL.\nExpected '%s'\nActual '%s'",
                 $url,
