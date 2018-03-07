@@ -220,4 +220,30 @@ XML;
 
         return $xml;
     }
+
+    public static function cse3DSResponseXMl($orderCode)
+    {
+$xml = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE paymentService PUBLIC "-//WorldPay//DTD WorldPay PaymentService v1//EN"
+                                "http://dtd.worldpay.com/paymentService_v1.dtd">
+<paymentService version="1.4" merchantCode="SESSIONECOM">
+    <reply>
+        <orderStatus orderCode='$orderCode'>
+            <requestInfo>
+                <request3DSecure>
+                    <paRequest>eJxVUslygkAQ/ZUpzwmzKGCsdiyUVOJBNEIOOVIwJVTJ4gxEk6/PjIiYd+p+vS+wuBRH9C2kyqtyPqIWGaEFhyiTQvihSFopOGyEUvFBoDzVHjYjEzp9cV2HOiMOO28vThxuGbhOYDHAvapDZZLFZcMhTk7LdcDpAMA3Dgoh1/6jyeB58OvsUMdKnSuZcsrGE9txp4DvFJRxIXioO9V1kZ8f8iY+okioBoVZVQO+2iGp2rKRP3zKHMC9Aq088qxp6hnG5/PZUl2WtEtiJVUB2LgAHsbZtUZSOuUlT/nm17M3kUeCX48FH94j5oCNB6RxIzgjdErGxEWUzMbOjLqArzzEhemFvy13iNlPhOjddAzUppDXKcw2lkcG9IWkKJN+ol4DcamrUpgYwHcZUqES/rX93CP/NVzt17tovQ10D4YGPMy0ejcHSxq99YnGWINp9Fe7GkyJXG+PEUKvNYwC2ITi21fg2+do6d9H/QEABsjW</paRequest>
+                    <issuerURL>
+                        <![CDATA[https://secure-test.worldpay.com/jsp/test/shopper/ThreeDResponseSimulator.jsp?orderCode=$orderCode]]>
+                    </issuerURL>
+                </request3DSecure>
+            </requestInfo>
+            <echoData>49602206405657</echoData>
+        </orderStatus>
+    </reply>
+</paymentService>
+XML;
+
+        return $xml;
+    }
 }

@@ -28,6 +28,24 @@ class AuthorisedResponse
         $this->orderCode = new OrderCode($this->nodeAttributeValue("orderStatus", "orderCode"));
     }
 
+    private function nodeValue(string $nodeName): string
+    {
+        if (preg_match("~$nodeName>([^<]+)</$nodeName~", $this->rawXml, $matches)) {
+            return $matches[1];
+        }
+
+        return '';
+    }
+
+    private function nodeAttributeValue(string $nodeName, string $attributeName): string
+    {
+        if (preg_match("~<$nodeName.*$attributeName=['\"]([^'\"]*)['\"]/?>~", $this->rawXml, $matches)) {
+            return $matches[1];
+        }
+
+        return '';
+    }
+
     public function isSuccessful(): bool
     {
         return $this->successful;
@@ -62,21 +80,18 @@ class AuthorisedResponse
         return '';
     }
 
-    private function nodeValue(string $nodeName): string
+    public function is3DSecure(): bool
     {
-        if (preg_match("~$nodeName>([^<]+)</$nodeName~", $this->rawXml, $matches)) {
-            return $matches[1];
-        }
-
-        return '';
+        return strstr($this->rawXml, "<request3DSecure>") !== false;
     }
 
-    private function nodeAttributeValue(string $nodeName, string $attributeName): string
+    public function paRequestValue(): string
     {
-        if (preg_match("~<$nodeName.*$attributeName=['\"]([^'\"]*)['\"]/?>~", $this->rawXml, $matches)) {
-            return $matches[1];
-        }
+        return $this->nodeValue("paRequest");
+    }
 
-        return '';
+    public function issuerURL(): string
+    {
+        return $this->nodeValue("issuerURL");
     }
 }

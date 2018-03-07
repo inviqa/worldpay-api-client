@@ -131,4 +131,41 @@ class ApiContext implements Context
             ));
         }
     }
+
+
+    /**
+     * @Then I should receive a 3d secure response
+     */
+    public function iShouldReceiveA3DSecureResponse()
+    {
+        if (!$this->response->is3DSecure()) {
+            throw new \Exception("Expected a 3D Secure response, but got one.");
+        }
+    }
+
+    /**
+     * @Then the response should reference a valid :node value
+     */
+    public function theResponseShouldReferenceAValidValue($node)
+    {
+        if (strlen($this->response->paRequestValue()) === 0) {
+            throw new InvalidArgumentException(
+                "The response doesn't reference a valid paRequest value.\nExpected non-empty string. \nActual ''"
+            );
+        }
+    }
+
+    /**
+     * @Then the response should reference the following issuerURL: :arg1
+     */
+    public function theResponseShouldReferenceTheFollowingIssuerurl($url)
+    {
+        if ($this->response->issuerURL() === $url) {
+            throw new InvalidArgumentException(sprintf(
+                "The response doesn't reference the expected issuer URL.\nExpected '%s'\nActual '%s'",
+                $url,
+                $this->response->issuerURL()
+            ));
+        }
+    }
 }

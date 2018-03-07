@@ -17,6 +17,10 @@ class FakeClient implements Client
 
         $orderCode = $this->nodeAttributeValueFromXml("order", "orderCode", $xml);
 
+        if (strstr($xml, "trigger-3ds") !== FALSE) {
+            return OrderFactory::cse3DSResponseXMl($orderCode);
+        }
+
         return OrderFactory::cseResponseXmlForOrderCode($orderCode);
     }
 
