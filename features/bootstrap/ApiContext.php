@@ -168,6 +168,4 @@ class ApiContext implements Context
             ));
         }
     }
-
-
 }
