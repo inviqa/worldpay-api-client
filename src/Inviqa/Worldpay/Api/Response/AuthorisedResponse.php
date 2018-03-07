@@ -92,6 +92,6 @@ class AuthorisedResponse
 
     public function issuerURL(): string
     {
-        return $this->nodeValue("issuerURL");
+        return $this->nodeValueFromCData("issuerURL");
     }
 }
