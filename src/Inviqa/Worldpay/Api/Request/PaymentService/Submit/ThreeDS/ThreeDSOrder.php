@@ -2,10 +2,13 @@
 
 namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\ThreeDS;
 
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\ThreeDS\Order\Info3DSecure;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\ThreeDS\Order\OrderCode;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\ThreeDS\Order\Session;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class Order extends XmlNodeDefaults
+class ThreeDSOrder extends XmlNodeDefaults implements Order
 {
     private $orderCode;
     private $info3DSecure;
@@ -28,5 +31,10 @@ class Order extends XmlNodeDefaults
             $this->info3DSecure,
             $this->session
         ];
+    }
+
+    public function xmlLabel()
+    {
+        return 'order';
     }
 }

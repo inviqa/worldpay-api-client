@@ -1,6 +1,6 @@
 <?php
 
-namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order;
+namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\ThreeDS\Order;
 
 use Inviqa\Worldpay\Api\XmlAttributeDefaults;
 

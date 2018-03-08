@@ -2,7 +2,7 @@
 
 namespace Inviqa\Worldpay\Api\Request\PaymentService;
 
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
 class Submit extends XmlNodeDefaults

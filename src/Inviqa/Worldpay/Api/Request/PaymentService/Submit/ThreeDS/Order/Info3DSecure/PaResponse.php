@@ -1,9 +1,9 @@
 <?php
 
-namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\ThreeDS\Order\PaymentDetails\Info3DSecure;
+namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\ThreeDS\Order\Info3DSecure;
 
-use Inviqa\Worldpay\Api\XmlAttributeDefaults;
+use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class PaResponse extends XmlAttributeDefaults
+class PaResponse extends XmlNodeDefaults
 {
 }

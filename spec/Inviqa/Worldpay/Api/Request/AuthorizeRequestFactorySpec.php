@@ -5,7 +5,7 @@ namespace spec\Inviqa\Worldpay\Api\Request;
 use PhpSpec\ObjectBehavior;
 use Services\OrderFactory;
 
-class RequestFactorySpec extends ObjectBehavior
+class AuthorizeRequestFactorySpec extends ObjectBehavior
 {
     function it_converts_a_list_of_parameters_into_a_payment_service_instance()
     {

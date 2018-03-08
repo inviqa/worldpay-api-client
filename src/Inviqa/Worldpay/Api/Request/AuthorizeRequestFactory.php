@@ -4,7 +4,7 @@ namespace Inviqa\Worldpay\Api\Request;
 
 use Inviqa\Worldpay\Api\Request\PaymentService\MerchantCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\AuthorisationOrder;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\CurrencyCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\Exponent;
@@ -23,13 +23,11 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Paymen
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\State;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\EncryptedData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\Session;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\Session\Id;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\Session\ShopperIPAddress;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\Browser;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
 
-class RequestFactory
+class AuthorizeRequestFactory
 {
     private $defaultParameters = [
         'version' => "1.4",
@@ -78,8 +76,8 @@ class RequestFactory
         );
         $cseData = new CseData($encryptedData, $cardAddress);
         $session = new Session(
-            new ShopperIPAddress($parameters['shopperIPAddress']),
-            new Id($parameters['sessionId'])
+            new Session\ShopperIPAddress($parameters['shopperIPAddress']),
+            new Session\Id($parameters['sessionId'])
         );
         $paymentDetails = new PaymentDetails($cseData, $session);
         $browser = new Browser(
@@ -90,7 +88,7 @@ class RequestFactory
             new Shopper\ShopperEmailAddress($parameters['email']),
             $browser
         );
-        $order = new Order(
+        $order = new AuthorisationOrder(
             $orderCode,
             $description,
             $amount,

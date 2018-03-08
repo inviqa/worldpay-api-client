@@ -10,6 +10,7 @@
 
 namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\ThreeDS\Order;
 
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\ThreeDS\Order\Info3DSecure\PaResponse;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
 class Info3DSecure extends XmlNodeDefaults
@@ -22,7 +23,6 @@ class Info3DSecure extends XmlNodeDefaults
     public function __construct(
         PaResponse $paResponse
     ) {
-
         $this->paResponse = $paResponse;
     }
 

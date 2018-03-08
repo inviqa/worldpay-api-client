@@ -7,9 +7,10 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Descri
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class Order extends XmlNodeDefaults
+class AuthorisationOrder extends XmlNodeDefaults implements Order
 {
     private $orderCode;
     private $description;
@@ -40,5 +41,10 @@ class Order extends XmlNodeDefaults
             $this->paymentDetails,
             $this->shopper
         ];
+    }
+
+    public function xmlLabel()
+    {
+        return 'order';
     }
 }

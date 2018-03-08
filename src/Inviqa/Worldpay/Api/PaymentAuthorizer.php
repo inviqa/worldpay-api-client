@@ -3,37 +3,63 @@
 namespace Inviqa\Worldpay\Api;
 
 use Inviqa\Worldpay\Api\Exception\ConnectionFailedException;
-use Inviqa\Worldpay\Api\Request\RequestFactory;
+use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
+use Inviqa\Worldpay\Api\Request\ThreeDSRequestFactory;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\ResponseFactory;
 
 class PaymentAuthorizer
 {
-    private $requestFactory;
+    private $authRequestFactory;
+    private $threeDSRequestFactory;
     private $xmlNodeConverter;
     private $client;
 
     public function __construct(
-        RequestFactory $requestFactory,
+        AuthorizeRequestFactory $authRequestFactory,
+        ThreeDSRequestFactory $threeDSRequestFactory,
         XmlNodeConverter $xmlNodeConverter,
         Client $client
     )
     {
-        $this->requestFactory = $requestFactory;
+        $this->authRequestFactory = $authRequestFactory;
+        $this->threeDSRequestFactory = $threeDSRequestFactory;
         $this->xmlNodeConverter = $xmlNodeConverter;
         $this->client = $client;
     }
 
     /**
      * @param array $paymentParameters
-     *
      * @return AuthorisedResponse
      * @throws ConnectionFailedException
      */
     public function authorizePayment(array $paymentParameters)
     {
-        $paymentService = $this->requestFactory->buildFromRequestParameters($paymentParameters);
+        $paymentService = $this->authRequestFactory->buildFromRequestParameters($paymentParameters);
 
+        return $this->makeRequest($paymentService);
+    }
+
+    /**
+     * @param array $paymentParameters
+     * @return AuthorisedResponse
+     * @throws ConnectionFailedException
+     * @throws Exception\InvalidRequestParameterException
+     */
+    public function authorize3DSecure(array $paymentParameters)
+    {
+        $paymentService = $this->threeDSRequestFactory->buildFromRequestParameters($paymentParameters);
+
+        return $this->makeRequest($paymentService);
+    }
+
+    /**
+     * @param $paymentService
+     * @return AuthorisedResponse
+     * @throws ConnectionFailedException
+     */
+    private function makeRequest($paymentService)
+    {
         try {
             $responseXml = $this->client->sendAuthorizationRequest(
                 $this->xmlNodeConverter->toXml($paymentService)
