@@ -17,11 +17,11 @@ class GuzzleClient implements Client
     public function sendRequest(string $xml, string $cookie = null)
     {
         $headers = [
-            "content-type" => "application/xml",
+            "Content-Type" => "application/xml",
         ];
 
-        if (!empty($cookie)){
-            $headers['machine'] = $cookie;
+        if (!empty($cookie)) {
+            $headers['Cookie'] = $cookie;
         }
 
         $response = $this->client->post("", [
