@@ -50,7 +50,7 @@ class PaymentAuthorizer
     {
         $paymentService = $this->threeDSRequestFactory->buildFromRequestParameters($paymentParameters);
 
-        return $this->makeRequest($paymentService);
+        return $this->makeRequest($paymentService, $paymentParameters['cookie']);
     }
 
     /**
@@ -58,11 +58,12 @@ class PaymentAuthorizer
      * @return AuthorisedResponse
      * @throws ConnectionFailedException
      */
-    private function makeRequest($paymentService)
+    private function makeRequest($paymentService, string $cookie = null)
     {
         try {
-            $responseXml = $this->client->sendAuthorizationRequest(
-                $this->xmlNodeConverter->toXml($paymentService)
+            $responseXml = $this->client->sendRequest(
+                $this->xmlNodeConverter->toXml($paymentService),
+                $cookie
             );
 
             return ResponseFactory::responseFromXml($responseXml);

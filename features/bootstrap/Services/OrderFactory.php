@@ -275,7 +275,8 @@ XML;
             'merchantCode' => 'SESSIONECOM',
             'orderCode'    => 'order-ecomm-test-03',
             'sessionId'    => '0215ui8ib1',
-            'paResponse'   => 'someparresponse'
+            'paResponse'   => 'someparresponse',
+            'cookie'       => 'machine value'
         ];
     }
 }

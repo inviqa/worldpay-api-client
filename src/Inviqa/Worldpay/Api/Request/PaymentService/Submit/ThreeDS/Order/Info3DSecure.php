@@ -20,9 +20,7 @@ class Info3DSecure extends XmlNodeDefaults
      */
     private $paResponse;
 
-    public function __construct(
-        PaResponse $paResponse
-    ) {
+    public function __construct(PaResponse $paResponse) {
         $this->paResponse = $paResponse;
     }
 

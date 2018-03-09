@@ -34,7 +34,7 @@ class PaymentAuthorizerSpec extends ObjectBehavior
 
         $authorizeRequestFactory->buildFromRequestParameters($requestParameters)->willReturn($paymentService);
         $xmlNodeConverter->toXml($paymentService)->willReturn($requestXml);
-        $client->sendAuthorizationRequest($requestXml)->willReturn($responseXml);
+        $client->sendRequest($requestXml, null)->willReturn($responseXml);
 
         $this->authorizePayment($requestParameters)->shouldBeLike(ResponseFactory::responseFromXml($responseXml));
     }
@@ -51,7 +51,7 @@ class PaymentAuthorizerSpec extends ObjectBehavior
         $authorizeRequestFactory->buildFromRequestParameters($requestParameters)->willReturn($paymentService);
         $xmlNodeConverter->toXml($paymentService)->willReturn($requestXml);
 
-        $client->sendAuthorizationRequest($requestXml)->willThrow(\Exception::class);
+        $client->sendRequest($requestXml)->willThrow(\Exception::class);
 
         $this->shouldThrow(ConnectionFailedException::class)->duringAuthorizePayment($requestParameters);
     }
@@ -62,13 +62,13 @@ class PaymentAuthorizerSpec extends ObjectBehavior
         Client $client,
         PaymentService $paymentService
     ) {
-        $requestParameters = ["foo" => "bar"];
+        $requestParameters = ["foo" => "bar", "cookie" => "cookie value"];
         $requestXml = "<foo>bar</foo>";
         $responseXml = "<bar>foo</bar>";
 
         $threeDSRequestFactory->buildFromRequestParameters($requestParameters)->willReturn($paymentService);
         $xmlNodeConverter->toXml($paymentService)->willReturn($requestXml);
-        $client->sendAuthorizationRequest($requestXml)->willReturn($responseXml);
+        $client->sendRequest($requestXml, "cookie value")->willReturn($responseXml);
 
         $this->authorize3DSecure($requestParameters)->shouldBeLike(ResponseFactory::responseFromXml($responseXml));
     }

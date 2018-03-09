@@ -14,13 +14,19 @@ class GuzzleClient implements Client
         $this->client = $client;
     }
 
-    public function sendAuthorizationRequest(string $xml)
+    public function sendRequest(string $xml, string $cookie = null)
     {
+        $headers = [
+            "content-type" => "application/xml",
+        ];
+
+        if (!empty($cookie)){
+            $headers['machine'] = $cookie;
+        }
+
         $response = $this->client->post("", [
             "body" => $xml,
-            "headers" => [
-                "content-type" => "application/xml",
-            ],
+            "headers" => $headers
         ]);
 
         return $response->getBody()->getContents();
