@@ -35,6 +35,14 @@ class ApiContext implements Context
     }
 
     /**
+     * @When the authorization for the following payment is completed
+     */
+    public function theAuthorizationForTheFollowingPaymentIsCompleted(TableNode $table)
+    {
+        $this->response = $this->application->completePaymentAuthorization($table->getRowsHash());
+    }
+
+    /**
      * @Then I should receive a successful response
      */
     public function iShouldReceiveASuccessfulResponse()

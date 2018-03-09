@@ -6,7 +6,7 @@ use Inviqa\Worldpay\Api\Client;
 
 class FakeClient implements Client
 {
-    public function sendAuthorizationRequest(string $xml)
+    public function sendRequest(string $xml, string $cookie = null)
     {
         if (strstr($xml, "trigger-an-error") !== FALSE) {
             return OrderFactory::cseResponseXmlWithError(

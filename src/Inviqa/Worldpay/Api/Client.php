@@ -6,9 +6,10 @@ interface Client
 {
     /**
      * @param string $xml
+     * @param string $cookie
      * @throws \Exception
      *
      * @return mixed
      */
-    public function sendAuthorizationRequest(string $xml);
+    public function sendRequest(string $xml, string $cookie = null);
 }
