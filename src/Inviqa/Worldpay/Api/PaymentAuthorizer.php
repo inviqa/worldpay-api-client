@@ -61,12 +61,12 @@ class PaymentAuthorizer
     private function makeRequest($paymentService, string $cookie = null)
     {
         try {
-            $responseXml = $this->client->sendRequest(
+            $httpResponse = $this->client->sendRequest(
                 $this->xmlNodeConverter->toXml($paymentService),
                 $cookie
             );
 
-            return ResponseFactory::responseFromXml($responseXml);
+            return new AuthorisedResponse($httpResponse);
         } catch (\Exception $e) {
             throw new ConnectionFailedException(
                 sprintf("Worldpay connection failure. Error message: %s", $e->getMessage())
