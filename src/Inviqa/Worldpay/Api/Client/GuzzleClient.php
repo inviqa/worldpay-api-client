@@ -29,6 +29,9 @@ class GuzzleClient implements Client
             "headers" => $headers
         ]);
 
-        return $response->getBody()->getContents();
+        return HttpResponse::fromContentAndCookie(
+            $response->getBody()->getContents(),
+            $response->getHeaderLine("Set-Cookie")
+        );
     }
 }

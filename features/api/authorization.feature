@@ -23,6 +23,7 @@ Feature: A payment authorization request is made against the Worldpay payment ga
     Then I should receive an authorised response
     And the response should be successful
     And the response should reference the "32796901" order code
+    And the response should reference a valid machine cookie
 
   Scenario: Successful payment authorization with missing address2, address3 and state parameters
     When I authorize the following payment
