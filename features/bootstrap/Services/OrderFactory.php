@@ -5,29 +5,28 @@ namespace Services;
 use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Request\PaymentService\MerchantCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\Amount;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\Amount\CurrencyCode;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\Amount\Exponent;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\Amount\Value;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\Description;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\OrderCode;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\CseData;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\CseData\CardAddress;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\CseData\CardAddress\Address\AddressOne;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\CseData\CardAddress\Address\AddressThree;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\CseData\CardAddress\Address\AddressTwo;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\CseData\CardAddress\Address\City;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\CseData\CardAddress\Address\CountryCode;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\CseData\CardAddress\Address\PostalCode;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\CseData\CardAddress\Address\State;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\CseData\EncryptedData;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\Session;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\Session\Id;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\PaymentDetails\Session\ShopperIPAddress;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\Shopper;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order\Shopper\Browser;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\AuthorisationOrder;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\CurrencyCode;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\Exponent;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\Value;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Description;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderCode;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\AddressOne;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\AddressThree;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\AddressTwo;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\City;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\CountryCode;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\PostalCode;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\State;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\EncryptedData;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\Session;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\Browser;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\ThreeDS\Order\Info3DSecure;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
 use Inviqa\Worldpay\Api\XmlConvertibleNode;
 
@@ -56,8 +55,8 @@ class OrderFactory
         );
         $cseData = new CseData($encryptedData, $cardAddress);
         $session = new Session(
-            new ShopperIPAddress("123.123.123.123"),
-            new Id("0215ui8ib1")
+            new Session\ShopperIPAddress("123.123.123.123"),
+            new Session\Id("0215ui8ib1")
         );
         $paymentDetails = new PaymentDetails($cseData, $session);
         $browser = new Browser(
@@ -68,7 +67,7 @@ class OrderFactory
             new Shopper\ShopperEmailAddress("lpanainte+test@inviqa.com"),
             $browser
         );
-        $order = new Order(
+        $order = new AuthorisationOrder(
             $orderCode,
             $description,
             $amount,
@@ -245,5 +244,39 @@ $xml = <<<XML
 XML;
 
         return $xml;
+    }
+
+    public static function simpleCSEThreeDSPaymentService()
+    {
+        $orderCode = new OrderCode("order-ecomm-test-03");
+        $info3DSecure = new Info3DSecure(
+          new PaResonse('someparesonse')
+        );
+        $session = new Session(
+            new Session\Id("0215ui8ib1")
+        );
+        $order = new AuthorisationOrder(
+            $orderCode,
+            $info3DSecure,
+            $session
+        );
+        $paymentService = new PaymentService(
+            new Version("1.4"),
+            new MerchantCode("SESSIONECOM"),
+            new Submit($order)
+        );
+
+        return $paymentService;
+    }
+
+    public static function simpleCseThreeDSRequestParameters(): array
+    {
+        return [
+            'merchantCode' => 'SESSIONECOM',
+            'orderCode'    => 'order-ecomm-test-03',
+            'sessionId'    => '0215ui8ib1',
+            'paResponse'   => 'someparresponse',
+            'cookie'       => 'machine value'
+        ];
     }
 }

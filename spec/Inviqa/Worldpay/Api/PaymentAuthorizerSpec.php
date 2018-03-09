@@ -5,7 +5,8 @@ namespace spec\Inviqa\Worldpay\Api;
 use Inviqa\Worldpay\Api\Client;
 use Inviqa\Worldpay\Api\Exception\ConnectionFailedException;
 use Inviqa\Worldpay\Api\Request\PaymentService;
-use Inviqa\Worldpay\Api\Request\RequestFactory;
+use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
+use Inviqa\Worldpay\Api\Request\ThreeDSRequestFactory;
 use Inviqa\Worldpay\Api\Response\ResponseFactory;
 use Inviqa\Worldpay\Api\XmlNodeConverter;
 use PhpSpec\ObjectBehavior;
@@ -13,47 +14,62 @@ use PhpSpec\ObjectBehavior;
 class PaymentAuthorizerSpec extends ObjectBehavior
 {
     function let(
-        RequestFactory $requestFactory,
+        AuthorizeRequestFactory $authorizeRequestFactory,
+        ThreeDSRequestFactory $threeDSRequestFactory,
         XmlNodeConverter $xmlNodeConverter,
         Client $client
-    )
-    {
-        $this->beConstructedWith($requestFactory, $xmlNodeConverter, $client);
+    ) {
+        $this->beConstructedWith($authorizeRequestFactory,$threeDSRequestFactory, $xmlNodeConverter, $client);
     }
 
     function it_delegates_building_of_a_request_and_sending_it_to_the_client(
-        RequestFactory $requestFactory,
+        AuthorizeRequestFactory $authorizeRequestFactory,
         XmlNodeConverter $xmlNodeConverter,
         Client $client,
         PaymentService $paymentService
-    )
-    {
+    ) {
         $requestParameters = ["foo" => "bar"];
         $requestXml = "<foo>bar</foo>";
         $responseXml = "<bar>foo</bar>";
 
-        $requestFactory->buildFromRequestParameters($requestParameters)->willReturn($paymentService);
+        $authorizeRequestFactory->buildFromRequestParameters($requestParameters)->willReturn($paymentService);
         $xmlNodeConverter->toXml($paymentService)->willReturn($requestXml);
-        $client->sendAuthorizationRequest($requestXml)->willReturn($responseXml);
+        $client->sendRequest($requestXml, null)->willReturn($responseXml);
 
         $this->authorizePayment($requestParameters)->shouldBeLike(ResponseFactory::responseFromXml($responseXml));
     }
 
     function it_throws_a_connection_failed_exception_when_the_client_throws_an_exception(
-        RequestFactory $requestFactory,
+        AuthorizeRequestFactory $authorizeRequestFactory,
         XmlNodeConverter $xmlNodeConverter,
         Client $client,
         PaymentService $paymentService
-    )
-    {
+    ) {
         $requestParameters = ["foo" => "bar"];
         $requestXml = "<foo>bar</foo>";
 
-        $requestFactory->buildFromRequestParameters($requestParameters)->willReturn($paymentService);
+        $authorizeRequestFactory->buildFromRequestParameters($requestParameters)->willReturn($paymentService);
         $xmlNodeConverter->toXml($paymentService)->willReturn($requestXml);
 
-        $client->sendAuthorizationRequest($requestXml)->willThrow(\Exception::class);
+        $client->sendRequest($requestXml)->willThrow(\Exception::class);
 
         $this->shouldThrow(ConnectionFailedException::class)->duringAuthorizePayment($requestParameters);
+    }
+
+    function it_delegates_building_3ds_request_and_sending_it_to_the_client(
+        ThreeDSRequestFactory $threeDSRequestFactory,
+        XmlNodeConverter $xmlNodeConverter,
+        Client $client,
+        PaymentService $paymentService
+    ) {
+        $requestParameters = ["foo" => "bar", "cookie" => "cookie value"];
+        $requestXml = "<foo>bar</foo>";
+        $responseXml = "<bar>foo</bar>";
+
+        $threeDSRequestFactory->buildFromRequestParameters($requestParameters)->willReturn($paymentService);
+        $xmlNodeConverter->toXml($paymentService)->willReturn($requestXml);
+        $client->sendRequest($requestXml, "cookie value")->willReturn($responseXml);
+
+        $this->authorize3DSecure($requestParameters)->shouldBeLike(ResponseFactory::responseFromXml($responseXml));
     }
 }
