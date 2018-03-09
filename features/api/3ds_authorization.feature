@@ -54,4 +54,5 @@ Feature: A payment authorization request is made against the Worldpay payment ga
       | cookie       | machine=0aa20016;path=/ |
     Then I should receive an authorised response
     And the response should not be successful
-    And the response error message should be "Order has already been paid"
+    And the response error message should be "An internal CSE service error has occurred."
+    And the response error code should be "5"
