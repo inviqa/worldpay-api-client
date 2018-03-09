@@ -39,6 +39,7 @@ Feature: A payment authorization request is made against the Worldpay payment ga
       | paResponse   | +fklha9G0+ZL4+dl+dgKra3lyLqS0rKulK8bcdajK6lxWxdJ9SzajwF0hJEdFFB0oaxUhbEnrtCBH5ibD9/hU8NlkJqa+i7APX0n/joy1LCrKDeHeC02rsQfs2zVFVXZMqwYhzT5e4h2K3oDdMShJxdEwZG3U825xYH21fWtv2si+yhzj8E9bArMMyNOG0OMi4BM+d3iwEPOFmAHrcDjbcmFZt6a253MObIiAWZAy+/vEwDMpPx7Q9VxXZHOA/dyB9eL24Q75wG7jWBSSd4RGlo+iPLEQz8A6HHSTNq3GOFrvkngTryNgdwiy9HLB7b9TdxSgTCL3jTpzdlnhqaiVbI6l1fwIALOaWPfWCAfztKaZItYtvvsbljL8M09fTZe79g== |
       | merchantCode | SESSIONECOM                                                                                                                                                                                                                                                                                                                                                                                           |
       | sessionId    | 0215ui8ib1                                                                                                                                                                                                                                                                                                                                                                                            |
+      | cookie       | cookie val                                                                                                                                                                                                                                                                                                                                                                                            |
     Then I should receive an authorised response
     And the response should be successful
     And the response should reference the "42796904" order code
@@ -50,6 +51,7 @@ Feature: A payment authorization request is made against the Worldpay payment ga
       | paResponse   | trigger-an-error |
       | merchantCode | SESSIONECOM      |
       | sessionId    | 0215ui8ib1       |
+      | cookie       | cookie val       |
     Then I should receive an authorised response
     And the response should not be successful
     And the response error message should be "An internal CSE service error has occurred."
