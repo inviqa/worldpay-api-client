@@ -2,10 +2,9 @@
 
 namespace spec\Inviqa\Worldpay\Api\Response;
 
-use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
+use Inviqa\Worldpay\Api\Client\HttpResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class AuthorisedResponseSpec extends ObjectBehavior
 {
@@ -17,41 +16,30 @@ class AuthorisedResponseSpec extends ObjectBehavior
 
     function it_returns_the_response_details_when_the_last_event_is_authorised()
     {
-        $this->beConstructedWith(self::XML);
+        $this->beConstructedWith(HttpResponse::fromContentAndCookie(self::XML, "foo:bar"));
 
         $this->isSuccessful()->shouldReturn(true);
         $this->rawXml()->shouldReturn(self::XML);
         $this->orderCode()->shouldBeLike(new OrderCode("order-ecomm-test-123"));
+        $this->machineCookie()->shouldReturn("foo:bar");
     }
 
     function it_returns_the_error_code_and_message()
     {
-        $this->beConstructedWith(self::ERROR_XML);
+        $this->beConstructedWith(HttpResponse::fromContentAndCookie(self::ERROR_XML));
 
         $this->errorCode()->shouldReturn(self::ERROR_CODE);
         $this->errorMessage()->shouldReturn(self::ERROR_MSG);
         $this->paRequestValue()->shouldReturn("");
     }
 
-    function it_returns_true_when_the_response_contains_the_request3DSecure_node()
+    function it_returns_3dsecure_data_when_the_response_contains_the_request3DSecure_node()
     {
-        $this->beConstructedWith(self::XML_3DS);
+        $this->beConstructedWith(HttpResponse::fromContentAndCookie(self::XML_3DS));
 
         $this->is3DSecure()->shouldReturn(true);
         $this->isSuccessful()->shouldReturn(false);
-    }
-
-    function it_returns_the_parequest_value_when_the_xml_contains_one()
-    {
-        $this->beConstructedWith(self::XML_3DS);
-
         $this->paRequestValue()->shouldReturn("abc");
-    }
-
-    function it_returns_the_issuer_url_when_the_xml_contains_one()
-    {
-        $this->beConstructedWith(self::XML_3DS);
-
         $this->issuerURL()->shouldReturn("localhost");
     }
 }

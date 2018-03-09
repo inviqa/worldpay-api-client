@@ -2,6 +2,7 @@
 
 namespace Inviqa\Worldpay\Api\Response;
 
+use Inviqa\Worldpay\Api\Client\HttpResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
 
 class AuthorisedResponse
@@ -10,6 +11,11 @@ class AuthorisedResponse
      * @var string
      */
     private $rawXml;
+
+    /**
+     * @var string
+     */
+    private $machineCookie;
 
     /**
      * @var bool
@@ -21,9 +27,10 @@ class AuthorisedResponse
      */
     private $orderCode;
 
-    public function __construct(string $xml)
+    public function __construct(HttpResponse $httpResponse)
     {
-        $this->rawXml = $xml;
+        $this->rawXml = $httpResponse->content();
+        $this->machineCookie = $httpResponse->cookie();
         $this->successful = $this->nodeValue("lastEvent") === "AUTHORISED";
         $this->orderCode = new OrderCode($this->nodeAttributeValue("orderStatus", "orderCode"));
     }
@@ -93,5 +100,10 @@ class AuthorisedResponse
     public function issuerURL(): string
     {
         return $this->nodeValueFromCData("issuerURL");
+    }
+
+    public function machineCookie()
+    {
+        return $this->machineCookie;
     }
 }

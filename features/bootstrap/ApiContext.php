@@ -176,4 +176,14 @@ class ApiContext implements Context
             ));
         }
     }
+
+    /**
+     * @Then the response should reference a valid machine cookie
+     */
+    public function theResponseShouldReferenceAValidMachineCookie()
+    {
+        if (!$this->response->machineCookie()) {
+            throw new InvalidArgumentException("The response doesn't reference a valid machine cookie.");
+        }
+    }
 }
