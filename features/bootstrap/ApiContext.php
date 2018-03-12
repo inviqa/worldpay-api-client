@@ -147,7 +147,7 @@ class ApiContext implements Context
     public function iShouldReceiveA3DSecureResponse()
     {
         if (!$this->response->is3DSecure()) {
-            throw new \Exception("Expected a 3D Secure response, but got one.");
+            throw new \Exception("Expected a 3D Secure response, but didn't get one.");
         }
     }
 

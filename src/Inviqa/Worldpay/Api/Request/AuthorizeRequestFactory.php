@@ -10,6 +10,8 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\Exponent;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\Value;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Description;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS\OverrideAdvice;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData;
@@ -88,12 +90,19 @@ class AuthorizeRequestFactory
             new Shopper\ShopperEmailAddress($parameters['email']),
             $browser
         );
+
+        $dynamic3DS = null;
+        if (!empty($parameters['dynamic3DS'])) {
+            $overrideAdvice = new OverrideAdvice($parameters['dynamic3DS']);
+            $dynamic3DS = new Dynamic3DS($overrideAdvice);
+        }
         $order = new AuthorisationOrder(
             $orderCode,
             $description,
             $amount,
             $paymentDetails,
-            $shopper
+            $shopper,
+            $dynamic3DS
         );
         $paymentService = new PaymentService(
             new Version($parameters['version']),
