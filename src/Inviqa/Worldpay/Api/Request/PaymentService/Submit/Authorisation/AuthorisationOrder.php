@@ -4,6 +4,7 @@ namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation;
 
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Description;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper;
@@ -17,6 +18,7 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
     private $amount;
     private $paymentDetails;
     private $shopper;
+    private $dynamic3DS;
 
     public function __construct(
         OrderCode $orderCode,
@@ -34,13 +36,28 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
 
     public function xmlChildren()
     {
-        return [
+        $children = [
             $this->orderCode,
             $this->description,
             $this->amount,
             $this->paymentDetails,
             $this->shopper
         ];
+
+        if ($this->dynamic3DS) {
+            $children[] = $this->dynamic3DS;
+        }
+
+        return $children;
+    }
+
+    public function withDynamic3DS(Dynamic3DS $dynamic3DS): AuthorisationOrder
+    {
+        $order = clone $this;
+
+        $order->dynamic3DS = $dynamic3DS;
+
+        return $order;
     }
 
     public function xmlLabel()
