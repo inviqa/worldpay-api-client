@@ -91,18 +91,18 @@ class AuthorizeRequestFactory
             new Shopper\ShopperEmailAddress($parameters['email']),
             $browser
         );
-        if (($parameters['dynamic3DS'])) {
-            $overrideAdvice = new OverrideAdvice();
-            $dynamic3DS = new Dynamic3DS($overrideAdvice);
-        }
         $order = new AuthorisationOrder(
             $orderCode,
             $description,
             $amount,
             $paymentDetails,
-            $shopper,
-            $dynamic3DS
+            $shopper
         );
+
+        if ($parameters['dynamic3DS']) {
+            $order = $order->withDynamic3DS(new Dynamic3DS(new OverrideAdvice('do3DS')));
+        }
+
         $paymentService = new PaymentService(
             new Version($parameters['version']),
             new MerchantCode($parameters['merchantCode']),

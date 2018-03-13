@@ -25,15 +25,13 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
         Description $description,
         Amount $amount,
         PaymentDetails $paymentDetails,
-        Shopper $shopper,
-        Dynamic3DS $dynamic3DS = null
+        Shopper $shopper
     ) {
         $this->orderCode = $orderCode;
         $this->description = $description;
         $this->amount = $amount;
         $this->paymentDetails = $paymentDetails;
         $this->shopper = $shopper;
-        $this->dynamic3DS = $dynamic3DS;
     }
 
     public function xmlChildren()
@@ -51,6 +49,15 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
         }
 
         return $children;
+    }
+
+    public function withDynamic3DS(Dynamic3DS $dynamic3DS): AuthorisationOrder
+    {
+        $order = clone $this;
+
+        $order->dynamic3DS = $dynamic3DS;
+
+        return $order;
     }
 
     public function xmlLabel()

@@ -6,7 +6,4 @@ use Inviqa\Worldpay\Api\XmlAttributeDefaults;
 
 class OverrideAdvice extends XmlAttributeDefaults
 {
-    public function __construct() {
-        parent::__construct('do3DS');
-    }
 }
