@@ -93,7 +93,7 @@ class AuthorizeRequestFactory
 
         $dynamic3DS = null;
         if (!empty($parameters['dynamic3DS'])) {
-            $overrideAdvice = new OverrideAdvice($parameters['dynamic3DS']);
+            $overrideAdvice = new OverrideAdvice();
             $dynamic3DS = new Dynamic3DS($overrideAdvice);
         }
         $order = new AuthorisationOrder(

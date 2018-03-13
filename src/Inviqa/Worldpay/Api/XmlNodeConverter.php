@@ -34,9 +34,7 @@ class XmlNodeConverter
 
             if (!empty($children)) {
                 foreach ($children as $child) {
-                    if(null !== $child){
-                        $this->convertNode($child);
-                    }
+                    $this->convertNode($child);
                 }
             } else {
                 $this->writer->write((string)$node);

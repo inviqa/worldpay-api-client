@@ -27,7 +27,7 @@ Feature: A payment authorization request is made against the Worldpay payment ga
             | email            | lpanainte+test@inviqa.com                                                                                                                                                                        |
             | acceptHeader     | text/html                                                                                                                                                                                        |
             | userAgentHeader  | Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)                                                                                                                           |
-            | dynamic3DS       | do3DS                                                                                                                                                                                            |
+            | dynamic3DS       | true                                                                                                                                                                                            |
         Then I should receive a 3d secure response
         And the response should reference the "42796904y" order code
         And the response should reference a valid "paRequest" value

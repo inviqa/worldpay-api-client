@@ -38,14 +38,19 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
 
     public function xmlChildren()
     {
-        return [
+        $children = [
             $this->orderCode,
             $this->description,
             $this->amount,
             $this->paymentDetails,
-            $this->shopper,
-            $this->dynamic3DS
+            $this->shopper
         ];
+
+        if ($this->dynamic3DS) {
+            $children[] = $this->dynamic3DS;
+        }
+
+        return $children;
     }
 
     public function xmlLabel()
