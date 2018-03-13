@@ -51,6 +51,7 @@ class AuthorizeRequestFactory
         'sessionId' => "",
         'acceptHeader' => "",
         'userAgentHeader' => "",
+        'dynamic3DS' => false,
     ];
 
     public function buildFromRequestParameters(array $parameters): PaymentService
@@ -90,9 +91,7 @@ class AuthorizeRequestFactory
             new Shopper\ShopperEmailAddress($parameters['email']),
             $browser
         );
-
-        $dynamic3DS = null;
-        if (!empty($parameters['dynamic3DS'])) {
+        if (($parameters['dynamic3DS'])) {
             $overrideAdvice = new OverrideAdvice();
             $dynamic3DS = new Dynamic3DS($overrideAdvice);
         }
