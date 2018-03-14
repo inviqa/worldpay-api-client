@@ -220,6 +220,44 @@ XML;
         return $xml;
     }
 
+    public static function cseResponseXmlWithRefusedError()
+    {
+        $xml = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE paymentService PUBLIC "-//WorldPay//DTD WorldPay PaymentService v1//EN"
+                                "http://dtd.worldpay.com/paymentService_v1.dtd">
+<paymentService version="1.4" merchantCode="SESSIONECOM">
+    <reply>
+        <orderStatus orderCode="3493923">
+            <payment>
+                <paymentMethod>VISA-SSL</paymentMethod>
+                <paymentMethodDetail>
+                    <card number="4444********1111" type="creditcard"/>
+                </paymentMethodDetail>
+                <amount value="19000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
+                <lastEvent>REFUSED</lastEvent>
+                <ISO8583ReturnCode code="34" description="FRAUD SUSPICION"/>
+                <CVCResultCode description="NOT SENT TO ACQUIRER"/>
+                <AVSResultCode description="E"/>
+                <AAVAddressResultCode description="B"/>
+                <AAVPostcodeResultCode description="B"/>
+                <AAVCardholderNameResultCode description="B"/>
+                <AAVTelephoneResultCode description="B"/>
+                <AAVEmailResultCode description="B"/>
+                <ThreeDSecureResult description="Failed"/>
+                <cardHolderName><![CDATA[3D]]>
+                </cardHolderName>
+                <issuerCountryCode>N/A</issuerCountryCode>
+                <riskScore value="256"/>
+                </payment>
+        </orderStatus>
+    </reply>
+</paymentService>
+XML;
+
+        return $xml;
+    }
+
     public static function cse3DSResponseXMl($orderCode)
     {
 $xml = <<<XML
