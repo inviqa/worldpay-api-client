@@ -18,6 +18,12 @@ class FakeClient implements Client
             );
         }
 
+        if (strstr($xml, "trigger-refused-event") !== FALSE) {
+            return HttpResponse::fromContentAndCookie(
+                OrderFactory::cseResponseXmlWithRefusedError()
+            );
+        }
+
         $orderCode = $this->nodeAttributeValueFromXml("order", "orderCode", $xml);
 
         if (strstr($xml, "dynamic3DS") !== FALSE) {
