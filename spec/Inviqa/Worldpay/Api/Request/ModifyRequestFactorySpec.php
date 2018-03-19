@@ -10,7 +10,7 @@ class ModifyRequestFactorySpec extends ObjectBehavior
 {
     function it_converts_a_list_of_parameters_into_a_capture_payment_service_instance()
     {
-        $this->buildFromRequestParameters(
+        $this->buildCaptureFromRequestParameters(
             ModifyFactory::captureRequestParameters()
         )->shouldBeLike(ModifyFactory::capturePaymentService());
     }

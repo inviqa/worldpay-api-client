@@ -186,4 +186,27 @@ class ApiContext implements Context
             throw new InvalidArgumentException("The response doesn't reference a valid machine cookie.");
         }
     }
+
+    /**
+     * @When I send the following capture modification
+     */
+    public function iSendTheFollowingCaptureModification(TableNode $table)
+    {
+        $this->response = $this->application->capturePayment($table->getRowsHash());
+    }
+
+    /**
+     * @Then I should receive an modified response
+     */
+    public function iShouldReceiveAnModifiedResponse()
+    {
+        if (!$this->response instanceof \Inviqa\Worldpay\Api\Response\ModifiedResponse) {
+            throw new InvalidArgumentException(sprintf(
+                "Invalid response type.\nExpected '%s'\nActual '%s'",
+                \Inviqa\Worldpay\Api\Response\ModifiedResponse::class,
+                gettype($this->response)
+            ));
+        }
+    }
+
 }

@@ -5,7 +5,7 @@ namespace Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class Submit extends XmlNodeDefaults
+class Submit extends XmlNodeDefaults implements PaymentServiceType
 {
     private $order;
 
@@ -17,5 +17,10 @@ class Submit extends XmlNodeDefaults
     public function xmlChildren()
     {
         return [$this->order];
+    }
+
+    public function xmlLabel()
+    {
+        return 'submit';
     }
 }

@@ -1,10 +1,11 @@
 <?php
 
-namespace Inviqa\Worldpay\Api\Request\PaymentService\Modify;
+namespace Inviqa\Worldpay\Api\Request\PaymentService;
 
+use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class Modify extends XmlNodeDefaults
+class Modify extends XmlNodeDefaults implements PaymentServiceType
 {
     private $orderModification;
 
@@ -16,5 +17,10 @@ class Modify extends XmlNodeDefaults
     public function xmlChildren()
     {
         return [$this->orderModification];
+    }
+
+    public function xmlLabel()
+    {
+        return 'modify';
     }
 }

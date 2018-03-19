@@ -3,6 +3,7 @@
 namespace Inviqa\Worldpay\Api\Request;
 
 use Inviqa\Worldpay\Api\Request\PaymentService\MerchantCode;
+use Inviqa\Worldpay\Api\Request\PaymentService\Modify;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Capture\Amount;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Capture\Amount\CurrencyCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Capture\Amount\DebitCreditIndicator;
@@ -11,7 +12,6 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Capture\
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Capture\Capture;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\CaptureModification;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\OrderCode;
-use Inviqa\Worldpay\Api\Request\PaymentService\Modify\Modify;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
 
 class ModifyRequestFactory
@@ -25,7 +25,7 @@ class ModifyRequestFactory
         'debitCreditValue' => "",
     ];
 
-    public function buildFromRequestParameters(array $parameters): PaymentService
+    public function buildCaptureFromRequestParameters(array $parameters): PaymentService
     {
         $parameters += $this->defaultParameters;
 
