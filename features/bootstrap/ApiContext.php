@@ -3,6 +3,7 @@
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
+use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
 use Inviqa\Worldpay\Application;
 use Services\TestConfig;
@@ -200,10 +201,10 @@ class ApiContext implements Context
      */
     public function iShouldReceiveAnCaptureResponse()
     {
-        if (!$this->response instanceof \Inviqa\Worldpay\Api\Response\ModifiedResponse) {
+        if (!$this->response instanceof CaptureResponse) {
             throw new InvalidArgumentException(sprintf(
                 "Invalid response type.\nExpected '%s'\nActual '%s'",
-                \Inviqa\Worldpay\Api\Response\ModifiedResponse::class,
+                CaptureResponse::class,
                 gettype($this->response)
             ));
         }
