@@ -3,6 +3,7 @@
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
+use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
 use Inviqa\Worldpay\Application;
 use Services\TestConfig;
@@ -186,4 +187,27 @@ class ApiContext implements Context
             throw new InvalidArgumentException("The response doesn't reference a valid machine cookie.");
         }
     }
+
+    /**
+     * @When I send the following capture modification
+     */
+    public function iSendTheFollowingCaptureModification(TableNode $table)
+    {
+        $this->response = $this->application->capturePayment($table->getRowsHash());
+    }
+
+    /**
+     * @Then I should receive an capture response
+     */
+    public function iShouldReceiveAnCaptureResponse()
+    {
+        if (!$this->response instanceof CaptureResponse) {
+            throw new InvalidArgumentException(sprintf(
+                "Invalid response type.\nExpected '%s'\nActual '%s'",
+                CaptureResponse::class,
+                gettype($this->response)
+            ));
+        }
+    }
+
 }

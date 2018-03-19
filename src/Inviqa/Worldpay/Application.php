@@ -6,9 +6,12 @@ use Inviqa\Worldpay\Api\Client;
 use Inviqa\Worldpay\Api\Client\ClientFactory;
 use Inviqa\Worldpay\Api\Exception\WorldpayException;
 use Inviqa\Worldpay\Api\PaymentAuthorizer;
+use Inviqa\Worldpay\Api\PaymentModifyer;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
+use Inviqa\Worldpay\Api\Request\ModifyRequestFactory;
 use Inviqa\Worldpay\Api\Request\ThreeDSRequestFactory;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
+use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\XmlNodeConverter;
 use Sabre\Xml\Writer;
 
@@ -27,6 +30,14 @@ class Application
         $this->paymentAuthorizer = new PaymentAuthorizer(
             new AuthorizeRequestFactory(),
             new ThreeDSRequestFactory(),
+            new XmlNodeConverter(
+                new Writer()
+            ),
+            $this->client
+        );
+
+        $this->paymentModifyer = new PaymentModifyer(
+            new ModifyRequestFactory(),
             new XmlNodeConverter(
                 new Writer()
             ),
@@ -54,5 +65,16 @@ class Application
     public function completePaymentAuthorization(array $paymentParameters)
     {
         return $this->paymentAuthorizer->authorize3DSecure($paymentParameters);
+    }
+
+    /**
+     * @param array $paymentParameters
+     * @return CaptureResponse
+     *
+     * @throws WorldpayException
+     */
+    public function capturePayment(array $paymentParameters)
+    {
+        return $this->paymentModifyer->capturePayment($paymentParameters);
     }
 }
