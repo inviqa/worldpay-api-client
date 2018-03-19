@@ -196,9 +196,9 @@ class ApiContext implements Context
     }
 
     /**
-     * @Then I should receive an modified response
+     * @Then I should receive an capture response
      */
-    public function iShouldReceiveAnModifiedResponse()
+    public function iShouldReceiveAnCaptureResponse()
     {
         if (!$this->response instanceof \Inviqa\Worldpay\Api\Response\ModifiedResponse) {
             throw new InvalidArgumentException(sprintf(

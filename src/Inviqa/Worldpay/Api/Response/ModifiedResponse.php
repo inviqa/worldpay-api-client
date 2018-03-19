@@ -21,8 +21,6 @@ abstract class ModifiedResponse
         $this->successful = false !== strpos($this->rawXml, "<ok>") ;
     }
 
-    abstract public function orderCode();
-
     public function isSuccessful()
     {
         return $this->successful;
@@ -37,6 +35,8 @@ abstract class ModifiedResponse
     {
         return $this->machineCookie;
     }
+
+    abstract public function orderCode();
 
     protected function nodeAttributeValue(string $nodeName, string $attributeName): string
     {
