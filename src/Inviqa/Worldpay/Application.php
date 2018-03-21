@@ -19,6 +19,7 @@ class Application
 {
     private $paymentAuthorizer;
     private $client;
+    private $paymentModifier;
 
     public function __construct(Config $config)
     {
@@ -36,7 +37,7 @@ class Application
             $this->client
         );
 
-        $this->paymentModifyer = new PaymentModifyer(
+        $this->paymentModifier = new PaymentModifyer(
             new ModifyRequestFactory(),
             new XmlNodeConverter(
                 new Writer()
@@ -75,6 +76,6 @@ class Application
      */
     public function capturePayment(array $paymentParameters)
     {
-        return $this->paymentModifyer->capturePayment($paymentParameters);
+        return $this->paymentModifier->capturePayment($paymentParameters);
     }
 }
