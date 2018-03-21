@@ -2,7 +2,6 @@
 
 namespace Services;
 
-
 use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Request\PaymentService\MerchantCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify;
@@ -17,7 +16,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\OrderCod
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
 use Inviqa\Worldpay\Api\XmlConvertibleNode;
 
-class ModifyFactory
+class CaptureFactory
 {
     public static function capturePaymentService(): XmlConvertibleNode
     {

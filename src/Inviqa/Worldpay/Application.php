@@ -8,7 +8,8 @@ use Inviqa\Worldpay\Api\Exception\WorldpayException;
 use Inviqa\Worldpay\Api\PaymentAuthorizer;
 use Inviqa\Worldpay\Api\PaymentModifyer;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
-use Inviqa\Worldpay\Api\Request\ModifyRequestFactory;
+use Inviqa\Worldpay\Api\Request\CaptureRequestFactory;
+use Inviqa\Worldpay\Api\Request\RefundRequestFactory;
 use Inviqa\Worldpay\Api\Request\ThreeDSRequestFactory;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
@@ -39,7 +40,8 @@ class Application
         );
 
         $this->paymentModifier = new PaymentModifyer(
-            new ModifyRequestFactory(),
+            new CaptureRequestFactory(),
+            new RefundRequestFactory(),
             new XmlNodeConverter(
                 new Writer()
             ),
@@ -78,6 +80,17 @@ class Application
     public function capturePayment(array $paymentParameters)
     {
         return $this->paymentModifier->capturePayment($paymentParameters);
+    }
+
+    /**
+     * @param array $paymentParameters
+     * @return RefundResponse
+     *
+     * @throws WorldpayException
+     */
+    public function refundPayment(array $paymentParameters)
+    {
+        return $this->paymentModifier->refundPayment($paymentParameters);
     }
 
     /**

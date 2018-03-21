@@ -5,6 +5,7 @@ use Behat\Gherkin\Node\TableNode;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
+use Inviqa\Worldpay\Api\Response\RefundResponse;
 use Inviqa\Worldpay\Application;
 use Services\TestConfig;
 
@@ -205,6 +206,28 @@ class ApiContext implements Context
             throw new InvalidArgumentException(sprintf(
                 "Invalid response type.\nExpected '%s'\nActual '%s'",
                 CaptureResponse::class,
+                gettype($this->response)
+            ));
+        }
+    }
+
+    /**
+     * @When I send the following refund modification
+     */
+    public function iSendTheFollowingRefundModification(TableNode $table)
+    {
+        $this->response = $this->application->refundPayment($table->getRowsHash());
+    }
+
+    /**
+     * @Then I should receive an refund response
+     */
+    public function iShouldReceiveAnRefundResponse()
+    {
+        if (!$this->response instanceof RefundResponse) {
+            throw new InvalidArgumentException(sprintf(
+                "Invalid response type.\nExpected '%s'\nActual '%s'",
+                RefundResponse::class,
                 gettype($this->response)
             ));
         }

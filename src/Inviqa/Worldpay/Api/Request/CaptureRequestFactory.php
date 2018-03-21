@@ -14,7 +14,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\CaptureM
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\OrderCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
 
-class ModifyRequestFactory
+class CaptureRequestFactory
 {
     private $defaultParameters = [
         'version' => "1.4",
@@ -25,7 +25,7 @@ class ModifyRequestFactory
         'debitCreditValue' => "",
     ];
 
-    public function buildCaptureFromRequestParameters(array $parameters): PaymentService
+    public function buildFromRequestParameters(array $parameters): PaymentService
     {
         $parameters += $this->defaultParameters;
 

@@ -3,17 +3,19 @@
 namespace Inviqa\Worldpay\Api;
 
 use Inviqa\Worldpay\Api\Exception\ConnectionFailedException;
-use Inviqa\Worldpay\Api\Request\ModifyRequestFactory;
+use Inviqa\Worldpay\Api\Request\CaptureRequestFactory;
 use Inviqa\Worldpay\Api\Request\PaymentService;
+use Inviqa\Worldpay\Api\Request\RefundRequestFactory;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\ModifiedResponse;
+use Inviqa\Worldpay\Api\Response\RefundResponse;
 
 class PaymentModifyer
 {
     /**
-     * @var ModifyRequestFactory
+     * @var CaptureRequestFactory
      */
-    private $modifyRequestFactory;
+    private $captureRequestFactory;
 
     /**
      * @var XmlNodeConverter
@@ -24,20 +26,27 @@ class PaymentModifyer
      * @var Client
      */
     private $client;
+    /**
+     * @var RefundRequestFactory
+     */
+    private $refundRequestFactory;
 
     /**
-     * @param ModifyRequestFactory $modifyRequestFactory
-     * @param XmlNodeConverter     $xmlNodeConverter
-     * @param Client               $client
+     * @param CaptureRequestFactory $captureRequestFactory
+     * @param RefundRequestFactory  $refundRequestFactory
+     * @param XmlNodeConverter      $xmlNodeConverter
+     * @param Client                $client
      */
     public function __construct(
-        ModifyRequestFactory $modifyRequestFactory,
+        CaptureRequestFactory $captureRequestFactory,
+        RefundRequestFactory $refundRequestFactory,
         XmlNodeConverter $xmlNodeConverter,
         Client $client
     ) {
-        $this->modifyRequestFactory = $modifyRequestFactory;
-        $this->xmlNodeConverter     = $xmlNodeConverter;
-        $this->client               = $client;
+        $this->captureRequestFactory = $captureRequestFactory;
+        $this->xmlNodeConverter      = $xmlNodeConverter;
+        $this->client                = $client;
+        $this->refundRequestFactory  = $refundRequestFactory;
     }
 
     /**
@@ -49,15 +58,29 @@ class PaymentModifyer
      */
     public function capturePayment(array $paymentParameters)
     {
-        $paymentService = $this->modifyRequestFactory->buildCaptureFromRequestParameters($paymentParameters);
+        $paymentService = $this->captureRequestFactory->buildFromRequestParameters($paymentParameters);
 
-        return $this->makeRequest($paymentService);
+        return new CaptureResponse($this->makeRequest($paymentService));
     }
 
     /**
-     * @param PaymentService $paymentService
+     * @param array $paymentParameters
      *
-     * @return ModifiedResponse
+     * @return mixed
+     *
+     * @throws ConnectionFailedException
+     */
+    public function refundPayment(array $paymentParameters)
+    {
+        $paymentService = $this->refundRequestFactory->buildFromRequestParameters($paymentParameters);
+
+        return new RefundResponse($this->makeRequest($paymentService));
+    }
+
+    /**
+     * @param $paymentService
+     *
+     * @return Client\HttpResponse
      * @throws ConnectionFailedException
      */
     private function makeRequest($paymentService)
@@ -67,7 +90,7 @@ class PaymentModifyer
                 $this->xmlNodeConverter->toXml($paymentService)
             );
 
-            return new CaptureResponse($httpResponse);
+            return $httpResponse;
         } catch (\Exception $e) {
             throw new ConnectionFailedException(
                 sprintf("Worldpay connection failure. Error message: %s", $e->getMessage())
