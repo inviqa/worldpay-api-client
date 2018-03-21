@@ -80,6 +80,11 @@ class Application
         return $this->paymentModifier->capturePayment($paymentParameters);
     }
 
+    /**
+     * @param string $notification
+     *
+     * @return NotificationResponse
+     */
     public function parseNotification(string $notification): NotificationResponse
     {
         return NotificationResponse::fromRawNotification($notification);

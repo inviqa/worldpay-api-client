@@ -54,4 +54,9 @@ class NotificationResponse
     {
         return $this->nodeValue("lastEvent") === self::EVENT_CAPTURED;
     }
+
+    public function rawNotification()
+    {
+        return $this->rawNotification;
+    }
 }
