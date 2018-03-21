@@ -13,12 +13,14 @@ use Inviqa\Worldpay\Api\Request\ThreeDSRequestFactory;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\XmlNodeConverter;
+use Inviqa\Worldpay\Notification\Response\NotificationResponse;
 use Sabre\Xml\Writer;
 
 class Application
 {
     private $paymentAuthorizer;
     private $client;
+    private $paymentModifier;
 
     public function __construct(Config $config)
     {
@@ -36,7 +38,7 @@ class Application
             $this->client
         );
 
-        $this->paymentModifyer = new PaymentModifyer(
+        $this->paymentModifier = new PaymentModifyer(
             new ModifyRequestFactory(),
             new XmlNodeConverter(
                 new Writer()
@@ -75,6 +77,11 @@ class Application
      */
     public function capturePayment(array $paymentParameters)
     {
-        return $this->paymentModifyer->capturePayment($paymentParameters);
+        return $this->paymentModifier->capturePayment($paymentParameters);
+    }
+
+    public function parseNotification(string $notification): NotificationResponse
+    {
+        return NotificationResponse::fromRawNotification($notification);
     }
 }

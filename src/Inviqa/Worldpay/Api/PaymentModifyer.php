@@ -44,6 +44,8 @@ class PaymentModifyer
      * @param array $paymentParameters
      *
      * @return mixed
+     *
+     * @throws ConnectionFailedException
      */
     public function capturePayment(array $paymentParameters)
     {
