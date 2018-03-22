@@ -4,10 +4,10 @@ namespace Inviqa\Worldpay\Api\Response;
 
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
 
-class CaptureResponse extends ModifiedResponse
+class RefundResponse extends ModifiedResponse
 {
     public function orderCode()
     {
-        return new OrderCode($this->nodeAttributeValue("captureReceived", "orderCode"));
+        return new OrderCode($this->nodeAttributeValue("refundReceived", "orderCode"));
     }
 }

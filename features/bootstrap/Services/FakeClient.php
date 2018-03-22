@@ -30,9 +30,16 @@ class FakeClient implements Client
             return HttpResponse::fromContentAndCookie(OrderFactory::cse3DSResponseXMl($orderCode));
         }
 
-        if (strstr($xml, "<modify>") !== FALSE) {
+        if (strstr($xml, "<capture>") !== FALSE) {
             return HttpResponse::fromContentAndCookie(
-                ModifyFactory::cseCaptureResponseXmlForOrderCode($orderCode),
+                CaptureFactory::cseCaptureResponseXmlForOrderCode($orderCode),
+                "machine:123"
+            );
+        }
+
+        if (strstr($xml, "<refund>") !== FALSE) {
+            return HttpResponse::fromContentAndCookie(
+                RefundFactory::cseRefundResponseXmlForOrderCode($orderCode),
                 "machine:123"
             );
         }

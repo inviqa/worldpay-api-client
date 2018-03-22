@@ -5,8 +5,10 @@ use Behat\Gherkin\Node\TableNode;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
+use Inviqa\Worldpay\Api\Response\RefundResponse;
 use Inviqa\Worldpay\Application;
 use Services\TestConfig;
+use Webmozart\Assert\Assert;
 
 class ApiContext implements Context
 {
@@ -197,17 +199,27 @@ class ApiContext implements Context
     }
 
     /**
-     * @Then I should receive an capture response
+     * @Then I should receive a capture response
      */
     public function iShouldReceiveAnCaptureResponse()
     {
-        if (!$this->response instanceof CaptureResponse) {
-            throw new InvalidArgumentException(sprintf(
-                "Invalid response type.\nExpected '%s'\nActual '%s'",
-                CaptureResponse::class,
-                gettype($this->response)
-            ));
-        }
+        Assert::isInstanceOf($this->response, CaptureResponse::class);
+    }
+
+    /**
+     * @When I send the following refund modification
+     */
+    public function iSendTheFollowingRefundModification(TableNode $table)
+    {
+        $this->response = $this->application->refundPayment($table->getRowsHash());
+    }
+
+    /**
+     * @Then I should receive a refund response
+     */
+    public function iShouldReceiveAnRefundResponse()
+    {
+        Assert::isInstanceOf($this->response, RefundResponse::class);
     }
 
 }
