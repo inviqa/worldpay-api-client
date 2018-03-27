@@ -11,6 +11,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Refund\A
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Refund\Amount\DebitCreditIndicator;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Refund\Amount\Exponent;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Refund\Amount\Value;
+use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Refund\Reference;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Refund\Refund;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\RefundModification;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
@@ -28,7 +29,8 @@ class RefundFactory
         );
 
         $orderCode          = new OrderCode("order-ecomm-test-03");
-        $refund             = new Refund($amount);
+        $reference          = new Reference('some reference');
+        $refund             = new Refund($reference, $amount);
         $refundModification = new RefundModification($orderCode, $refund);
 
         $paymentService = new PaymentService(
@@ -67,7 +69,8 @@ XML;
             'currencyCode'     => 'GBP',
             'amount'           => '1500',
             'debitCreditValue' => 'credit',
-            'exponent'         => '2'
+            'exponent'         => '2',
+            'reference'        => 'some reference'
         ];
     }
 
