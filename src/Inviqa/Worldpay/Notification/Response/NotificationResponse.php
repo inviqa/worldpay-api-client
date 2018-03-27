@@ -5,6 +5,7 @@ namespace Inviqa\Worldpay\Notification\Response;
 class NotificationResponse
 {
     const EVENT_CAPTURED = "CAPTURED";
+    const EVENT_REFUNDED = "REFUNDED";
     /**
      * @var string
      */
@@ -55,8 +56,38 @@ class NotificationResponse
         return $this->nodeValue("lastEvent") === self::EVENT_CAPTURED;
     }
 
+    public function isRefunded()
+    {
+        return $this->nodeValue("lastEvent") === self::EVENT_REFUNDED;
+    }
+
     public function rawNotification()
     {
         return $this->rawNotification;
+    }
+
+    public function refundValue()
+    {
+        $xml = simplexml_load_string($this->rawNotification);
+
+        return (int) $xml->notify->orderStatusEvent->journal->accountTx[0]->amount->attributes()['value'];
+    }
+
+    public function returnNumber()
+    {
+        $xml = simplexml_load_string($this->rawNotification);
+
+        $reference = unserialize($xml->notify->orderStatusEvent->journal->journalReference->attributes()['reference']);
+
+        return $reference['returnNumber'] ?: '';
+    }
+
+    public function notifyClient()
+    {
+        $xml = simplexml_load_string($this->rawNotification);
+
+        $reference = unserialize($xml->notify->orderStatusEvent->journal->journalReference->attributes()['reference']);
+
+        return $reference['notifyClient'] ?: false;
     }
 }
