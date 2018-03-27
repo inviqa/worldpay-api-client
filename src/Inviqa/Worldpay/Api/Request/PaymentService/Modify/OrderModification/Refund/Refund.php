@@ -8,16 +8,20 @@ use Inviqa\Worldpay\Api\XmlNodeDefaults;
 class Refund extends XmlNodeDefaults implements OrderModification
 {
     private $amount;
+    private $reference;
 
     public function __construct(
+        Reference $reference,
         Amount $amount
     ) {
-        $this->amount = $amount;
+        $this->reference = $reference;
+        $this->amount    = $amount;
     }
 
     public function xmlChildren()
     {
         return [
+            $this->reference,
             $this->amount
         ];
     }

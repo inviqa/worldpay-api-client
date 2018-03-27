@@ -24,6 +24,7 @@ class NotificationContext implements Context
 
     /**
      * @When the following capture notification request is parsed
+     * @When the following refund notification request is parsed
      */
     public function theFollowingCaptureNotificationRequestIsParsed(PyStringNode $notification)
     {
@@ -54,4 +55,29 @@ class NotificationContext implements Context
     {
         Assert::true($this->response->isCaptured());
     }
+
+    /**
+     * @Then the notification response is refunded
+     */
+    public function theNotificationResponseIsRefunded()
+    {
+        Assert::true($this->response->isRefunded());
+    }
+
+    /**
+     * @Then the notification return number is :returnNumber
+     */
+    public function theNotificationReturnNumberIs($returnNumber)
+    {
+        Assert::eq($this->response->returnNumber(), $returnNumber);
+    }
+
+    /**
+     * @Then the notifcation notify client is :notifyClient
+     */
+    public function theNotifcationNotifyClientIs2($notifyClient)
+    {
+        Assert::true($this->response->notifyClient());
+    }
+
 }

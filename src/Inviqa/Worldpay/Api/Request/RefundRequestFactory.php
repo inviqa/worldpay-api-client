@@ -5,6 +5,7 @@ namespace Inviqa\Worldpay\Api\Request;
 use Inviqa\Worldpay\Api\Request\PaymentService\MerchantCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\OrderCode;
+use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Refund\Reference;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Refund\Amount;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Refund\Amount\CurrencyCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Refund\Amount\DebitCreditIndicator;
@@ -23,6 +24,7 @@ class RefundRequestFactory
         'exponent'         => "2",
         'amount'           => "",
         'debitCreditValue' => "",
+        'reference'        => "some reference",
     ];
 
     public function buildFromRequestParameters(array $parameters): PaymentService
@@ -37,7 +39,8 @@ class RefundRequestFactory
         );
 
         $orderCode          = new OrderCode($parameters['orderCode']);
-        $refund             = new Refund($amount);
+        $reference          = new Reference($parameters['reference']);
+        $refund             = new Refund($reference, $amount);
         $refundModification = new RefundModification($orderCode, $refund);
 
         $paymentService = new PaymentService(
