@@ -25,39 +25,27 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
         Description $description,
         Amount $amount,
         PaymentDetails $paymentDetails,
-        Shopper $shopper
+        Shopper $shopper,
+        Dynamic3DS $dynamic3DS
     ) {
         $this->orderCode = $orderCode;
         $this->description = $description;
         $this->amount = $amount;
         $this->paymentDetails = $paymentDetails;
         $this->shopper = $shopper;
+        $this->dynamic3DS = $dynamic3DS;
     }
 
     public function xmlChildren()
     {
-        $children = [
+        return [
             $this->orderCode,
             $this->description,
             $this->amount,
             $this->paymentDetails,
-            $this->shopper
+            $this->shopper,
+            $this->dynamic3DS,
         ];
-
-        if ($this->dynamic3DS) {
-            $children[] = $this->dynamic3DS;
-        }
-
-        return $children;
-    }
-
-    public function withDynamic3DS(Dynamic3DS $dynamic3DS): AuthorisationOrder
-    {
-        $order = clone $this;
-
-        $order->dynamic3DS = $dynamic3DS;
-
-        return $order;
     }
 
     public function xmlLabel()

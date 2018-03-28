@@ -11,6 +11,8 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\Exponent;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\Value;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Description;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS\OverrideAdvice;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData;
@@ -72,7 +74,8 @@ class OrderFactory
             $description,
             $amount,
             $paymentDetails,
-            $shopper
+            $shopper,
+            new Dynamic3DS(new OverrideAdvice("no3DS"))
         );
 
         $paymentService = new PaymentService(
@@ -149,6 +152,7 @@ XML;
             'sessionId' => '0215ui8ib1',
             'acceptHeader' => 'text/html',
             'userAgentHeader' => 'Mozilla/5.0',
+            'dynamic3DS' => false,
         ];
     }
 

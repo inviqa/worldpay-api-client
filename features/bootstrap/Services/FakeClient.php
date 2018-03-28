@@ -26,7 +26,7 @@ class FakeClient implements Client
 
         $orderCode = $this->nodeAttributeValueFromXml("order", "orderCode", $xml);
 
-        if (strstr($xml, "dynamic3DS") !== FALSE) {
+        if (strstr($xml, 'dynamic3DS overrideAdvice="do3DS"') !== FALSE) {
             return HttpResponse::fromContentAndCookie(OrderFactory::cse3DSResponseXMl($orderCode));
         }
 

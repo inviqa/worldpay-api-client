@@ -53,6 +53,8 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $writer->startElement('browser')->shouldBeCalled();
         $writer->startElement('acceptHeader')->shouldBeCalled();
         $writer->startElement('userAgentHeader')->shouldBeCalled();
+        $writer->startElement('dynamic3DS')->shouldBeCalled();
+        $writer->startAttribute('overrideAdvice')->shouldBeCalled();
 
         $writer->write("1.4")->shouldBeCalled();
         $writer->write("SESSIONECOM")->shouldBeCalled();
@@ -75,6 +77,7 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $writer->write("lpanainte+test@inviqa.com")->shouldBeCalled();
         $writer->write("text/html")->shouldBeCalled();
         $writer->write("Mozilla/5.0")->shouldBeCalled();
+        $writer->write("no3DS")->shouldBeCalled();
         $writer->endElement()->shouldBeCalled();
         $writer->endAttribute()->shouldBeCalled();
         $writer->outputMemory()->willReturn($xml)->shouldBeCalled();
