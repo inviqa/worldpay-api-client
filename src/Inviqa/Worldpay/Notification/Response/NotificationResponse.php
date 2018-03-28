@@ -24,7 +24,7 @@ class NotificationResponse
     {
         $instance                  = new NotificationResponse();
         $instance->rawNotification = $rawNotification;
-        $instance->reference       = self::unserialiseReference($rawNotification);
+        $instance->reference       = $instance->unserialiseReference($rawNotification);
 
         return $instance;
     }
