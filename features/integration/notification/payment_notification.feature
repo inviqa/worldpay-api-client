@@ -53,7 +53,7 @@ Feature: a payment notification request is to a notification response
         <paymentMethod>VISA-SSL</paymentMethod>
           <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
         <lastEvent>REFUNDED</lastEvent>
-        <reference>a:2:{s:12:"returnNumber";s:2:"R1";s:12:"notifyClient";b:1;}</reference>
+        <reference>{"notifyClient":true,"returnNumber":"RN0000000"}</reference>
         <balance accountType="IN_PROCESS_CAPTURED">
           <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
         </balance>
@@ -70,7 +70,7 @@ Feature: a payment notification request is to a notification response
           <accountTx accountType="IN_PROCESS_CAPTURED" batchId="17">
             <amount value="900" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
           </accountTx>
-          <journalReference type="refund" reference='a:2:{s:12:"returnNumber";s:2:"R1";s:12:"notifyClient";b:1;}'/>
+          <journalReference type="refund" reference=""/>
       </journal>
     </orderStatusEvent>
   </notify>
@@ -79,6 +79,7 @@ Feature: a payment notification request is to a notification response
     Then a successful notification response should be returned
     And the notification response should reference the 456789 order code
     And the notification response is refunded
-    And the notification return number is "R1"
-    And the notifcation notify client is "true"
-
+    And the notification reference is
+    """
+{"notifyClient":true,"returnNumber":"RN0000000"}
+    """
