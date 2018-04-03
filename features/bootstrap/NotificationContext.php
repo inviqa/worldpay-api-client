@@ -65,19 +65,10 @@ class NotificationContext implements Context
     }
 
     /**
-     * @Then the notification return number is :returnNumber
+     * @Then the notification reference is
      */
-    public function theNotificationReturnNumberIs($returnNumber)
+    public function theNotificationReferenceIs(PyStringNode $reference)
     {
-        Assert::eq($this->response->returnNumber(), $returnNumber);
+        Assert::eq($this->response->reference(), (string) $reference);
     }
-
-    /**
-     * @Then the notifcation notify client is :notifyClient
-     */
-    public function theNotifcationNotifyClientIs2($notifyClient)
-    {
-        Assert::true($this->response->notifyClient());
-    }
-
 }
