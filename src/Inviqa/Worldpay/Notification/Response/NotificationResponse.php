@@ -61,14 +61,9 @@ class NotificationResponse
         return (int)$xml->notify->orderStatusEvent->journal->accountTx[0]->amount->attributes()['value'];
     }
 
-    public function returnNumber()
+    public function reference()
     {
-        return $this->reference['returnNumber'] ?? '';
-    }
-
-    public function notifyClient()
-    {
-        return $this->reference['notifyClient'] ?? false;
+        return $this->nodeValue('reference');
     }
 
     private function nodeValue(string $nodeName): string
@@ -87,18 +82,5 @@ class NotificationResponse
         }
 
         return '';
-    }
-
-    private function unserialiseReference($rawNotification)
-    {
-        $xml = simplexml_load_string($rawNotification);
-        $ref = $xml->notify->orderStatusEvent->payment->reference;
-
-        $serialisedData = @unserialize($ref);
-        if ($serialisedData !== false || $ref === 'b:0;') {
-            return $serialisedData;
-        }
-
-        return $ref;
     }
 }
