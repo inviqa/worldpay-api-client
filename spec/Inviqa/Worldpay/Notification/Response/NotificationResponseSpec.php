@@ -32,7 +32,7 @@ class NotificationResponseSpec extends ObjectBehavior
         <paymentMethod>VISA-SSL</paymentMethod>
           <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
         <lastEvent>REFUNDED</lastEvent>
-        <reference>a:2:{s:12:"returnNumber";s:2:"R1";s:12:"notifyClient";b:1;}</reference>
+        <reference>{"notifyClient":true,"returnNumber":"RN0000000"}</reference>
         <balance accountType="IN_PROCESS_CAPTURED">
           <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
         </balance>
@@ -49,7 +49,7 @@ class NotificationResponseSpec extends ObjectBehavior
           <accountTx accountType="IN_PROCESS_CAPTURED" batchId="17">
             <amount value="900" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
           </accountTx> 
-          <journalReference type="refund" reference=\'a:2:{s:12:"returnNumber";s:2:"R1";s:12:"notifyClient";b:1;}\'/>
+          <journalReference type="refund" reference=""/>
       </journal> 
     </orderStatusEvent>
   </notify>
@@ -98,17 +98,10 @@ class NotificationResponseSpec extends ObjectBehavior
         $this->refundValue()->shouldBe(900);
     }
 
-    function it_returns_the_return_number_from_the_journal_reference_node_in_the_notification()
+    function it_returns_the_reference_from_reference_node_in_the_notification()
     {
         $this->beConstructedFromRawNotification(self::REFUNDED_NOTIFICATION);
 
-        $this->returnNumber()->shouldBe('R1');
-    }
-
-    function it_returns_the_notify_client_variable_from_the_journal_reference_node_in_the_notification()
-    {
-        $this->beConstructedFromRawNotification(self::REFUNDED_NOTIFICATION);
-
-        $this->notifyClient()->shouldBe(true);
+        $this->reference()->shouldBe('{"notifyClient":true,"returnNumber":"RN0000000"}');
     }
 }
