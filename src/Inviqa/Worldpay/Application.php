@@ -13,6 +13,7 @@ use Inviqa\Worldpay\Api\Request\RefundRequestFactory;
 use Inviqa\Worldpay\Api\Request\ThreeDSRequestFactory;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
+use Inviqa\Worldpay\Api\Response\RefundResponse;
 use Inviqa\Worldpay\Api\XmlNodeConverter;
 use Inviqa\Worldpay\Notification\Response\NotificationResponse;
 use Sabre\Xml\Writer;
