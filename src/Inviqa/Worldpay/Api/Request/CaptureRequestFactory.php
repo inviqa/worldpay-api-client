@@ -42,7 +42,7 @@ class CaptureRequestFactory
 
         $paymentService = new PaymentService(
             new Version("1.4"),
-            new MerchantCode("SESSIONECOM"),
+            new MerchantCode($parameters['merchantCode']),
             new Modify($captureModification)
         );
 
