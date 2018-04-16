@@ -4,9 +4,9 @@ namespace Inviqa\Worldpay\Api;
 
 use Inviqa\Worldpay\Api\Exception\ConnectionFailedException;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
+use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Request\ThreeDSRequestFactory;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
-use Inviqa\Worldpay\Api\Response\ResponseFactory;
 
 class PaymentAuthorizer
 {
@@ -20,8 +20,7 @@ class PaymentAuthorizer
         ThreeDSRequestFactory $threeDSRequestFactory,
         XmlNodeConverter $xmlNodeConverter,
         Client $client
-    )
-    {
+    ) {
         $this->authRequestFactory = $authRequestFactory;
         $this->threeDSRequestFactory = $threeDSRequestFactory;
         $this->xmlNodeConverter = $xmlNodeConverter;
@@ -30,35 +29,40 @@ class PaymentAuthorizer
 
     /**
      * @param array $paymentParameters
+     *
      * @return AuthorisedResponse
      * @throws ConnectionFailedException
      */
-    public function authorizePayment(array $paymentParameters)
+    public function authorizePayment(array $paymentParameters): AuthorisedResponse
     {
-        $paymentService = $this->authRequestFactory->buildFromRequestParameters($paymentParameters);
-
-        return $this->makeRequest($paymentService);
+        return $this->makeRequest(
+            $this->authRequestFactory->buildFromRequestParameters($paymentParameters)
+        );
     }
 
     /**
      * @param array $paymentParameters
+     *
      * @return AuthorisedResponse
      * @throws ConnectionFailedException
      * @throws Exception\InvalidRequestParameterException
      */
     public function authorize3DSecure(array $paymentParameters)
     {
-        $paymentService = $this->threeDSRequestFactory->buildFromRequestParameters($paymentParameters);
-
-        return $this->makeRequest($paymentService, $paymentParameters['cookie']);
+        return $this->makeRequest(
+            $this->threeDSRequestFactory->buildFromRequestParameters($paymentParameters),
+            $paymentParameters['cookie']
+        );
     }
 
     /**
-     * @param $paymentService
+     * @param PaymentService $paymentService
+     *
+     * @param string|null $cookie
      * @return AuthorisedResponse
      * @throws ConnectionFailedException
      */
-    private function makeRequest($paymentService, string $cookie = null)
+    private function makeRequest(PaymentService $paymentService, string $cookie = null)
     {
         try {
             $httpResponse = $this->client->sendRequest(

@@ -34,7 +34,9 @@ class ApiContext implements Context
      */
     public function iAuthorizeTheFollowingPayment(TableNode $table)
     {
-        $this->response = $this->application->authorizePayment($table->getRowsHash());
+        $this->response = $this->application->authorizePayment(
+            $this->paramsWithBooleanFlags($table->getRowsHash())
+        );
     }
 
     /**
@@ -42,7 +44,9 @@ class ApiContext implements Context
      */
     public function theAuthorizationForTheFollowingPaymentIsCompleted(TableNode $table)
     {
-        $this->response = $this->application->completePaymentAuthorization($table->getRowsHash());
+        $this->response = $this->application->completePaymentAuthorization(
+            $this->paramsWithBooleanFlags($table->getRowsHash())
+        );
     }
 
     /**
@@ -195,7 +199,9 @@ class ApiContext implements Context
      */
     public function iSendTheFollowingCaptureModification(TableNode $table)
     {
-        $this->response = $this->application->capturePayment($table->getRowsHash());
+        $this->response = $this->application->capturePayment(
+            $this->paramsWithBooleanFlags($table->getRowsHash())
+        );
     }
 
     /**
@@ -211,7 +217,9 @@ class ApiContext implements Context
      */
     public function iSendTheFollowingRefundModification(TableNode $table)
     {
-        $this->response = $this->application->refundPayment($table->getRowsHash());
+        $this->response = $this->application->refundPayment(
+            $this->paramsWithBooleanFlags($table->getRowsHash())
+        );
     }
 
     /**
@@ -222,4 +230,18 @@ class ApiContext implements Context
         Assert::isInstanceOf($this->response, RefundResponse::class);
     }
 
+    private function paramsWithBooleanFlags(array $paymentParameters): array
+    {
+        foreach ($paymentParameters as $key => $param) {
+            if ($param == "true") {
+                $paymentParameters[$key] = true;
+            }
+
+            if ($param == "false") {
+                $paymentParameters[$key] = false;
+            }
+        }
+
+        return $paymentParameters;
+    }
 }
