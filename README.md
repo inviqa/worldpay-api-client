@@ -6,9 +6,9 @@ The purpose of this library is to abstract payment requests performed against th
 
 ## Supported payment requests and planned features
 - [x] Payment authorization with Client Side Encryption token
-- [ ] 3D Secure support
-- [ ] Payment capture
-- [ ] Payment refund
+- [x] 3D Secure support
+- [x] Payment capture
+- [x] Payment refund
 - [ ] Payment cancellation
 
 ## How to perform an authorization request using a Client Side Encrypted token
