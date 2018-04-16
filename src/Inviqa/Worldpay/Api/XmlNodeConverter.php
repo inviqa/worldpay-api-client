@@ -27,7 +27,7 @@ class XmlNodeConverter
 
     private function convertNode(XmlConvertibleNode $node)
     {
-        $children = $node->xmlChildren();
+        $children = array_filter($node->xmlChildren());
 
         if ($node->xmlType() === XmlConvertibleNode::NODE_TYPE) {
             $this->writer->startElement($node->xmlLabel());

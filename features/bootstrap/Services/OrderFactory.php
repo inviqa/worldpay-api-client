@@ -74,14 +74,15 @@ class OrderFactory
             $description,
             $amount,
             $paymentDetails,
-            $shopper,
-            new Dynamic3DS(new OverrideAdvice("no3DS"))
+            $shopper
         );
 
         $paymentService = new PaymentService(
             new Version("1.4"),
             new MerchantCode("SESSIONECOM"),
-            new Submit($order)
+            new Submit($order->withDynamic3DS(
+                new Dynamic3DS(new OverrideAdvice("no3DS"))
+            ))
         );
 
         return $paymentService;
@@ -152,7 +153,8 @@ XML;
             'sessionId' => '0215ui8ib1',
             'acceptHeader' => 'text/html',
             'userAgentHeader' => 'Mozilla/5.0',
-            'dynamic3DS' => false,
+            'dynamic3DS' => true,
+            'dynamic3DSOverride' => false,
         ];
     }
 
