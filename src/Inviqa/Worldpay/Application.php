@@ -6,7 +6,7 @@ use Inviqa\Worldpay\Api\Client;
 use Inviqa\Worldpay\Api\Client\ClientFactory;
 use Inviqa\Worldpay\Api\Exception\WorldpayException;
 use Inviqa\Worldpay\Api\PaymentAuthorizer;
-use Inviqa\Worldpay\Api\PaymentModifyer;
+use Inviqa\Worldpay\Api\PaymentModifier;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
 use Inviqa\Worldpay\Api\Request\CancelRequestFactory;
 use Inviqa\Worldpay\Api\Request\CaptureRequestFactory;
@@ -41,7 +41,7 @@ class Application
             $this->client
         );
 
-        $this->paymentModifier = new PaymentModifyer(
+        $this->paymentModifier = new PaymentModifier(
             new CaptureRequestFactory(),
             new RefundRequestFactory(),
             new CancelRequestFactory(),

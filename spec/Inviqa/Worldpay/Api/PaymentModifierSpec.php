@@ -12,7 +12,7 @@ use Inviqa\Worldpay\Api\Response\RefundResponse;
 use Inviqa\Worldpay\Api\XmlNodeConverter;
 use PhpSpec\ObjectBehavior;
 
-class PaymentModifyerSpec extends ObjectBehavior
+class PaymentModifierSpec extends ObjectBehavior
 {
     function let(
         CaptureRequestFactory $captureRequestFactory,

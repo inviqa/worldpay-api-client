@@ -12,7 +12,7 @@ use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\ModifiedResponse;
 use Inviqa\Worldpay\Api\Response\RefundResponse;
 
-class PaymentModifyer
+class PaymentModifier
 {
     /**
      * @var CaptureRequestFactory
