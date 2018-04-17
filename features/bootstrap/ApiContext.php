@@ -3,6 +3,7 @@
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
+use Inviqa\Worldpay\Api\Response\CancelResponse;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
 use Inviqa\Worldpay\Api\Response\RefundResponse;
@@ -229,6 +230,25 @@ class ApiContext implements Context
     {
         Assert::isInstanceOf($this->response, RefundResponse::class);
     }
+
+    /**
+     * @When I send the following cancel modification
+     */
+    public function iSendTheFollowingCancelModification(TableNode $table)
+    {
+        $this->response = $this->application->cancelPayment(
+            $this->paramsWithBooleanFlags($table->getRowsHash())
+        );
+    }
+
+    /**
+     * @Then I should receive a cancel response
+     */
+    public function iShouldReceiveACancelResponse()
+    {
+        Assert::isInstanceOf($this->response, CancelResponse::class);
+    }
+
 
     private function paramsWithBooleanFlags(array $paymentParameters): array
     {
