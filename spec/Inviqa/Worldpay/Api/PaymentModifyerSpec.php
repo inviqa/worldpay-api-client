@@ -3,6 +3,7 @@
 namespace spec\Inviqa\Worldpay\Api;
 
 use Inviqa\Worldpay\Api\Client;
+use Inviqa\Worldpay\Api\Request\CancelRequestFactory;
 use Inviqa\Worldpay\Api\Request\CaptureRequestFactory;
 use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Request\RefundRequestFactory;
@@ -16,10 +17,17 @@ class PaymentModifyerSpec extends ObjectBehavior
     function let(
         CaptureRequestFactory $captureRequestFactory,
         RefundRequestFactory $refundRequestFactory,
+        CancelRequestFactory $cancelRequestFactory,
         XmlNodeConverter $xmlNodeConverter,
         Client $client
     ) {
-        $this->beConstructedWith($captureRequestFactory, $refundRequestFactory, $xmlNodeConverter, $client);
+        $this->beConstructedWith(
+            $captureRequestFactory,
+            $refundRequestFactory,
+            $cancelRequestFactory,
+            $xmlNodeConverter,
+            $client
+        );
     }
 
     function it_delegates_building_of_a_capture_request_and_sending_it_to_the_client(

@@ -44,6 +44,13 @@ class FakeClient implements Client
             );
         }
 
+        if (strstr($xml, "</cancel>") !== FALSE) {
+            return HttpResponse::fromContentAndCookie(
+                CancelFactory::cseCancelResponseXmlForOrderCode($orderCode),
+                "machine:123"
+            );
+        }
+
         return HttpResponse::fromContentAndCookie(
             OrderFactory::cseResponseXmlForOrderCode($orderCode),
             "machine:123"

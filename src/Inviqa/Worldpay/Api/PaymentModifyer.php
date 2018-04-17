@@ -3,9 +3,11 @@
 namespace Inviqa\Worldpay\Api;
 
 use Inviqa\Worldpay\Api\Exception\ConnectionFailedException;
+use Inviqa\Worldpay\Api\Request\CancelRequestFactory;
 use Inviqa\Worldpay\Api\Request\CaptureRequestFactory;
 use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Request\RefundRequestFactory;
+use Inviqa\Worldpay\Api\Response\CancelResponse;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\ModifiedResponse;
 use Inviqa\Worldpay\Api\Response\RefundResponse;
@@ -32,14 +34,21 @@ class PaymentModifyer
     private $refundRequestFactory;
 
     /**
+     * @var CancelRequestFactory
+     */
+    private $cancelRequestFactory;
+
+    /**
      * @param CaptureRequestFactory $captureRequestFactory
      * @param RefundRequestFactory  $refundRequestFactory
+     * @param CancelRequestFactory  $cancelRequestFactory
      * @param XmlNodeConverter      $xmlNodeConverter
      * @param Client                $client
      */
     public function __construct(
         CaptureRequestFactory $captureRequestFactory,
         RefundRequestFactory $refundRequestFactory,
+        CancelRequestFactory $cancelRequestFactory,
         XmlNodeConverter $xmlNodeConverter,
         Client $client
     ) {
@@ -47,6 +56,7 @@ class PaymentModifyer
         $this->xmlNodeConverter      = $xmlNodeConverter;
         $this->client                = $client;
         $this->refundRequestFactory  = $refundRequestFactory;
+        $this->cancelRequestFactory = $cancelRequestFactory;
     }
 
     /**
@@ -75,6 +85,20 @@ class PaymentModifyer
         $paymentService = $this->refundRequestFactory->buildFromRequestParameters($paymentParameters);
 
         return new RefundResponse($this->makeRequest($paymentService));
+    }
+
+    /**
+     * @param array $paymentParameters
+     *
+     * @return mixed
+     *
+     * @throws ConnectionFailedException
+     */
+    public function cancelPayment(array $paymentParameters)
+    {
+        $paymentService = $this->cancelRequestFactory->buildFromRequestParameters($paymentParameters);
+
+        return new CancelResponse($this->makeRequest($paymentService));
     }
 
     /**
