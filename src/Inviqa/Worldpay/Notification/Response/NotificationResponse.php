@@ -5,20 +5,14 @@ namespace Inviqa\Worldpay\Notification\Response;
 class NotificationResponse
 {
     const EVENT_CAPTURED = "CAPTURED";
+    const EVENT_CAPTURE_FAILED = "CAPTURE_FAILED";
     const EVENT_REFUNDED = "REFUNDED";
+    const EVENT_REFUND_FAILED = "REFUND_FAILED";
+
     /**
      * @var string
      */
     private $rawNotification;
-
-    /**
-     * @var array
-     */
-    private $reference;
-
-    private function __construct()
-    {
-    }
 
     public static function fromRawNotification(string $rawNotification = "")
     {
@@ -43,9 +37,19 @@ class NotificationResponse
         return $this->nodeValue("lastEvent") === self::EVENT_CAPTURED;
     }
 
+    public function isCaptureFailed()
+    {
+        return $this->nodeValue("lastEvent") === self::EVENT_CAPTURE_FAILED;
+    }
+
     public function isRefunded()
     {
         return $this->nodeValue("lastEvent") === self::EVENT_REFUNDED;
+    }
+
+    public function isRefundFailed()
+    {
+        return $this->nodeValue("lastEvent") === self::EVENT_REFUND_FAILED;
     }
 
     public function rawNotification()
@@ -81,5 +85,9 @@ class NotificationResponse
         }
 
         return '';
+    }
+
+    private function __construct()
+    {
     }
 }

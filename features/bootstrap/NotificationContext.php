@@ -23,10 +23,9 @@ class NotificationContext implements Context
     }
 
     /**
-     * @When the following capture notification request is parsed
-     * @When the following refund notification request is parsed
+     * @When the following notification request is parsed
      */
-    public function theFollowingCaptureNotificationRequestIsParsed(PyStringNode $notification)
+    public function theFollowingNotificationRequestIsParsed(PyStringNode $notification)
     {
         $this->response = $this->application->parseNotification($notification);
     }
@@ -57,11 +56,27 @@ class NotificationContext implements Context
     }
 
     /**
+     * @Then the notification response is capture failed
+     */
+    public function theNotificationResponseIsCaptureFailed()
+    {
+        Assert::true($this->response->isCaptureFailed());
+    }
+
+    /**
      * @Then the notification response is refunded
      */
     public function theNotificationResponseIsRefunded()
     {
         Assert::true($this->response->isRefunded());
+    }
+
+    /**
+     * @Then the notification response is refund failed
+     */
+    public function theNotificationResponseIsRefundFailed()
+    {
+        Assert::true($this->response->isRefundFailed());
     }
 
     /**
