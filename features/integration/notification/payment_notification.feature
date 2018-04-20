@@ -92,7 +92,7 @@ Feature: a payment notification request is to a notification response
               <payment>
                 <paymentMethod>VISA-SSL</paymentMethod>
                   <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
-                <lastEvent>REFUNDED</lastEvent>
+                <lastEvent>SENT_FOR_REFUND</lastEvent>
                 <reference>{"notifyClient":true,"returnNumber":"RN0000000"}</reference>
                 <balance accountType="IN_PROCESS_CAPTURED">
                   <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
@@ -100,7 +100,7 @@ Feature: a payment notification request is to a notification response
                 <cardNumber>5255********2490</cardNumber>
                 <riskScore value="0"/>
               </payment>
-              <journal journalType="REFUNDED" sent="n">
+              <journal journalType="SENT_FOR_REFUND" sent="n">
                   <bookingDate>
                     <date dayOfMonth="01" month="01" year="2020"/>
                   </bookingDate>

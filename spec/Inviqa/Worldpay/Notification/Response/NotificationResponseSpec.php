@@ -24,14 +24,14 @@ class NotificationResponseSpec extends ObjectBehavior
 </paymentService>
 ';
 
-    const REFUNDED_NOTIFICATION = '
+    const SENT_FOR_REFUND_NOTIFICATION = '
 <paymentService version="1.4" merchantCode="SESSIONECOM"> 
   <notify>
     <orderStatusEvent orderCode="123456">
       <payment>
         <paymentMethod>VISA-SSL</paymentMethod>
           <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
-        <lastEvent>REFUNDED</lastEvent>
+        <lastEvent>SENT_FOR_REFUND</lastEvent>
         <reference>{"notifyClient":true,"returnNumber":"RN0000000"}</reference>
         <balance accountType="IN_PROCESS_CAPTURED">
           <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
@@ -39,7 +39,7 @@ class NotificationResponseSpec extends ObjectBehavior
         <cardNumber>5255********2490</cardNumber>
         <riskScore value="0"/>
       </payment>
-      <journal journalType="REFUNDED" sent="n">
+      <journal journalType="SENT_FOR_REFUND" sent="n">
           <bookingDate>
             <date dayOfMonth="01" month="01" year="2020"/>
           </bookingDate>
@@ -79,28 +79,28 @@ class NotificationResponseSpec extends ObjectBehavior
 
     function it_returns_true_if_a_refunded_event_is_available()
     {
-        $this->beConstructedFromRawNotification(self::REFUNDED_NOTIFICATION);
+        $this->beConstructedFromRawNotification(self::SENT_FOR_REFUND_NOTIFICATION);
 
         $this->isSuccessful()->shouldBe(true);
     }
 
     function it_returns_true_when_the_last_event_is_refunded()
     {
-        $this->beConstructedFromRawNotification(self::REFUNDED_NOTIFICATION);
+        $this->beConstructedFromRawNotification(self::SENT_FOR_REFUND_NOTIFICATION);
 
         $this->isRefunded()->shouldBe(true);
     }
 
     function it_returns_the_refund_value_from_the_journal_node_in_the_notification()
     {
-        $this->beConstructedFromRawNotification(self::REFUNDED_NOTIFICATION);
+        $this->beConstructedFromRawNotification(self::SENT_FOR_REFUND_NOTIFICATION);
 
         $this->refundValue()->shouldBe(900);
     }
 
     function it_returns_the_reference_from_reference_node_in_the_notification()
     {
-        $this->beConstructedFromRawNotification(self::REFUNDED_NOTIFICATION);
+        $this->beConstructedFromRawNotification(self::SENT_FOR_REFUND_NOTIFICATION);
 
         $this->reference()->shouldBe('{"notifyClient":true,"returnNumber":"RN0000000"}');
     }

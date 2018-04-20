@@ -6,7 +6,7 @@ class NotificationResponse
 {
     const EVENT_CAPTURED = "CAPTURED";
     const EVENT_CAPTURE_FAILED = "CAPTURE_FAILED";
-    const EVENT_REFUNDED = "REFUNDED";
+    const EVENT_SENT_FOR_REFUND = "SENT_FOR_REFUND";
     const EVENT_REFUND_FAILED = "REFUND_FAILED";
 
     /**
@@ -44,7 +44,7 @@ class NotificationResponse
 
     public function isRefunded()
     {
-        return $this->nodeValue("lastEvent") === self::EVENT_REFUNDED;
+        return $this->nodeValue("lastEvent") === self::EVENT_SENT_FOR_REFUND;
     }
 
     public function isRefundFailed()
