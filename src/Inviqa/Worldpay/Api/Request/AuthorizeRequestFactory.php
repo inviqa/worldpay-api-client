@@ -23,6 +23,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Paymen
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\CountryCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\PostalCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\State;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\TelephoneNumber;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\EncryptedData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\Session;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper;
@@ -46,6 +47,7 @@ class AuthorizeRequestFactory
         'city' => "",
         'state' => "",
         'countryCode' => "",
+        'telephoneNumber' => "",
         'shopperIPAddress' => "",
         'email' => "",
         'sessionId' => "",
@@ -74,7 +76,8 @@ class AuthorizeRequestFactory
                 new PostalCode($parameters['postalCode']),
                 new City($parameters['city']),
                 new State($parameters['state']),
-                new CountryCode($parameters['countryCode'])
+                new CountryCode($parameters['countryCode']),
+                new TelephoneNumber($parameters['telephoneNumber'])
             )
         );
         $cseData = new CseData($encryptedData, $cardAddress);
