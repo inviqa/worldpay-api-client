@@ -24,6 +24,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Paymen
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\CountryCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\PostalCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\State;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\TelephoneNumber;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\EncryptedData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\Session;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper;
@@ -52,7 +53,8 @@ class OrderFactory
                 new PostalCode("CB94BQ"),
                 new City("Cambridge"),
                 new State("Cambridgeshire"),
-                new CountryCode("GB")
+                new CountryCode("GB"),
+                new TelephoneNumber("07426000000")
             )
         );
         $cseData = new CseData($encryptedData, $cardAddress);
@@ -110,6 +112,7 @@ class OrderFactory
               <city>Cambridge</city>
               <state>Cambridgeshire</state>
               <countryCode>GB</countryCode>
+              <telephoneNumber>07426000000</telephoneNumber>
             </address>
           </cardAddress>
         </CSE-DATA>
@@ -148,6 +151,7 @@ XML;
             'city' => 'Cambridge',
             'state' => 'Cambridgeshire',
             'countryCode' => 'GB',
+            'telephoneNumber' => '07426000000',
             'shopperIPAddress' => '123.123.123.123',
             'email' => 'lpanainte+test@inviqa.com',
             'sessionId' => '0215ui8ib1',

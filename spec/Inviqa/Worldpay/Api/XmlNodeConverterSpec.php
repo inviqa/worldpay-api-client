@@ -45,6 +45,7 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $writer->startElement('city')->shouldBeCalled();
         $writer->startElement('state')->shouldBeCalled();
         $writer->startElement('countryCode')->shouldBeCalled();
+        $writer->startElement('telephoneNumber')->shouldBeCalled();
         $writer->startElement('session')->shouldBeCalled();
         $writer->startAttribute('shopperIPAddress')->shouldBeCalled();
         $writer->startAttribute('id')->shouldBeCalled();
@@ -72,6 +73,7 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $writer->write("Cambridge")->shouldBeCalled();
         $writer->write("Cambridgeshire")->shouldBeCalled();
         $writer->write("GB")->shouldBeCalled();
+        $writer->write("07426000000")->shouldBeCalled();
         $writer->write("123.123.123.123")->shouldBeCalled();
         $writer->write("0215ui8ib1")->shouldBeCalled();
         $writer->write("lpanainte+test@inviqa.com")->shouldBeCalled();
@@ -84,5 +86,4 @@ class XmlNodeConverterSpec extends ObjectBehavior
 
         $this->toXml(OrderFactory::simpleCsePaymentService())->shouldReturn($xml);
     }
-
 }

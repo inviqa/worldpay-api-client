@@ -9,6 +9,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Paymen
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\CountryCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\PostalCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\State;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\TelephoneNumber;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
 class Address extends XmlNodeDefaults
@@ -20,6 +21,7 @@ class Address extends XmlNodeDefaults
     private $city;
     private $state;
     private $countryCode;
+    private $telephoneNumber;
 
     public function __construct(
         AddressOne $addressOne,
@@ -28,7 +30,8 @@ class Address extends XmlNodeDefaults
         PostalCode $postalCode,
         City $city,
         State $state,
-        CountryCode $countryCode
+        CountryCode $countryCode,
+        TelephoneNumber $telephoneNumber
     ) {
         $this->addressOne = $addressOne;
         $this->addressTwo = $addressTwo;
@@ -37,6 +40,7 @@ class Address extends XmlNodeDefaults
         $this->city = $city;
         $this->state = $state;
         $this->countryCode = $countryCode;
+        $this->telephoneNumber = $telephoneNumber;
     }
 
     public function xmlChildren()
@@ -49,6 +53,7 @@ class Address extends XmlNodeDefaults
             $this->city,
             $this->state,
             $this->countryCode,
+            $this->telephoneNumber,
         ];
     }
 }
