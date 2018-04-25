@@ -5,6 +5,7 @@ namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Description;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\HcgAdditionalData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper;
@@ -19,6 +20,7 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
     private $paymentDetails;
     private $shopper;
     private $dynamic3DS;
+    private $hcgAdditionalData;
 
     public function __construct(
         OrderCode $orderCode,
@@ -42,6 +44,14 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
         return $instance;
     }
 
+    public function withHighRisk(HcgAdditionalData $hcgAdditionalData): self
+    {
+        $instance = clone $this;
+        $instance->hcgAdditionalData = $hcgAdditionalData;
+
+        return $instance;
+    }
+
     public function xmlChildren()
     {
         return [
@@ -51,6 +61,7 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
             $this->paymentDetails,
             $this->shopper,
             $this->dynamic3DS,
+            $this->hcgAdditionalData,
         ];
     }
 

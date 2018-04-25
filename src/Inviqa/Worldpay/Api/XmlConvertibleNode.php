@@ -12,6 +12,7 @@ interface XmlConvertibleNode
 {
     const NODE_TYPE = "node";
     const ATTR_TYPE = "attribute";
+    const VALUE_TYPE = "value";
 
     public function xmlLabel();
     public function xmlChildren();
