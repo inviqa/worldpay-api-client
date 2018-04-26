@@ -41,10 +41,12 @@ class XmlNodeConverter
             }
 
             $this->writer->endElement();
-        } else {
+        } elseif ($node->xmlType() === XmlConvertibleNode::ATTR_TYPE) {
             $this->writer->startAttribute($node->xmlLabel());
             $this->writer->write((string)$node);
             $this->writer->endAttribute();
+        } elseif ($node->xmlType() === XmlConvertibleNode::VALUE_TYPE) {
+            $this->writer->write((string)$node);
         }
     }
 }

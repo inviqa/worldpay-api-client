@@ -12,7 +12,11 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Description;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS\OverrideAdvice;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\HcgAdditionalData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderCode;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Name;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Param;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Value as ParamValue;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress;
@@ -54,6 +58,7 @@ class AuthorizeRequestFactory
         'acceptHeader' => "",
         'userAgentHeader' => "",
         'dynamic3DS' => false,
+        'highRisk' => false
     ];
 
     public function buildFromRequestParameters(array $parameters): PaymentService
@@ -107,6 +112,15 @@ class AuthorizeRequestFactory
             $dynamic3DSOverride = $parameters['dynamic3DSOverride'] ? "do3DS" : "no3DS";
             $order = $order->withDynamic3DS(
                 new Dynamic3DS(new OverrideAdvice($dynamic3DSOverride))
+            );
+        }
+
+        if ($parameters['highRisk']) {
+            $order = $order->withHighRisk(
+                new HcgAdditionalData(new Param(
+                    new Name('xField2'),
+                    new ParamValue('High')
+                ))
             );
         }
 
