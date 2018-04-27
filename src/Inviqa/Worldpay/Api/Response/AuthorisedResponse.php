@@ -30,7 +30,7 @@ class AuthorisedResponse
     /**
      * @var array
      */
-    private $cardDetails;
+    private $cardDetails = [];
 
     public function __construct(HttpResponse $httpResponse)
     {
