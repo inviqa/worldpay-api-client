@@ -38,13 +38,7 @@ class AuthorisedResponse
         $this->machineCookie = $httpResponse->cookie();
         $this->successful = $this->nodeValue("lastEvent") === "AUTHORISED";
         $this->orderCode = new OrderCode($this->nodeAttributeValue("orderStatus", "orderCode"));
-        $this->cardDetails = [
-            'creditCard' => [
-                'type' => $this->nodeValue('paymentMethod'),
-                "cardholderName"=> $this->nodeValueFromCData('cardHolderName'),
-                'number' => $this->nodeValue('cardNumber')
-            ]
-        ];
+        $this->setCardDetails();
     }
 
     private function nodeValue(string $nodeName): string
@@ -122,5 +116,18 @@ class AuthorisedResponse
     public function cardDetails()
     {
         return $this->cardDetails;
+    }
+
+    private function setCardDetails(): void
+    {
+        if ($this->nodeValue('cardNumber')) {
+            $this->cardDetails = [
+                'creditCard' => [
+                    'type' => $this->nodeValue('paymentMethod'),
+                    "cardholderName" => $this->nodeValueFromCData('cardHolderName'),
+                    'number' => $this->nodeValue('cardNumber')
+                ]
+            ];
+        }
     }
 }
