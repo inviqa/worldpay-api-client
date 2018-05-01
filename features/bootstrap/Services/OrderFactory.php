@@ -75,12 +75,27 @@ class OrderFactory
             new Shopper\ShopperEmailAddress("lpanainte+test@inviqa.com"),
             $browser
         );
+        $hcgAdditionalData = new HcgAdditionalData(
+            new Param(new Name('xField1'), new ParamValue('UK Next Day')),
+            new Param(new Name('xField2'), new ParamValue('High')),
+            new Param(new Name('xField3'), new ParamValue('dresses,knitwear')),
+            new Param(new Name('xField4'), new ParamValue('Registered')),
+            new Param(new Name('nField1'), new ParamValue(4.5678)),
+            new Param(new Name('nField2'), new ParamValue(3.4567)),
+            new Param(new Name('nField3'), new ParamValue(5)),
+            new Param(new Name('nField4'), new ParamValue(2)),
+            new Param(new Name('nField5'), new ParamValue(3)),
+            new Param(new Name('nField6'), new ParamValue(3)),
+            new Param(new Name('nField7'), new ParamValue(1))
+        );
+
         $order = new AuthorisationOrder(
             $orderCode,
             $description,
             $amount,
             $paymentDetails,
-            $shopper
+            $shopper,
+            $hcgAdditionalData
         );
 
         $paymentService = new PaymentService(
@@ -89,70 +104,6 @@ class OrderFactory
             new Submit($order->withDynamic3DS(
                 new Dynamic3DS(new OverrideAdvice("no3DS"))
             ))
-        );
-
-        return $paymentService;
-    }
-
-    public static function simpleCsePaymentServiceWithHighRisk(): XmlConvertibleNode
-    {
-        $orderCode = new OrderCode("order-ecomm-test-03");
-        $description = new Description("test ecomm order");
-        $amount = new Amount(
-            new CurrencyCode("GBP"),
-            new Exponent("2"),
-            new Value("1500")
-        );
-        $encryptedData = new EncryptedData("eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiMSIsImNvbS53b3JsZHBheS5hcGlWZXJzaW9uIjoiMS4wIiwiY29tLndvcmxkcGF5LmxpYlZlcnNpb24iOiIxLjAuMSIsImNvbS53b3JsZHBheS5jaGFubmVsIjoiamF2YXNjcmlwdCJ9.dKfhn7pnZKfMA4Sy8ODL30o0IAsJgGkYqgaObvWpahlhW2owo-Y3xwyeXc82_kd4UJ-UN4VNxJPuENYCNEa0iq4WE_vSMiBV9d_vZK91e-lJvpHqtucc9HI0T7fh5t7-QU0qhkLj_06W57hE3-HkKhI8-ZfOLbxN0XsQk7ZFpCrK4MT-IPJTk4Twrk2b9eAbnRuTMT-mFNh8lFeZZLp42FaTuLuchPGh1SqE3ln_1oUQppnm8mYkKWNgZlY3pjFpmJFlyrhK-7y-OxVz_FtKpd79fyxtAY1nLB_WO_gmAwFVGOnKwvdsTk_FDVPZ8lRe3LRLJ7pc9gzmw8oyH1gSRQ.dTOinx-7v0pFKvhA.8ZLx2l-HUrG6rFKOqELSyCNXw69CAEvY2F1xRoSiKtiHrxvmdBs5Wz_VPwjnYEEyhf-1Brioyq6A9O0NZZgmAMwk7GBbSKmxzoszbZ-ItSRumG714iDuQ0mqAYPPkq3bxY4mNavPreBXp7eXNg.IVkvoJ3Z2iH-6XgUMDR2LQ");
-        $cardAddress = new CardAddress(
-            new CardAddress\Address(
-                new AddressOne("47A"),
-                new AddressTwo("Queensbridge Road"),
-                new AddressThree("Suburbia"),
-                new PostalCode("CB94BQ"),
-                new City("Cambridge"),
-                new State("Cambridgeshire"),
-                new CountryCode("GB"),
-                new TelephoneNumber("07426000000")
-            )
-        );
-        $cseData = new CseData($encryptedData, $cardAddress);
-        $session = new Session(
-            new Session\ShopperIPAddress("123.123.123.123"),
-            new Session\Id("0215ui8ib1")
-        );
-        $paymentDetails = new PaymentDetails($cseData, $session);
-        $browser = new Browser(
-            new Browser\AcceptHeader("text/html"),
-            new Browser\UserAgentHeader("Mozilla/5.0")
-        );
-        $shopper = new Shopper(
-            new Shopper\ShopperEmailAddress("lpanainte+test@inviqa.com"),
-            $browser
-        );
-        $order = new AuthorisationOrder(
-            $orderCode,
-            $description,
-            $amount,
-            $paymentDetails,
-            $shopper
-        );
-
-        $order = $order->withDynamic3DS(
-            new Dynamic3DS(new OverrideAdvice("no3DS"))
-        );
-
-        $order= $order->withHighRisk(
-          new HcgAdditionalData(new Param(
-              new Name('xField2'),
-              new ParamValue('High')
-          ))
-        );
-
-        $paymentService = new PaymentService(
-            new Version("1.4"),
-            new MerchantCode("SESSIONECOM"),
-            new Submit($order)
         );
 
         return $paymentService;
@@ -193,55 +144,19 @@ class OrderFactory
           <userAgentHeader>Mozilla/5.0</userAgentHeader>
         </browser>
       </shopper>
-    </order>
-  </submit>
-</paymentService>
-XML;
-
-        $strippedXml = preg_replace('/\s+/', '', $xml);
-
-        return $strippedXml;
-    }
-
-
-    public static function simpleCsePaymentServiceRequestXmlWithHighRisk(): string
-    {
-        $xml = <<<XML
-<paymentService version="1.4" merchantCode="SESSIONECOM">
-  <submit>
-    <order orderCode="order-ecomm-test-03">
-      <description>test ecomm order</description>
-      <amount currencyCode="GBP" exponent="2" value="1500"/>
-      <paymentDetails>
-        <CSE-DATA>
-          <encryptedData>
-            eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiMSIsImNvbS53b3JsZHBheS5hcGlWZXJzaW9uIjoiMS4wIiwiY29tLndvcmxkcGF5LmxpYlZlcnNpb24iOiIxLjAuMSIsImNvbS53b3JsZHBheS5jaGFubmVsIjoiamF2YXNjcmlwdCJ9.dKfhn7pnZKfMA4Sy8ODL30o0IAsJgGkYqgaObvWpahlhW2owo-Y3xwyeXc82_kd4UJ-UN4VNxJPuENYCNEa0iq4WE_vSMiBV9d_vZK91e-lJvpHqtucc9HI0T7fh5t7-QU0qhkLj_06W57hE3-HkKhI8-ZfOLbxN0XsQk7ZFpCrK4MT-IPJTk4Twrk2b9eAbnRuTMT-mFNh8lFeZZLp42FaTuLuchPGh1SqE3ln_1oUQppnm8mYkKWNgZlY3pjFpmJFlyrhK-7y-OxVz_FtKpd79fyxtAY1nLB_WO_gmAwFVGOnKwvdsTk_FDVPZ8lRe3LRLJ7pc9gzmw8oyH1gSRQ.dTOinx-7v0pFKvhA.8ZLx2l-HUrG6rFKOqELSyCNXw69CAEvY2F1xRoSiKtiHrxvmdBs5Wz_VPwjnYEEyhf-1Brioyq6A9O0NZZgmAMwk7GBbSKmxzoszbZ-ItSRumG714iDuQ0mqAYPPkq3bxY4mNavPreBXp7eXNg.IVkvoJ3Z2iH-6XgUMDR2LQ
-          </encryptedData>
-          <cardAddress>
-            <address>
-              <address1>47A</address1>
-              <address2>Queensbridge Road</address2>
-              <address3>Suburbia</address3>
-              <postalCode>CB94BQ</postalCode>
-              <city>Cambridge</city>
-              <state>Cambridgeshire</state>
-              <countryCode>GB</countryCode>
-              <telephoneNumber>07426000000</telephoneNumber>
-            </address>
-          </cardAddress>
-        </CSE-DATA>
-        <session shopperIPAddress="123.123.123.123" id="0215ui8ib1"/>
-      </paymentDetails>
-      <shopper>
-        <shopperEmailAddress>lpanainte+test@inviqa.com</shopperEmailAddress>
-        <browser>
-          <acceptHeader>text/html</acceptHeader>
-          <userAgentHeader>Mozilla/5.0</userAgentHeader>
-        </browser>
-      </shopper>
       <hcgAdditionalData>
-        <param name="xField2">High</param>
-      </hcgAdditionalData>
+    │     <param name="xField1">UK Next Day</param>
+    │     <param name="xField2">High</param>
+    │     <param name="xField3">dresses,knitwear</param>
+    │     <param name="xField4">Registered</param>
+    │     <param name="nField1">4.5678</param>
+    │     <param name="nField2">3.4567</param>
+    │     <param name="nField3">5</param>
+    │     <param name="nField4">2</param>
+    │     <param name="nField5">3</param>
+    │     <param name="nField6">3</param>
+    │     <param name="nField7">1</param>
+  │    </hcgAdditionalData>
     </order>
   </submit>
 </paymentService>
@@ -276,35 +191,17 @@ XML;
             'userAgentHeader' => 'Mozilla/5.0',
             'dynamic3DS' => true,
             'dynamic3DSOverride' => false,
-            'highRisk' => false
-        ];
-    }
-
-    public static function simpleCseRequestParametersWithHighRisk(): array
-    {
-        return [
-            'merchantCode' => 'SESSIONECOM',
-            'orderCode' => 'order-ecomm-test-03',
-            'description' => 'test ecomm order',
-            'currencyCode' => 'GBP',
-            'value' => '1500',
-            'encryptedData' => 'eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiMSIsImNvbS53b3JsZHBheS5hcGlWZXJzaW9uIjoiMS4wIiwiY29tLndvcmxkcGF5LmxpYlZlcnNpb24iOiIxLjAuMSIsImNvbS53b3JsZHBheS5jaGFubmVsIjoiamF2YXNjcmlwdCJ9.dKfhn7pnZKfMA4Sy8ODL30o0IAsJgGkYqgaObvWpahlhW2owo-Y3xwyeXc82_kd4UJ-UN4VNxJPuENYCNEa0iq4WE_vSMiBV9d_vZK91e-lJvpHqtucc9HI0T7fh5t7-QU0qhkLj_06W57hE3-HkKhI8-ZfOLbxN0XsQk7ZFpCrK4MT-IPJTk4Twrk2b9eAbnRuTMT-mFNh8lFeZZLp42FaTuLuchPGh1SqE3ln_1oUQppnm8mYkKWNgZlY3pjFpmJFlyrhK-7y-OxVz_FtKpd79fyxtAY1nLB_WO_gmAwFVGOnKwvdsTk_FDVPZ8lRe3LRLJ7pc9gzmw8oyH1gSRQ.dTOinx-7v0pFKvhA.8ZLx2l-HUrG6rFKOqELSyCNXw69CAEvY2F1xRoSiKtiHrxvmdBs5Wz_VPwjnYEEyhf-1Brioyq6A9O0NZZgmAMwk7GBbSKmxzoszbZ-ItSRumG714iDuQ0mqAYPPkq3bxY4mNavPreBXp7eXNg.IVkvoJ3Z2iH-6XgUMDR2LQ',
-            'address1' => '47A',
-            'address2' => 'Queensbridge Road',
-            'address3' => 'Suburbia',
-            'postalCode' => 'CB94BQ',
-            'city' => 'Cambridge',
-            'state' => 'Cambridgeshire',
-            'countryCode' => 'GB',
-            'telephoneNumber' => '07426000000',
-            'shopperIPAddress' => '123.123.123.123',
-            'email' => 'lpanainte+test@inviqa.com',
-            'sessionId' => '0215ui8ib1',
-            'acceptHeader' => 'text/html',
-            'userAgentHeader' => 'Mozilla/5.0',
-            'dynamic3DS' => true,
-            'dynamic3DSOverride' => false,
-            'highRisk' => true
+            'shippingMethod'      => 'UK Next Day',
+            'checkoutMethod'      => 'Registered',
+            'ageOfAccount'        => 4.5678,
+            'timeSinceLastOrder'  => 3.4567,
+            'numberPurchases'     => 5,
+            'productRisk'         => true,
+            'productType'         => 'dresses,knitwear',
+            'numberStyles'        => 2,
+            'numberSkus'          => 3,
+            'numberUnits'         => 3,
+            'numberHighRiskUnits' => 1,
         ];
     }
 

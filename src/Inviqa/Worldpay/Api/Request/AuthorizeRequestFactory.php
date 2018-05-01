@@ -100,27 +100,33 @@ class AuthorizeRequestFactory
             $browser
         );
 
+        $hcgAdditionalData = new HcgAdditionalData(
+            new Param(new Name('xField1'), new ParamValue($parameters['shippingMethod'])),
+            new Param(new Name('xField2'), new ParamValue($parameters['productRisk'] ? 'High' : 'normal')),
+            new Param(new Name('xField3'), new ParamValue($parameters['productType'])),
+            new Param(new Name('xField4'), new ParamValue($parameters['checkoutMethod'])),
+            new Param(new Name('nField1'), new ParamValue($parameters['ageOfAccount'])),
+            new Param(new Name('nField2'), new ParamValue($parameters['timeSinceLastOrder'])),
+            new Param(new Name('nField3'), new ParamValue($parameters['numberPurchases'])),
+            new Param(new Name('nField4'), new ParamValue($parameters['numberStyles'])),
+            new Param(new Name('nField5'), new ParamValue($parameters['numberSkus'])),
+            new Param(new Name('nField6'), new ParamValue($parameters['numberUnits'])),
+            new Param(new Name('nField7'), new ParamValue($parameters['numberHighRiskUnits']))
+        );
+
         $order = new AuthorisationOrder(
             $orderCode,
             $description,
             $amount,
             $paymentDetails,
-            $shopper
+            $shopper,
+            $hcgAdditionalData
         );
 
         if ($parameters['dynamic3DS']) {
             $dynamic3DSOverride = $parameters['dynamic3DSOverride'] ? "do3DS" : "no3DS";
             $order = $order->withDynamic3DS(
                 new Dynamic3DS(new OverrideAdvice($dynamic3DSOverride))
-            );
-        }
-
-        if ($parameters['highRisk']) {
-            $order = $order->withHighRisk(
-                new HcgAdditionalData(new Param(
-                    new Name('xField2'),
-                    new ParamValue('High')
-                ))
             );
         }
 
