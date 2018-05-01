@@ -27,27 +27,21 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
         Description $description,
         Amount $amount,
         PaymentDetails $paymentDetails,
-        Shopper $shopper
+        Shopper $shopper,
+        HcgAdditionalData $hcgAdditionalData
     ) {
         $this->orderCode = $orderCode;
         $this->description = $description;
         $this->amount = $amount;
         $this->paymentDetails = $paymentDetails;
         $this->shopper = $shopper;
+        $this->hcgAdditionalData = $hcgAdditionalData;
     }
 
     public function withDynamic3DS(Dynamic3DS $dynamic3DS): self
     {
         $instance = clone $this;
         $instance->dynamic3DS = $dynamic3DS;
-
-        return $instance;
-    }
-
-    public function withHighRisk(HcgAdditionalData $hcgAdditionalData): self
-    {
-        $instance = clone $this;
-        $instance->hcgAdditionalData = $hcgAdditionalData;
 
         return $instance;
     }

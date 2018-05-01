@@ -9,7 +9,7 @@ class XmlNodeDefaults implements XmlConvertibleNode
     protected $string;
 
     public function __construct(string $string = null) {
-        if (empty($string)) {
+        if ('' == $string) {
             throw new InvalidRequestParameterException(sprintf(
                 "Invalid %s request parameter. Expected a non-empty value. Got '%s'.",
                 $this->xmlLabel(),
