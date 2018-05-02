@@ -11,13 +11,17 @@ class Session extends XmlNodeDefaults
     private $shopperIPAddress;
     private $id;
 
-    public function __construct(
-        ShopperIPAddress $shopperIPAddress,
-        Id $id
-    )
+    public function __construct(Id $id)
     {
-        $this->shopperIPAddress = $shopperIPAddress;
         $this->id = $id;
+    }
+
+    public function withShopperIPAddress(ShopperIPAddress $shopperIPAddress): self
+    {
+        $instance = clone $this;
+        $instance->shopperIPAddress = $shopperIPAddress;
+
+        return $instance;
     }
 
     public function xmlChildren()
