@@ -87,9 +87,13 @@ class AuthorizeRequestFactory
         );
         $cseData = new CseData($encryptedData, $cardAddress);
         $session = new Session(
-            new Session\ShopperIPAddress($parameters['shopperIPAddress']),
             new Session\Id($parameters['sessionId'])
         );
+
+        if ($parameters['shopperIPAddress']) {
+            $session = $session->withShopperIPAddress(new Session\ShopperIPAddress($parameters['shopperIPAddress']));
+        }
+
         $paymentDetails = new PaymentDetails($cseData, $session);
         $browser = new Browser(
             new Browser\AcceptHeader($parameters['acceptHeader']),
