@@ -63,10 +63,12 @@ class OrderFactory
         );
         $cseData = new CseData($encryptedData, $cardAddress);
         $session = new Session(
-            new Session\ShopperIPAddress("123.123.123.123"),
             new Session\Id("0215ui8ib1")
         );
-        $paymentDetails = new PaymentDetails($cseData, $session);
+        $paymentDetails = new PaymentDetails(
+            $cseData,
+            $session->withShopperIPAddress(new Session\ShopperIPAddress("123.123.123.123"))
+        );
         $browser = new Browser(
             new Browser\AcceptHeader("text/html"),
             new Browser\UserAgentHeader("Mozilla/5.0")
@@ -78,7 +80,7 @@ class OrderFactory
         $hcgAdditionalData = new HcgAdditionalData(
             new Param(new Name('xField1'), new ParamValue('UK Next Day')),
             new Param(new Name('xField2'), new ParamValue('High')),
-            new Param(new Name('xField3'), new ParamValue('dresses,knitwear')),
+            new Param(new Name('xField3'), new ParamValue('dresses knitwear')),
             new Param(new Name('xField4'), new ParamValue('Registered')),
             new Param(new Name('nField1'), new ParamValue(4.5678)),
             new Param(new Name('nField2'), new ParamValue(3.4567)),
@@ -145,18 +147,18 @@ class OrderFactory
         </browser>
       </shopper>
       <hcgAdditionalData>
-    │     <param name="xField1">UK Next Day</param>
-    │     <param name="xField2">High</param>
-    │     <param name="xField3">dresses,knitwear</param>
-    │     <param name="xField4">Registered</param>
-    │     <param name="nField1">4.5678</param>
-    │     <param name="nField2">3.4567</param>
-    │     <param name="nField3">5</param>
-    │     <param name="nField4">2</param>
-    │     <param name="nField5">3</param>
-    │     <param name="nField6">3</param>
-    │     <param name="nField7">1</param>
-  │    </hcgAdditionalData>
+         <param name="xField1">UK Next Day</param>
+         <param name="xField2">High</param>
+         <param name="xField3">dresses knitwear</param>
+         <param name="xField4">Registered</param>
+         <param name="nField1">4.5678</param>
+         <param name="nField2">3.4567</param>
+         <param name="nField3">5</param>
+         <param name="nField4">2</param>
+         <param name="nField5">3</param>
+         <param name="nField6">3</param>
+         <param name="nField7">1</param>
+      </hcgAdditionalData>
     </order>
   </submit>
 </paymentService>
@@ -197,7 +199,7 @@ XML;
             'timeSinceLastOrder'  => 3.4567,
             'numberPurchases'     => 5,
             'productRisk'         => true,
-            'productType'         => 'dresses,knitwear',
+            'productType'         => 'dresses knitwear',
             'numberStyles'        => 2,
             'numberSkus'          => 3,
             'numberUnits'         => 3,
