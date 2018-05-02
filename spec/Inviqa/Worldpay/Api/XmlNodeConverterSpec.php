@@ -83,6 +83,7 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $writer->write("text/html")->shouldBeCalled();
         $writer->write("Mozilla/5.0")->shouldBeCalled();
         $writer->write("no3DS")->shouldBeCalled();
+        $writer->write("rgProfileId")->shouldBeCalled();
         $writer->write("xField1")->shouldBeCalled();
         $writer->write("xField2")->shouldBeCalled();
         $writer->write("xField3")->shouldBeCalled();
@@ -94,6 +95,7 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $writer->write("nField5")->shouldBeCalled();
         $writer->write("nField6")->shouldBeCalled();
         $writer->write("nField7")->shouldBeCalled();
+        $writer->write(201477)->shouldBeCalled();
         $writer->write("UK Next Day")->shouldBeCalled();
         $writer->write("Registered")->shouldBeCalled();
         $writer->write(4.5678)->shouldBeCalled();

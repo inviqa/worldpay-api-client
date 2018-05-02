@@ -8,7 +8,7 @@ use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
 class HcgAdditionalData extends XmlNodeDefaults implements XmlConvertibleNode
 {
-    private $param;
+    private $rgProfileId;
     private $xfield1;
     private $xfield2;
     private $xfield3;
@@ -22,6 +22,7 @@ class HcgAdditionalData extends XmlNodeDefaults implements XmlConvertibleNode
     private $nfield7;
 
     public function __construct(
+        Param $rgProfileId,
         Param $xfield1,
         Param $xfield2,
         Param $xfield3,
@@ -34,23 +35,24 @@ class HcgAdditionalData extends XmlNodeDefaults implements XmlConvertibleNode
         Param $nfield6,
         Param $nfield7
     ) {
-
-        $this->xfield1 = $xfield1;
-        $this->xfield2 = $xfield2;
-        $this->xfield3 = $xfield3;
-        $this->xfield4 = $xfield4;
-        $this->nfield1 = $nfield1;
-        $this->nfield2 = $nfield2;
-        $this->nfield3 = $nfield3;
-        $this->nfield4 = $nfield4;
-        $this->nfield5 = $nfield5;
-        $this->nfield6 = $nfield6;
-        $this->nfield7 = $nfield7;
+        $this->rgProfileId = $rgProfileId;
+        $this->xfield1     = $xfield1;
+        $this->xfield2     = $xfield2;
+        $this->xfield3     = $xfield3;
+        $this->xfield4     = $xfield4;
+        $this->nfield1     = $nfield1;
+        $this->nfield2     = $nfield2;
+        $this->nfield3     = $nfield3;
+        $this->nfield4     = $nfield4;
+        $this->nfield5     = $nfield5;
+        $this->nfield6     = $nfield6;
+        $this->nfield7     = $nfield7;
     }
 
     public function xmlChildren()
     {
         return [
+            $this->rgProfileId,
             $this->xfield1,
             $this->xfield2,
             $this->xfield3,

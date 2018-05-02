@@ -76,6 +76,7 @@ class OrderFactory
             $browser
         );
         $hcgAdditionalData = new HcgAdditionalData(
+            new Param(new Name('rgProfileId'), new ParamValue(201477)),
             new Param(new Name('xField1'), new ParamValue('UK Next Day')),
             new Param(new Name('xField2'), new ParamValue('High')),
             new Param(new Name('xField3'), new ParamValue('dresses,knitwear')),
@@ -145,6 +146,7 @@ class OrderFactory
         </browser>
       </shopper>
       <hcgAdditionalData>
+    │     <param name="rgProfileId">201477</param>
     │     <param name="xField1">UK Next Day</param>
     │     <param name="xField2">High</param>
     │     <param name="xField3">dresses,knitwear</param>
@@ -191,6 +193,7 @@ XML;
             'userAgentHeader' => 'Mozilla/5.0',
             'dynamic3DS' => true,
             'dynamic3DSOverride' => false,
+            'rgProfileId'      => 201477,
             'shippingMethod'      => 'UK Next Day',
             'checkoutMethod'      => 'Registered',
             'ageOfAccount'        => 4.5678,

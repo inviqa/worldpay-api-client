@@ -58,7 +58,18 @@ class AuthorizeRequestFactory
         'acceptHeader' => "",
         'userAgentHeader' => "",
         'dynamic3DS' => false,
-        'highRisk' => false
+        'rgProfileId'         => "",
+        'shippingMethod'      => "",
+        'checkoutMethod'      => "",
+        'ageOfAccount'        => "",
+        'timeSinceLastOrder'  => "",
+        'numberPurchases'     => "",
+        'productRisk'         => false,
+        'productType'         => "",
+        'numberStyles'        => "",
+        'numberSkus'          => "",
+        'numberUnits'         => "",
+        'numberHighRiskUnits' => "",
     ];
 
     public function buildFromRequestParameters(array $parameters): PaymentService
@@ -101,6 +112,7 @@ class AuthorizeRequestFactory
         );
 
         $hcgAdditionalData = new HcgAdditionalData(
+            new Param(new Name('rgProfileId'), new ParamValue($parameters['rgProfileId'])),
             new Param(new Name('xField1'), new ParamValue($parameters['shippingMethod'])),
             new Param(new Name('xField2'), new ParamValue($parameters['productRisk'] ? 'High' : 'normal')),
             new Param(new Name('xField3'), new ParamValue($parameters['productType'])),
