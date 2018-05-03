@@ -54,6 +54,7 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $writer->startElement('browser')->shouldBeCalled();
         $writer->startElement('acceptHeader')->shouldBeCalled();
         $writer->startElement('userAgentHeader')->shouldBeCalled();
+        $writer->startElement('shippingAddress')->shouldBeCalled();
         $writer->startElement('dynamic3DS')->shouldBeCalled();
         $writer->startAttribute('overrideAdvice')->shouldBeCalled();
         $writer->startElement('hcgAdditionalData')->shouldBeCalled();
@@ -70,13 +71,20 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $writer->write("eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiMSIsImNvbS53b3JsZHBheS5hcGlWZXJzaW9uIjoiMS4wIiwiY29tLndvcmxkcGF5LmxpYlZlcnNpb24iOiIxLjAuMSIsImNvbS53b3JsZHBheS5jaGFubmVsIjoiamF2YXNjcmlwdCJ9.dKfhn7pnZKfMA4Sy8ODL30o0IAsJgGkYqgaObvWpahlhW2owo-Y3xwyeXc82_kd4UJ-UN4VNxJPuENYCNEa0iq4WE_vSMiBV9d_vZK91e-lJvpHqtucc9HI0T7fh5t7-QU0qhkLj_06W57hE3-HkKhI8-ZfOLbxN0XsQk7ZFpCrK4MT-IPJTk4Twrk2b9eAbnRuTMT-mFNh8lFeZZLp42FaTuLuchPGh1SqE3ln_1oUQppnm8mYkKWNgZlY3pjFpmJFlyrhK-7y-OxVz_FtKpd79fyxtAY1nLB_WO_gmAwFVGOnKwvdsTk_FDVPZ8lRe3LRLJ7pc9gzmw8oyH1gSRQ.dTOinx-7v0pFKvhA.8ZLx2l-HUrG6rFKOqELSyCNXw69CAEvY2F1xRoSiKtiHrxvmdBs5Wz_VPwjnYEEyhf-1Brioyq6A9O0NZZgmAMwk7GBbSKmxzoszbZ-ItSRumG714iDuQ0mqAYPPkq3bxY4mNavPreBXp7eXNg.IVkvoJ3Z2iH-6XgUMDR2LQ")
             ->shouldBeCalled();
         $writer->write("47A")->shouldBeCalled();
+        $writer->write("7")->shouldBeCalled();
         $writer->write("Queensbridge Road")->shouldBeCalled();
+        $writer->write("Crisswell Close")->shouldBeCalled();
         $writer->write("Suburbia")->shouldBeCalled();
+        $writer->write("Crownhill")->shouldBeCalled();
         $writer->write("CB94BQ")->shouldBeCalled();
+        $writer->write("PA16 0XA")->shouldBeCalled();
         $writer->write("Cambridge")->shouldBeCalled();
+        $writer->write("Milton Keynes")->shouldBeCalled();
         $writer->write("Cambridgeshire")->shouldBeCalled();
+        $writer->write("Bucks")->shouldBeCalled();
         $writer->write("GB")->shouldBeCalled();
         $writer->write("07426000000")->shouldBeCalled();
+        $writer->write("07426111111")->shouldBeCalled();
         $writer->write("123.123.123.123")->shouldBeCalled();
         $writer->write("0215ui8ib1")->shouldBeCalled();
         $writer->write("lpanainte+test@inviqa.com")->shouldBeCalled();

@@ -8,6 +8,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynami
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\HcgAdditionalData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\ShippingAddress;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
@@ -19,6 +20,7 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
     private $amount;
     private $paymentDetails;
     private $shopper;
+    private $shippingAddress;
     private $hcgAdditionalData;
     private $dynamic3DS;
 
@@ -46,6 +48,14 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
         return $instance;
     }
 
+    public function withShippingAddress(ShippingAddress $shippingAddress): self
+    {
+        $instance = clone $this;
+        $instance->shippingAddress = $shippingAddress;
+
+        return $instance;
+    }
+
     public function xmlChildren()
     {
         return [
@@ -54,6 +64,7 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
             $this->amount,
             $this->paymentDetails,
             $this->shopper,
+            $this->shippingAddress,
             $this->hcgAdditionalData,
             $this->dynamic3DS,
         ];

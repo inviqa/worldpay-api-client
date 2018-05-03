@@ -2,6 +2,7 @@
 
 namespace Services;
 
+use Inviqa\Worldpay\Api\Exception\InvalidRequestParameterException;
 use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Request\PaymentService\MerchantCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit;
@@ -21,6 +22,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\AddressOne;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\AddressThree;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\AddressTwo;
@@ -31,6 +33,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Paymen
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\TelephoneNumber;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\EncryptedData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\Session;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\ShippingAddress;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\Browser;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\ThreeDS\Order\Info3DSecure;
@@ -39,6 +42,11 @@ use Inviqa\Worldpay\Api\XmlConvertibleNode;
 
 class OrderFactory
 {
+    /**
+     * @return XmlConvertibleNode
+     *
+     * @throws InvalidRequestParameterException
+     */
     public static function simpleCsePaymentService(): XmlConvertibleNode
     {
         $orderCode = new OrderCode("order-ecomm-test-03");
@@ -101,12 +109,29 @@ class OrderFactory
             $hcgAdditionalData
         );
 
+        $order = $order->withDynamic3DS(
+            new Dynamic3DS(new OverrideAdvice("no3DS"))
+        );
+
+        $order = $order->withShippingAddress(
+            new ShippingAddress(
+                new Address(
+                    new AddressOne('7'),
+                    new AddressTwo('Crisswell Close'),
+                    new AddressThree('Crownhill'),
+                    new PostalCode('PA16 0XA'),
+                    new City('Milton Keynes'),
+                    new State('Bucks'),
+                    new CountryCode('GB'),
+                    new TelephoneNumber("07426111111")
+                )
+            )
+        );
+
         $paymentService = new PaymentService(
             new Version("1.4"),
             new MerchantCode("SESSIONECOM"),
-            new Submit($order->withDynamic3DS(
-                new Dynamic3DS(new OverrideAdvice("no3DS"))
-            ))
+            new Submit($order)
         );
 
         return $paymentService;
@@ -147,6 +172,19 @@ class OrderFactory
           <userAgentHeader>Mozilla/5.0</userAgentHeader>
         </browser>
       </shopper>
+      <shippingAddress>
+        <address>
+          <address1>7</address1>
+          <address2>Crisswell Close</address2>
+          <address3>Crownhill</address3>
+          <postalCode>PA16 0XA</postalCode>
+          <city>Milton Keynes</city>
+          <state>Bucks</state>
+          <countryCode>GB</countryCode>
+          <telephoneNumber>07426111111</telephoneNumber>
+        </address>
+      </shippingAddress>   
+           
       <hcgAdditionalData>
         <param name="rgProfileId">201477</param>
         <param name="xField1">UK Next Day</param>
@@ -207,6 +245,16 @@ XML;
             'numberUnits'         => 3,
             'numberHighRiskUnits' => 1,
             'dynamic3DS' => true,
+            'shippingAddress' => [
+                'address1' => '7',
+                'address2' => 'Crisswell Close',
+                'address3' => 'Crownhill',
+                'postalCode' => 'PA16 0XA',
+                'city' => 'Milton Keynes',
+                'state' => 'Bucks',
+                'countryCode' => 'GB',
+                'telephoneNumber' => '07426111111',
+            ],
         ];
     }
 
