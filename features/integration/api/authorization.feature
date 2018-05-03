@@ -250,4 +250,5 @@ Feature: A payment authorization request is made against the Worldpay payment ga
   </order>
  </submit>
 </paymentService>
+
 """

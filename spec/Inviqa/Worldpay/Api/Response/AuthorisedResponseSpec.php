@@ -9,6 +9,7 @@ use PhpSpec\ObjectBehavior;
 class AuthorisedResponseSpec extends ObjectBehavior
 {
     const XML = "<reply><orderStatus orderCode=\"order-ecomm-test-123\"><lastEvent>AUTHORISED</lastEvent></orderStatus></reply>";
+    const REQUEST_XML = "<foo><bar></bar></foo>";
     const XML_3DS = "<reply><orderStatus orderCode=\"order-ecomm-test-123\"><request3DSecure><paRequest>abc</paRequest><issuerURL><![CDATA[localhost]]></issuerURL></request3DSecure></orderStatus></reply>";
     const ERROR_XML = "<reply><error code=\"" . self::ERROR_CODE . "\"><![CDATA[" . self::ERROR_MSG . "]]></error></reply>";
     const ERROR_MSG = "An internal CSE service error has occurred.";
@@ -16,7 +17,10 @@ class AuthorisedResponseSpec extends ObjectBehavior
 
     function it_returns_the_response_details_when_the_last_event_is_authorised()
     {
-        $this->beConstructedWith(HttpResponse::fromContentAndCookie(self::XML, "foo:bar"));
+        $this->beConstructedWith(
+            HttpResponse::fromContentAndCookie(self::XML, "foo:bar"),
+            self::REQUEST_XML
+        );
 
         $this->isSuccessful()->shouldReturn(true);
         $this->rawXml()->shouldReturn(self::XML);
@@ -26,7 +30,10 @@ class AuthorisedResponseSpec extends ObjectBehavior
 
     function it_returns_the_error_code_and_message()
     {
-        $this->beConstructedWith(HttpResponse::fromContentAndCookie(self::ERROR_XML));
+        $this->beConstructedWith(
+            HttpResponse::fromContentAndCookie(self::ERROR_XML),
+            self::REQUEST_XML
+        );
 
         $this->errorCode()->shouldReturn(self::ERROR_CODE);
         $this->errorMessage()->shouldReturn(self::ERROR_MSG);
@@ -35,7 +42,10 @@ class AuthorisedResponseSpec extends ObjectBehavior
 
     function it_returns_3dsecure_data_when_the_response_contains_the_request3DSecure_node()
     {
-        $this->beConstructedWith(HttpResponse::fromContentAndCookie(self::XML_3DS));
+        $this->beConstructedWith(
+            HttpResponse::fromContentAndCookie(self::XML_3DS),
+            self::REQUEST_XML
+        );
 
         $this->is3DSecure()->shouldReturn(true);
         $this->isSuccessful()->shouldReturn(false);

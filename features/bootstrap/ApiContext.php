@@ -273,7 +273,7 @@ class ApiContext implements Context
      */
     public function theRawRequestShouldMatchTheFollowingXml(PyStringNode $xml)
     {
-        Assert::eq($this->response->rawRequestXml(), $xml);
+        Assert::eq($this->response->rawRequestXml(), (string) $xml);
     }
 
     private function paramsWithBooleanFlags(array $paymentParameters): array
