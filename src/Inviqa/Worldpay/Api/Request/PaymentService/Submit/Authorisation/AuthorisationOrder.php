@@ -19,8 +19,8 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
     private $amount;
     private $paymentDetails;
     private $shopper;
-    private $dynamic3DS;
     private $hcgAdditionalData;
+    private $dynamic3DS;
 
     public function __construct(
         OrderCode $orderCode,
@@ -54,8 +54,8 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
             $this->amount,
             $this->paymentDetails,
             $this->shopper,
-            $this->dynamic3DS,
             $this->hcgAdditionalData,
+            $this->dynamic3DS,
         ];
     }
 

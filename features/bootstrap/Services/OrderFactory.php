@@ -78,6 +78,7 @@ class OrderFactory
             $browser
         );
         $hcgAdditionalData = new HcgAdditionalData(
+            new Param(new Name('rgProfileId'), new ParamValue(201477)),
             new Param(new Name('xField1'), new ParamValue('UK Next Day')),
             new Param(new Name('xField2'), new ParamValue('High')),
             new Param(new Name('xField3'), new ParamValue('dresses knitwear')),
@@ -147,17 +148,18 @@ class OrderFactory
         </browser>
       </shopper>
       <hcgAdditionalData>
-         <param name="xField1">UK Next Day</param>
-         <param name="xField2">High</param>
-         <param name="xField3">dresses knitwear</param>
-         <param name="xField4">Registered</param>
-         <param name="nField1">4.5678</param>
-         <param name="nField2">3.4567</param>
-         <param name="nField3">5</param>
-         <param name="nField4">2</param>
-         <param name="nField5">3</param>
-         <param name="nField6">3</param>
-         <param name="nField7">1</param>
+        <param name="rgProfileId">201477</param>
+        <param name="xField1">UK Next Day</param>
+        <param name="xField2">High</param>
+        <param name="xField3">dresses knitwear</param>
+        <param name="xField4">Registered</param>
+        <param name="nField1">4.5678</param>
+        <param name="nField2">3.4567</param>
+        <param name="nField3">5</param>
+        <param name="nField4">2</param>
+        <param name="nField5">3</param>
+        <param name="nField6">3</param>
+        <param name="nField7">1</param>
       </hcgAdditionalData>
     </order>
   </submit>
@@ -191,8 +193,8 @@ XML;
             'sessionId' => '0215ui8ib1',
             'acceptHeader' => 'text/html',
             'userAgentHeader' => 'Mozilla/5.0',
-            'dynamic3DS' => true,
             'dynamic3DSOverride' => false,
+            'rgProfileId'      => 201477,
             'shippingMethod'      => 'UK Next Day',
             'checkoutMethod'      => 'Registered',
             'ageOfAccount'        => 4.5678,
@@ -204,6 +206,7 @@ XML;
             'numberSkus'          => 3,
             'numberUnits'         => 3,
             'numberHighRiskUnits' => 1,
+            'dynamic3DS' => true,
         ];
     }
 
