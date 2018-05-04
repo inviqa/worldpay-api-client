@@ -70,7 +70,7 @@ class PaymentModifier
     {
         $paymentService = $this->captureRequestFactory->buildFromRequestParameters($paymentParameters);
 
-        return new CaptureResponse($this->makeRequest($paymentService));
+        return $this->makeRequest($paymentService, CaptureResponse::class);
     }
 
     /**
@@ -84,7 +84,7 @@ class PaymentModifier
     {
         $paymentService = $this->refundRequestFactory->buildFromRequestParameters($paymentParameters);
 
-        return new RefundResponse($this->makeRequest($paymentService));
+        return $this->makeRequest($paymentService, RefundResponse::class);
     }
 
     /**
@@ -98,23 +98,23 @@ class PaymentModifier
     {
         $paymentService = $this->cancelRequestFactory->buildFromRequestParameters($paymentParameters);
 
-        return new CancelResponse($this->makeRequest($paymentService));
+        return $this->makeRequest($paymentService, CancelResponse::class);
     }
 
     /**
      * @param $paymentService
      *
+     * @param string $responseClass
      * @return Client\HttpResponse
      * @throws ConnectionFailedException
      */
-    private function makeRequest($paymentService)
+    private function makeRequest($paymentService, string $responseClass)
     {
         try {
-            $httpResponse = $this->client->sendRequest(
-                $this->xmlNodeConverter->toXml($paymentService)
-            );
+            $requestXml = $this->xmlNodeConverter->toXml($paymentService);
+            $httpResponse = $this->client->sendRequest($requestXml);
 
-            return $httpResponse;
+            return new $responseClass($httpResponse, $requestXml);
         } catch (\Exception $e) {
             throw new ConnectionFailedException(
                 sprintf("Worldpay connection failure. Error message: %s", $e->getMessage())

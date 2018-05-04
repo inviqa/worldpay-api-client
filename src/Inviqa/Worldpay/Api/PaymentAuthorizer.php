@@ -31,7 +31,9 @@ class PaymentAuthorizer
      * @param array $paymentParameters
      *
      * @return AuthorisedResponse
+     *
      * @throws ConnectionFailedException
+     * @throws Exception\InvalidRequestParameterException
      */
     public function authorizePayment(array $paymentParameters): AuthorisedResponse
     {
@@ -44,6 +46,7 @@ class PaymentAuthorizer
      * @param array $paymentParameters
      *
      * @return AuthorisedResponse
+     *
      * @throws ConnectionFailedException
      * @throws Exception\InvalidRequestParameterException
      */

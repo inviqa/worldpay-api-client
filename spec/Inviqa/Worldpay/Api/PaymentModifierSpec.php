@@ -7,6 +7,7 @@ use Inviqa\Worldpay\Api\Request\CancelRequestFactory;
 use Inviqa\Worldpay\Api\Request\CaptureRequestFactory;
 use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Request\RefundRequestFactory;
+use Inviqa\Worldpay\Api\Response\CancelResponse;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\RefundResponse;
 use Inviqa\Worldpay\Api\XmlNodeConverter;
@@ -45,7 +46,7 @@ class PaymentModifierSpec extends ObjectBehavior
         $httpResponse = Client\HttpResponse::fromContentAndCookie($responseXml);
         $client->sendRequest($requestXml, null)->willReturn($httpResponse);
 
-        $this->capturePayment($requestParameters)->shouldBeLike(new CaptureResponse($httpResponse));
+        $this->capturePayment($requestParameters)->shouldBeLike(new CaptureResponse($httpResponse, $requestXml));
     }
 
     function it_delegates_building_of_a_refund_request_and_sending_it_to_the_client(
@@ -63,6 +64,24 @@ class PaymentModifierSpec extends ObjectBehavior
         $httpResponse = Client\HttpResponse::fromContentAndCookie($responseXml);
         $client->sendRequest($requestXml, null)->willReturn($httpResponse);
 
-        $this->refundPayment($requestParameters)->shouldBeLike(new RefundResponse($httpResponse));
+        $this->refundPayment($requestParameters)->shouldBeLike(new RefundResponse($httpResponse, $requestXml));
+    }
+
+    function it_delegates_building_of_a_cancel_request_and_sending_it_to_the_client(
+        CancelRequestFactory $cancelRequestFactory,
+        XmlNodeConverter $xmlNodeConverter,
+        Client $client,
+        PaymentService $paymentService
+    ) {
+        $requestParameters = ["foo" => "bar"];
+        $requestXml = "<foo>bar</foo>";
+        $responseXml = "<bar>foo</bar>";
+
+        $cancelRequestFactory->buildFromRequestParameters($requestParameters)->willReturn($paymentService);
+        $xmlNodeConverter->toXml($paymentService)->willReturn($requestXml);
+        $httpResponse = Client\HttpResponse::fromContentAndCookie($responseXml);
+        $client->sendRequest($requestXml, null)->willReturn($httpResponse);
+
+        $this->cancelPayment($requestParameters)->shouldBeLike(new CancelResponse($httpResponse, $requestXml));
     }
 }

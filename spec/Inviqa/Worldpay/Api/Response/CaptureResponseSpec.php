@@ -12,11 +12,12 @@ class CaptureResponseSpec extends ObjectBehavior
 
     function it_returns_the_response_details_for_a_capture_modify_request()
     {
-        $this->beConstructedWith(HttpResponse::fromContentAndCookie(self::XML, "foo:bar"));
+        $this->beConstructedWith(HttpResponse::fromContentAndCookie(self::XML, "foo:bar"), "<foo/>");
 
         $this->isSuccessful()->shouldReturn(true);
         $this->rawXml()->shouldReturn(self::XML);
         $this->orderCode()->shouldBeLike(new OrderCode("order-reiss-mar-15-1"));
         $this->machineCookie()->shouldReturn("foo:bar");
+        $this->rawRequestXml()->shouldReturn("<foo/>");
     }
 }

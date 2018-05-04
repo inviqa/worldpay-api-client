@@ -10,13 +10,12 @@ abstract class ModifiedResponse
     protected $machineCookie;
     protected $rawXml;
     protected $successful;
+    protected $requestXml;
 
-    /**
-     * @param HttpResponse $httpResponse
-     */
-    public function __construct(HttpResponse $httpResponse)
+    public function __construct(HttpResponse $httpResponse, string $requestXml)
     {
         $this->rawXml = $httpResponse->content();
+        $this->requestXml = $requestXml;
         $this->machineCookie = $httpResponse->cookie();
         $this->successful = false !== strpos($this->rawXml, "<ok>") ;
     }
@@ -29,6 +28,11 @@ abstract class ModifiedResponse
     public function rawXml()
     {
         return $this->rawXml;
+    }
+
+    public function rawRequestXml()
+    {
+        return $this->requestXml;
     }
 
     public function machineCookie()
