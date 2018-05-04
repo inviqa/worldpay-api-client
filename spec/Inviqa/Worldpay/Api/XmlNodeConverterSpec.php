@@ -110,7 +110,7 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $writer->write(3.4567)->shouldBeCalled();
         $writer->write(5)->shouldBeCalled();
         $writer->write("High")->shouldBeCalled();
-        $writer->write("dresses knitwear")->shouldBeCalled();
+        $writer->write("")->shouldBeCalled();
         $writer->write(2)->shouldBeCalled();
         $writer->write(3)->shouldBeCalled();
         $writer->write(3)->shouldBeCalled();
