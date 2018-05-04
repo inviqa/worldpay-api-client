@@ -2,6 +2,7 @@
 
 namespace Inviqa\Worldpay\Api\Request;
 
+use Inviqa\Worldpay\Api\Exception\InvalidRequestParameterException;
 use Inviqa\Worldpay\Api\Request\PaymentService\MerchantCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\AuthorisationOrder;
@@ -30,6 +31,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Paymen
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\TelephoneNumber;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\EncryptedData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\Session;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\ShippingAddress;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\Browser;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
@@ -58,22 +60,42 @@ class AuthorizeRequestFactory
         'acceptHeader' => "",
         'userAgentHeader' => "",
         'dynamic3DS' => false,
-        'rgProfileId'         => "",
-        'shippingMethod'      => "",
-        'checkoutMethod'      => "",
-        'ageOfAccount'        => "",
-        'timeSinceLastOrder'  => "",
-        'numberPurchases'     => "",
-        'productRisk'         => false,
-        'productType'         => "",
-        'numberStyles'        => "",
-        'numberSkus'          => "",
-        'numberUnits'         => "",
+        'rgProfileId' => "",
+        'shippingMethod' => "",
+        'checkoutMethod' => "",
+        'ageOfAccount' => "",
+        'timeSinceLastOrder' => "",
+        'numberPurchases' => "",
+        'productRisk' => false,
+        'productType' => "",
+        'numberStyles' => "",
+        'numberSkus' => "",
+        'numberUnits' => "",
         'numberHighRiskUnits' => "",
+        'shippingAddress' => null,
     ];
 
+    private $defaultAddressParameters = [
+        'address1' => "",
+        'address2' => "",
+        'address3' => "",
+        'postalCode' => "",
+        'city' => "",
+        'state' => "",
+        'countryCode' => "",
+    ];
+
+    /**
+     * @param array $parameters
+     * @return PaymentService
+     *
+     * @throws InvalidRequestParameterException
+     */
     public function buildFromRequestParameters(array $parameters): PaymentService
     {
+        if (!empty($parameters['shippingAddress'])) {
+            $parameters['shippingAddress'] += $this->defaultAddressParameters;
+        }
         $parameters += $this->defaultParameters;
 
         $orderCode = new OrderCode($parameters['orderCode']);
@@ -138,6 +160,23 @@ class AuthorizeRequestFactory
             $shopper,
             $hcgAdditionalData
         );
+
+        if ($shippingAddress = $parameters['shippingAddress']) {
+            $order = $order->withShippingAddress(
+                new ShippingAddress(
+                    new CardAddress\Address(
+                        new AddressOne($shippingAddress['address1']),
+                        new AddressTwo($shippingAddress['address2']),
+                        new AddressThree($shippingAddress['address3']),
+                        new PostalCode($shippingAddress['postalCode']),
+                        new City($shippingAddress['city']),
+                        new State($shippingAddress['state']),
+                        new CountryCode($shippingAddress['countryCode']),
+                        new TelephoneNumber($shippingAddress['telephoneNumber'])
+                    )
+                )
+            );
+        }
 
         if ($parameters['dynamic3DS']) {
             $dynamic3DSOverride = $parameters['dynamic3DSOverride'] ? "do3DS" : "no3DS";

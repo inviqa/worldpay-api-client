@@ -1,6 +1,7 @@
 <?php
 
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\CancelResponse;
@@ -35,9 +36,27 @@ class ApiContext implements Context
      */
     public function iAuthorizeTheFollowingPayment(TableNode $table)
     {
-        $this->response = $this->application->authorizePayment(
-            $this->paramsWithBooleanFlags($table->getRowsHash())
-        );
+        $params = $this->paramsWithBooleanFlags($table->getRowsHash());
+
+        if (!empty($params['shippingAddress'])) {
+            $address = explode(',', $params['shippingAddress']);
+            $params['shippingAddress'] = [];
+
+            if (count($address) != 8) {
+                throw new InvalidArgumentException("A shipping address must contain exactly 7 elements");
+            }
+
+            $params['shippingAddress']['address1'] = $address[0];
+            $params['shippingAddress']['address2'] = $address[1];
+            $params['shippingAddress']['address3'] = $address[2];
+            $params['shippingAddress']['postalCode'] = $address[3];
+            $params['shippingAddress']['city'] = $address[4];
+            $params['shippingAddress']['state'] = $address[5];
+            $params['shippingAddress']['countryCode'] = $address[6];
+            $params['shippingAddress']['telephoneNumber'] = $address[7];
+        }
+
+        $this->response = $this->application->authorizePayment($params);
     }
 
     /**
@@ -249,6 +268,13 @@ class ApiContext implements Context
         Assert::isInstanceOf($this->response, CancelResponse::class);
     }
 
+    /**
+     * @Then the raw request should match the following xml:
+     */
+    public function theRawRequestShouldMatchTheFollowingXml(PyStringNode $xml)
+    {
+        Assert::eq($this->response->rawRequestXml(), (string) $xml);
+    }
 
     private function paramsWithBooleanFlags(array $paymentParameters): array
     {

@@ -32,13 +32,19 @@ class AuthorisedResponse
      */
     private $cardDetails = [];
 
-    public function __construct(HttpResponse $httpResponse)
+    /**
+     * @var string
+     */
+    private $requestXml;
+
+    public function __construct(HttpResponse $httpResponse, string $requestXml)
     {
         $this->rawXml = $httpResponse->content();
         $this->machineCookie = $httpResponse->cookie();
         $this->successful = $this->nodeValue("lastEvent") === "AUTHORISED";
         $this->orderCode = new OrderCode($this->nodeAttributeValue("orderStatus", "orderCode"));
         $this->setCardDetails();
+        $this->requestXml = $requestXml;
     }
 
     private function nodeValue(string $nodeName): string
@@ -67,6 +73,11 @@ class AuthorisedResponse
     public function rawXml()
     {
         return $this->rawXml;
+    }
+
+    public function rawRequestXml()
+    {
+        return $this->requestXml;
     }
 
     public function orderCode()
