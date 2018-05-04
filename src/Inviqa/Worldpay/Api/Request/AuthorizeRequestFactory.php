@@ -82,6 +82,7 @@ class AuthorizeRequestFactory
         'city' => "",
         'state' => "",
         'countryCode' => "",
+        'telephoneNumber' => "",
     ];
 
     /**
