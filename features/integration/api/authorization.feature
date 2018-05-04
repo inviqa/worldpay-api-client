@@ -183,6 +183,7 @@ Feature: A payment authorization request is made against the Worldpay payment ga
             | numberSkus          | 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
             | numberUnits         | 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
             | numberHighRiskUnits | 0                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+            | shippingAddress     | 7,Crisswell Close,Crownhill,PA16 0XA,Milton Keynes,Bucks,GB,07426111111                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
         Then I should receive an authorised response
         And the response should be successful
         And the response should reference the "77766633301" order code
@@ -220,6 +221,18 @@ Feature: A payment authorization request is made against the Worldpay payment ga
      <userAgentHeader>Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)</userAgentHeader>
     </browser>
    </shopper>
+   <shippingAddress>
+    <address>
+     <address1>7</address1>
+     <address2>Crisswell Close</address2>
+     <address3>Crownhill</address3>
+     <postalCode>PA16 0XA</postalCode>
+     <city>Milton Keynes</city>
+     <state>Bucks</state>
+     <countryCode>GB</countryCode>
+     <telephoneNumber>07426111111</telephoneNumber>
+    </address>
+   </shippingAddress>
    <hcgAdditionalData>
     <param name="rgProfileId">201477</param>
     <param name="xField1">UK Next Day</param>
