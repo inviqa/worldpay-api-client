@@ -35,6 +35,7 @@ class AuthorisedResponseSpec extends ObjectBehavior
             self::REQUEST_XML
         );
 
+        $this->isError()->shouldReturn(true);
         $this->errorCode()->shouldReturn(self::ERROR_CODE);
         $this->errorMessage()->shouldReturn(self::ERROR_MSG);
         $this->paRequestValue()->shouldReturn("");

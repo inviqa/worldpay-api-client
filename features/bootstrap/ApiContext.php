@@ -130,6 +130,16 @@ class ApiContext implements Context
     }
 
     /**
+     * @Then the response should be an error
+     */
+    public function theResponseShouldBeAnError()
+    {
+        if (!$this->response->isError()) {
+            throw new \Exception("Expected an error response, but didn't get one.");
+        }
+    }
+
+    /**
      * @Then the response should not be successful
      */
     public function theResponseShouldNotBeSuccessful()

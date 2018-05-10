@@ -70,6 +70,11 @@ class AuthorisedResponse
         return $this->successful;
     }
 
+    public function isError(): bool
+    {
+        return !empty($this->nodeValueFromCData("error"));
+    }
+
     public function rawXml()
     {
         return $this->rawXml;
