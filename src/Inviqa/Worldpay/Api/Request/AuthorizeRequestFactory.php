@@ -60,7 +60,7 @@ class AuthorizeRequestFactory
         'acceptHeader' => "",
         'userAgentHeader' => "",
         'dynamic3DS' => false,
-        'rgProfileId' => "",
+        'RGProfileID' => "",
         'shippingMethod' => "",
         'checkoutMethod' => "",
         'ageOfAccount' => "",
@@ -138,7 +138,7 @@ class AuthorizeRequestFactory
         );
 
         $hcgAdditionalData = new HcgAdditionalData(
-            new Param(new Name('rgProfileId'), new ParamValue($parameters['rgProfileId'])),
+            new Param(new Name('RGProfileID'), new ParamValue($parameters['RGProfileID'])),
             new Param(new Name('xField1'), new ParamValue($parameters['shippingMethod'])),
             new Param(new Name('xField2'), new ParamValue($parameters['productRisk'] ? 'High' : 'normal')),
             new Param(new Name('xField3'), new ParamValue('')),
