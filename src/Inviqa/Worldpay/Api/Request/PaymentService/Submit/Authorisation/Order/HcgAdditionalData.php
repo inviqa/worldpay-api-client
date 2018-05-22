@@ -8,7 +8,7 @@ use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
 class HcgAdditionalData extends XmlNodeDefaults implements XmlConvertibleNode
 {
-    private $rgProfileId;
+    private $rgProfileID;
     private $xfield1;
     private $xfield2;
     private $xfield3;
@@ -22,7 +22,7 @@ class HcgAdditionalData extends XmlNodeDefaults implements XmlConvertibleNode
     private $nfield7;
 
     public function __construct(
-        Param $rgProfileId,
+        Param $rgProfileID,
         Param $xfield1,
         Param $xfield2,
         Param $xfield3,
@@ -35,7 +35,7 @@ class HcgAdditionalData extends XmlNodeDefaults implements XmlConvertibleNode
         Param $nfield6,
         Param $nfield7
     ) {
-        $this->rgProfileId = $rgProfileId;
+        $this->rgProfileID = $rgProfileID;
         $this->xfield1     = $xfield1;
         $this->xfield2     = $xfield2;
         $this->xfield3     = $xfield3;
@@ -52,7 +52,7 @@ class HcgAdditionalData extends XmlNodeDefaults implements XmlConvertibleNode
     public function xmlChildren()
     {
         return [
-            $this->rgProfileId,
+            $this->rgProfileID,
             $this->xfield1,
             $this->xfield2,
             $this->xfield3,
