@@ -24,7 +24,7 @@ class RefundRequestFactory
         'exponent'         => "2",
         'amount'           => "",
         'debitCreditValue' => "",
-        'reference'        => "some reference",
+        'reference'        => "",
     ];
 
     public function buildFromRequestParameters(array $parameters): PaymentService
