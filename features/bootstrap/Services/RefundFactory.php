@@ -29,7 +29,7 @@ class RefundFactory
         );
 
         $orderCode          = new OrderCode("order-ecomm-test-03");
-        $reference          = new Reference('some reference');
+        $reference          = new Reference('Manually refunded by tim.webster@inviqa.com (User ID: 2525)');
         $refund             = new Refund($reference, $amount);
         $refundModification = new RefundModification($orderCode, $refund);
 
@@ -70,7 +70,7 @@ XML;
             'amount'           => '1500',
             'debitCreditValue' => 'credit',
             'exponent'         => '2',
-            'reference'        => 'some reference'
+            'reference'        => 'Manually refunded by tim.webster@inviqa.com (User ID: 2525)'
         ];
     }
 
