@@ -23,7 +23,7 @@ class PaymentAuthorizerSpec extends ObjectBehavior
         XmlNodeConverter $xmlNodeConverter,
         Client $client
     ) {
-        $this->beConstructedWith($authorizeRequestFactory,$threeDSRequestFactory, $xmlNodeConverter, $client);
+        $this->beConstructedWith($authorizeRequestFactory, $threeDSRequestFactory, $xmlNodeConverter, $client);
     }
 
     function it_delegates_building_of_a_request_and_sending_it_to_the_client(
@@ -40,7 +40,7 @@ class PaymentAuthorizerSpec extends ObjectBehavior
         $httpResponse = HttpResponse::fromContentAndCookie($responseXml, self::REQUEST_XML);
         $client->sendRequest(self::REQUEST_XML, null)->willReturn($httpResponse);
 
-        $this->authorizePayment($requestParameters)->shouldBeLike(new AuthorisedResponse($httpResponse, self::REQUEST_XML));
+        $this->authorizePayment($requestParameters)->shouldHaveRequestAndResponse(self::REQUEST_XML, $httpResponse);
     }
 
     function it_throws_a_connection_failed_exception_when_the_client_throws_an_exception(
@@ -69,9 +69,22 @@ class PaymentAuthorizerSpec extends ObjectBehavior
 
         $threeDSRequestFactory->buildFromRequestParameters($requestParameters)->willReturn($paymentService);
         $xmlNodeConverter->toXml($paymentService)->willReturn(self::REQUEST_XML);
-        $httpResponse = HttpResponse::fromContentAndCookie($responseXml,self::REQUEST_XML);
+        $httpResponse = HttpResponse::fromContentAndCookie($responseXml, self::REQUEST_XML);
         $client->sendRequest(self::REQUEST_XML, "cookie value")->willReturn($httpResponse);
 
-        $this->authorize3DSecure($requestParameters)->shouldBeLike(new AuthorisedResponse($httpResponse,self::REQUEST_XML));
+        $this->authorize3DSecure($requestParameters)->shouldHaveRequestAndResponse(self::REQUEST_XML, $httpResponse);
+    }
+
+    public function getMatchers(): array
+    {
+        return [
+            'haveRequestAndResponse' => function (
+                AuthorisedResponse $subject,
+                string $requestXml,
+                HttpResponse $response
+            ) {
+                return $subject->rawXml() === $response->content() && $subject->rawRequestXml() === $requestXml;
+            },
+        ];
     }
 }

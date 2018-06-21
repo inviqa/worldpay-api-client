@@ -4,6 +4,7 @@ namespace Inviqa\Worldpay\Api\Response;
 
 use Inviqa\Worldpay\Api\Client\HttpResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
+use SimpleXMLElement;
 
 class AuthorisedResponse
 {
@@ -11,6 +12,11 @@ class AuthorisedResponse
      * @var string
      */
     private $rawXml;
+
+    /**
+     * @var SimpleXMLElement
+     */
+    private $response;
 
     /**
      * @var string
@@ -40,6 +46,7 @@ class AuthorisedResponse
     public function __construct(HttpResponse $httpResponse, string $requestXml)
     {
         $this->rawXml = $httpResponse->content();
+        $this->response = new SimpleXMLElement($this->rawXml);
         $this->machineCookie = $httpResponse->cookie();
         $this->successful = $this->nodeValue("lastEvent") === "AUTHORISED";
         $this->orderCode = new OrderCode($this->nodeAttributeValue("orderStatus", "orderCode"));
@@ -58,11 +65,19 @@ class AuthorisedResponse
 
     private function nodeAttributeValue(string $nodeName, string $attributeName): string
     {
-        if (preg_match("~<$nodeName.*$attributeName=['\"]([^'\"]*)['\"]/?>~", $this->rawXml, $matches)) {
-            return $matches[1];
+        $matchedNodes = $this->response->xpath("//$nodeName");
+        $node = reset($matchedNodes);
+
+        if ($node) {
+            return (string) $node[$attributeName];
         }
 
         return '';
+    }
+
+    private function hasNode(string $nodeName): bool
+    {
+        return mb_strpos($this->rawXml, "<$nodeName>") !== false;
     }
 
     public function isSuccessful(): bool
@@ -141,9 +156,34 @@ class AuthorisedResponse
                 'creditCard' => [
                     'type' => $this->nodeValue('paymentMethod'),
                     "cardholderName" => $this->nodeValueFromCData('cardHolderName'),
-                    'number' => $this->nodeValue('cardNumber')
-                ]
+                    'number' => $this->nodeValue('cardNumber'),
+                ],
             ];
         }
+
+        if ($this->hasNode('paymentMethodDetail')) {
+            $this->cardDetails = array_merge_recursive(
+                $this->cardDetails,
+                [
+                    'creditCard' => [
+                        'expiryMonth' => $this->nodeAttributeValue('date', 'month'),
+                        'expiryYear' => $this->nodeAttributeValue('date', 'year'),
+                    ],
+                ]
+            );
+        }
+    }
+
+    /**
+     * @param string $nodeName
+     *
+     * @return null|SimpleXMLElement
+     */
+    private function findNodeByName(string $nodeName): ?SimpleXMLElement
+    {
+        $matchedNodes = $this->response->xpath("//$nodeName");
+        $node         = reset($matchedNodes);
+
+        return is_object($node) ? $node : null;
     }
 }
