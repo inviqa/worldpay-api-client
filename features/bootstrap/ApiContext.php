@@ -10,6 +10,7 @@ use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
 use Inviqa\Worldpay\Api\Response\RefundResponse;
 use Inviqa\Worldpay\Application;
 use Services\TestConfig;
+use Services\FakeClient;
 use Webmozart\Assert\Assert;
 
 class ApiContext implements Context
@@ -75,11 +76,13 @@ class ApiContext implements Context
     public function iShouldReceiveASuccessfulResponse()
     {
         if ($this->response !== self::VALID_RESPONSE) {
-            throw new InvalidArgumentException(sprintf(
-                "Invalid response.\nExpected '%s', got '%s'",
-                self::VALID_RESPONSE,
-                $this->response
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid response.\nExpected '%s', got '%s'",
+                    self::VALID_RESPONSE,
+                    $this->response
+                )
+            );
         }
     }
 
@@ -89,11 +92,13 @@ class ApiContext implements Context
     public function iShouldReceiveAnAuthorisedResponse()
     {
         if (!$this->response instanceof AuthorisedResponse) {
-            throw new InvalidArgumentException(sprintf(
-                "Invalid response type.\nExpected '%s'\nActual '%s'",
-                AuthorisedResponse::class,
-                gettype($this->response)
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Invalid response type.\nExpected '%s'\nActual '%s'",
+                    AuthorisedResponse::class,
+                    gettype($this->response)
+                )
+            );
         }
     }
 
@@ -103,11 +108,13 @@ class ApiContext implements Context
     public function theResponseShouldReferenceTheOrderCode(OrderCode $orderCode)
     {
         if (!$orderCode->equals($this->response->orderCode())) {
-            throw new InvalidArgumentException(sprintf(
-                "The response doesn't reference the expected order code.\nExpected '%s'\nActual '%s'",
-                $orderCode,
-                $this->response->orderCode()
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    "The response doesn't reference the expected order code.\nExpected '%s'\nActual '%s'",
+                    $orderCode,
+                    $this->response->orderCode()
+                )
+            );
         }
     }
 
@@ -127,6 +134,27 @@ class ApiContext implements Context
         if (!$this->response->isSuccessful()) {
             throw new \Exception("Expected a successful response, but got an unsuccessful one.");
         }
+    }
+
+    /**
+     * @Then the response should contain :month as card expiry month and :year as card expiry year
+     */
+    public function theResponseShouldContainCardExpiryInformation($month, $year)
+    {
+        $cardDetails = $this->response->cardDetails();
+
+        $this->assertCardAttributeExist(
+            'expiryMonth',
+            $cardDetails,
+            'Card expiry month is empty.'
+        );
+        $this->assertCardAttributeExist(
+            'expiryYear',
+            $cardDetails,
+            'Card expiry year is empty.'
+        );
+        $this->assertCardAttributeMatches('expiryMonth', $month, $cardDetails);
+        $this->assertCardAttributeMatches('expiryYear', $year, $cardDetails);
     }
 
     /**
@@ -155,11 +183,13 @@ class ApiContext implements Context
     public function theResponseErrorMessageShouldBe($message)
     {
         if ($this->response->errorMessage() !== $message) {
-            throw new InvalidArgumentException(sprintf(
-                "The response doesn't reference the correct error message.\nExpected '%s'\nActual '%s'",
-                $message,
-                $this->response->errorMessage()
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    "The response doesn't reference the correct error message.\nExpected '%s'\nActual '%s'",
+                    $message,
+                    $this->response->errorMessage()
+                )
+            );
         }
     }
 
@@ -169,14 +199,15 @@ class ApiContext implements Context
     public function theResponseErrorCodeShouldBe($code)
     {
         if ($this->response->errorCode() !== $code) {
-            throw new InvalidArgumentException(sprintf(
-                "The response doesn't reference the correct error code.\nExpected '%s'\nActual '%s'",
-                $code,
-                $this->response->errorCode()
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    "The response doesn't reference the correct error code.\nExpected '%s'\nActual '%s'",
+                    $code,
+                    $this->response->errorCode()
+                )
+            );
         }
     }
-
 
     /**
      * @Then I should receive a 3d secure response
@@ -206,11 +237,13 @@ class ApiContext implements Context
     public function theResponseShouldReferenceTheFollowingIssuerurl($url)
     {
         if ($this->response->issuerURL() !== $url) {
-            throw new InvalidArgumentException(sprintf(
-                "The response doesn't reference the expected issuer URL.\nExpected '%s'\nActual '%s'",
-                $url,
-                $this->response->issuerURL()
-            ));
+            throw new InvalidArgumentException(
+                sprintf(
+                    "The response doesn't reference the expected issuer URL.\nExpected '%s'\nActual '%s'",
+                    $url,
+                    $this->response->issuerURL()
+                )
+            );
         }
     }
 
@@ -283,7 +316,15 @@ class ApiContext implements Context
      */
     public function theRawRequestShouldMatchTheFollowingXml(PyStringNode $xml)
     {
-        Assert::eq($this->response->rawRequestXml(), (string) $xml);
+        Assert::eq($this->response->rawRequestXml(), (string)$xml);
+    }
+
+    /**
+     * @Given worldpay merchant account is configured to return card details
+     */
+    public function wordldpayMerchantAccountIsConfiguredToReturnCardDetails()
+    {
+        FakeClient::enableCardDetails();
     }
 
     private function paramsWithBooleanFlags(array $paymentParameters): array
@@ -299,5 +340,40 @@ class ApiContext implements Context
         }
 
         return $paymentParameters;
+    }
+
+    /**
+     * @param string $attributeName
+     * @param array $cardDetails
+     * @param string $message
+     *
+     * @throws Exception
+     */
+    private function assertCardAttributeExist(string $attributeName, array $cardDetails, string $message): void
+    {
+        if (empty($cardDetails['creditCard'][$attributeName])) {
+            throw new \Exception($message);
+        }
+    }
+
+    /**
+     * @param string $attributeName
+     * @param mixed $expectedValue
+     * @param array $cardDetails
+     *
+     * @throws Exception
+     */
+    private function assertCardAttributeMatches(string $attributeName, $expectedValue, array $cardDetails): void
+    {
+        if ($expectedValue !== $cardDetails['creditCard'][$attributeName]) {
+            throw new \Exception(
+                sprintf(
+                    'Expected to get "%s" value "%s", but got "%s".',
+                    $attributeName,
+                    $expectedValue,
+                    $cardDetails['creditCard'][$attributeName]
+                )
+            );
+        }
     }
 }

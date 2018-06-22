@@ -7,9 +7,14 @@ use Inviqa\Worldpay\Api\Client\HttpResponse;
 
 class FakeClient implements Client
 {
+    /**
+     * @var bool
+     */
+    private static $isCardDetailsEnabled = false;
+
     public function sendRequest(string $xml, string $cookie = null)
     {
-        if (strstr($xml, "trigger-an-error") !== FALSE) {
+        if (strstr($xml, "trigger-an-error") !== false) {
             return HttpResponse::fromContentAndCookie(
                 OrderFactory::cseResponseXmlWithError(
                     "5",
@@ -18,7 +23,7 @@ class FakeClient implements Client
             );
         }
 
-        if (strstr($xml, "trigger-refused-event") !== FALSE) {
+        if (strstr($xml, "trigger-refused-event") !== false) {
             return HttpResponse::fromContentAndCookie(
                 OrderFactory::cseResponseXmlWithRefusedError()
             );
@@ -26,27 +31,34 @@ class FakeClient implements Client
 
         $orderCode = $this->nodeAttributeValueFromXml("order", "orderCode", $xml);
 
-        if (strstr($xml, 'dynamic3DS overrideAdvice="do3DS"') !== FALSE) {
+        if (strstr($xml, 'dynamic3DS overrideAdvice="do3DS"') !== false) {
             return HttpResponse::fromContentAndCookie(OrderFactory::cse3DSResponseXMl($orderCode));
         }
 
-        if (strstr($xml, "<capture>") !== FALSE) {
+        if (strstr($xml, "<capture>") !== false) {
             return HttpResponse::fromContentAndCookie(
                 CaptureFactory::cseCaptureResponseXmlForOrderCode($orderCode),
                 "machine:123"
             );
         }
 
-        if (strstr($xml, "</refund>") !== FALSE) {
+        if (strstr($xml, "</refund>") !== false) {
             return HttpResponse::fromContentAndCookie(
                 RefundFactory::cseRefundResponseXmlForOrderCode($orderCode),
                 "machine:123"
             );
         }
 
-        if (strstr($xml, "</cancel>") !== FALSE) {
+        if (strstr($xml, "</cancel>") !== false) {
             return HttpResponse::fromContentAndCookie(
                 CancelFactory::cseCancelResponseXmlForOrderCode($orderCode),
+                "machine:123"
+            );
+        }
+
+        if (self::$isCardDetailsEnabled) {
+            return HttpResponse::fromContentAndCookie(
+                OrderFactory::cseResponseXmlForOrderCode($orderCode),
                 "machine:123"
             );
         }
@@ -55,6 +67,11 @@ class FakeClient implements Client
             OrderFactory::cseResponseXmlForOrderCode($orderCode),
             "machine:123"
         );
+    }
+
+    public static function enableCardDetails()
+    {
+        self::$isCardDetailsEnabled = true;
     }
 
     private function nodeAttributeValueFromXml(string $node, string $attr, string $xml): string

@@ -4,6 +4,7 @@ namespace Inviqa\Worldpay\Api\Response;
 
 use Inviqa\Worldpay\Api\Client\HttpResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
+use SimpleXMLElement;
 
 class AuthorisedResponse
 {
@@ -11,6 +12,11 @@ class AuthorisedResponse
      * @var string
      */
     private $rawXml;
+
+    /**
+     * @var SimpleXMLElement
+     */
+    private $response;
 
     /**
      * @var string
@@ -40,6 +46,7 @@ class AuthorisedResponse
     public function __construct(HttpResponse $httpResponse, string $requestXml)
     {
         $this->rawXml = $httpResponse->content();
+        $this->response = new SimpleXMLElement($this->rawXml, LIBXML_NOCDATA);
         $this->machineCookie = $httpResponse->cookie();
         $this->successful = $this->nodeValue("lastEvent") === "AUTHORISED";
         $this->orderCode = new OrderCode($this->nodeAttributeValue("orderStatus", "orderCode"));
@@ -49,8 +56,9 @@ class AuthorisedResponse
 
     private function nodeValue(string $nodeName): string
     {
-        if (preg_match("~$nodeName>([^<]+)</$nodeName~", $this->rawXml, $matches)) {
-            return $matches[1];
+        $node = $this->findNodeByName($nodeName);
+        if ($node) {
+            return (string)$node;
         }
 
         return '';
@@ -58,11 +66,17 @@ class AuthorisedResponse
 
     private function nodeAttributeValue(string $nodeName, string $attributeName): string
     {
-        if (preg_match("~<$nodeName.*$attributeName=['\"]([^'\"]*)['\"]/?>~", $this->rawXml, $matches)) {
-            return $matches[1];
+        $node = $this->findNodeByName($nodeName);
+        if ($node) {
+            return (string)$node[$attributeName];
         }
 
         return '';
+    }
+
+    private function hasNode(string $nodeName): bool
+    {
+        return count($this->response->xpath("//$nodeName")) > 0;
     }
 
     public function isSuccessful(): bool
@@ -72,7 +86,7 @@ class AuthorisedResponse
 
     public function isError(): bool
     {
-        return !empty($this->nodeValueFromCData("error"));
+        return !empty($this->nodeValue('error'));
     }
 
     public function rawXml()
@@ -97,31 +111,22 @@ class AuthorisedResponse
 
     public function errorMessage()
     {
-        return $this->nodeValueFromCData("error");
-    }
-
-    private function nodeValueFromCData(string $nodeName): string
-    {
-        if (preg_match("~${nodeName}[^>]*>\s*<!\[CDATA\[(.*?)\]\]>~", $this->rawXml, $matches)) {
-            return $matches[1];
-        }
-
-        return '';
+        return trim($this->nodeValue('error'));
     }
 
     public function is3DSecure(): bool
     {
-        return strstr($this->rawXml, "<request3DSecure>") !== false;
+        return $this->hasNode('request3DSecure');
     }
 
     public function paRequestValue(): string
     {
-        return $this->nodeValue("paRequest");
+        return $this->nodeValue('paRequest');
     }
 
     public function issuerURL(): string
     {
-        return $this->nodeValueFromCData("issuerURL");
+        return trim($this->nodeValue('issuerURL'));
     }
 
     public function machineCookie()
@@ -140,10 +145,35 @@ class AuthorisedResponse
             $this->cardDetails = [
                 'creditCard' => [
                     'type' => $this->nodeValue('paymentMethod'),
-                    "cardholderName" => $this->nodeValueFromCData('cardHolderName'),
-                    'number' => $this->nodeValue('cardNumber')
-                ]
+                    "cardholderName" => $this->nodeValue('cardHolderName'),
+                    'number' => $this->nodeValue('cardNumber'),
+                ],
             ];
         }
+
+        if ($this->hasNode('paymentMethodDetail')) {
+            $this->cardDetails = array_merge_recursive(
+                $this->cardDetails,
+                [
+                    'creditCard' => [
+                        'expiryMonth' => $this->nodeAttributeValue('date', 'month'),
+                        'expiryYear' => $this->nodeAttributeValue('date', 'year'),
+                    ],
+                ]
+            );
+        }
+    }
+
+    /**
+     * @param string $nodeName
+     *
+     * @return null|SimpleXMLElement
+     */
+    private function findNodeByName(string $nodeName): ?SimpleXMLElement
+    {
+        $matchedNodes = $this->response->xpath("//$nodeName");
+        $node = reset($matchedNodes);
+
+        return is_object($node) ? $node : null;
     }
 }
