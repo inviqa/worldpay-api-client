@@ -58,7 +58,7 @@ class AuthorisedResponse
     {
         $node = $this->findNodeByName($nodeName);
         if ($node) {
-            return (string)$node;
+            return trim($node);
         }
 
         return '';
@@ -152,15 +152,15 @@ class AuthorisedResponse
         }
 
         if ($this->hasNode('paymentMethodDetail')) {
-            $this->cardDetails = array_merge_recursive(
-                $this->cardDetails,
-                [
-                    'creditCard' => [
-                        'expiryMonth' => $this->nodeAttributeValue('date', 'month'),
-                        'expiryYear' => $this->nodeAttributeValue('date', 'year'),
-                    ],
-                ]
-            );
+            $this->cardDetails = [
+                'creditCard' => [
+                    'type' => $this->nodeAttributeValue('card', 'type'),
+                    'cardholderName' => $this->nodeValue('cardHolderName'),
+                    'number' => $this->nodeAttributeValue('card', 'number'),
+                    'expiryMonth' => $this->nodeAttributeValue('date', 'month'),
+                    'expiryYear' => $this->nodeAttributeValue('date', 'year'),
+                ],
+            ];
         }
     }
 
