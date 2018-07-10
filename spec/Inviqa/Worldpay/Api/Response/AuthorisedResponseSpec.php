@@ -20,7 +20,7 @@ class AuthorisedResponseSpec extends ObjectBehavior
   <reply>
     <orderStatus orderCode="ExampleOrder1">
       <payment>
-        <paymentMethod>creditcard</paymentMethod>
+        <paymentMethod>VISA-SSL</paymentMethod>
         <amount value="5000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
         <lastEvent>AUTHORISED</lastEvent>
         <AuthorisationId id="666"/> 
@@ -86,7 +86,7 @@ class AuthorisedResponseSpec extends ObjectBehavior
 
         $this->cardDetails()->shouldReturn([
             'creditCard' => [
-                'type' => 'creditcard',
+                'type' => 'VISA-SSL',
                 'cardholderName' => 'liviu',
                 'number' => '4444********1111',
             ]
@@ -102,7 +102,7 @@ class AuthorisedResponseSpec extends ObjectBehavior
 
         $this->cardDetails()->shouldReturn([
             'creditCard' => [
-                'type' => 'creditcard',
+                'type' => 'VISA-SSL',
                 'cardholderName' => 'liviu',
                 'number' => '4111********1111',
                 'expiryMonth' => '11',
