@@ -154,7 +154,7 @@ class AuthorisedResponse
         if ($this->hasNode('paymentMethodDetail')) {
             $this->cardDetails = [
                 'creditCard' => [
-                    'type' => $this->nodeAttributeValue('card', 'type'),
+                    'type' => $this->nodeValue('paymentMethod'),
                     'cardholderName' => $this->nodeValue('cardHolderName'),
                     'number' => $this->nodeAttributeValue('card', 'number'),
                     'expiryMonth' => $this->nodeAttributeValue('date', 'month'),
