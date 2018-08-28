@@ -9,61 +9,65 @@ use Inviqa\Worldpay\Api\XmlNodeDefaults;
 class HcgAdditionalData extends XmlNodeDefaults implements XmlConvertibleNode
 {
     private $rgProfileID;
-    private $xfield1;
-    private $xfield2;
-    private $xfield3;
-    private $xfield4;
-    private $nfield1;
-    private $nfield2;
-    private $nfield3;
-    private $nfield4;
-    private $nfield5;
-    private $nfield6;
-    private $nfield7;
+    private $shippingMethod;
+    private $productRisk;
+    private $productType;
+    private $checkoutMethod;
+    private $orderSource;
+    private $ageOfAccountDays;
+    private $timeSinceLastOrder;
+    private $numberOfPurchases;
+    private $numberOfStyles;
+    private $numberOfSkus;
+    private $numberOfUnits;
+    private $numberOfHighRiskUnits;
 
     public function __construct(
         Param $rgProfileID,
-        Param $xfield1,
-        Param $xfield2,
-        Param $xfield3,
-        Param $xfield4,
-        Param $nfield1,
-        Param $nfield2,
-        Param $nfield3,
-        Param $nfield4,
-        Param $nfield5,
-        Param $nfield6,
-        Param $nfield7
+        Param $shippingMethod,
+        Param $productRisk,
+        Param $productType,
+        Param $checkoutMethod,
+        Param $orderSource,
+        Param $ageOfAccountDays,
+        Param $timeSinceLastOrder,
+        Param $numberOfPurchases,
+        Param $numberOfStyles,
+        Param $numberOfSkus,
+        Param $numberOfUnits,
+        Param $numberOfHighRiskUnits
     ) {
         $this->rgProfileID = $rgProfileID;
-        $this->xfield1     = $xfield1;
-        $this->xfield2     = $xfield2;
-        $this->xfield3     = $xfield3;
-        $this->xfield4     = $xfield4;
-        $this->nfield1     = $nfield1;
-        $this->nfield2     = $nfield2;
-        $this->nfield3     = $nfield3;
-        $this->nfield4     = $nfield4;
-        $this->nfield5     = $nfield5;
-        $this->nfield6     = $nfield6;
-        $this->nfield7     = $nfield7;
+        $this->shippingMethod     = $shippingMethod;
+        $this->productRisk     = $productRisk;
+        $this->productType     = $productType;
+        $this->checkoutMethod     = $checkoutMethod;
+        $this->orderSource     = $orderSource;
+        $this->ageOfAccountDays     = $ageOfAccountDays;
+        $this->timeSinceLastOrder     = $timeSinceLastOrder;
+        $this->numberOfPurchases     = $numberOfPurchases;
+        $this->numberOfStyles     = $numberOfStyles;
+        $this->numberOfSkus     = $numberOfSkus;
+        $this->numberOfUnits     = $numberOfUnits;
+        $this->numberOfHighRiskUnits     = $numberOfHighRiskUnits;
     }
 
     public function xmlChildren()
     {
         return [
             $this->rgProfileID,
-            $this->xfield1,
-            $this->xfield2,
-            $this->xfield3,
-            $this->xfield4,
-            $this->nfield1,
-            $this->nfield2,
-            $this->nfield3,
-            $this->nfield4,
-            $this->nfield5,
-            $this->nfield6,
-            $this->nfield7,
+            $this->shippingMethod,
+            $this->productRisk,
+            $this->productType,
+            $this->checkoutMethod,
+            $this->orderSource,
+            $this->ageOfAccountDays,
+            $this->timeSinceLastOrder,
+            $this->numberOfPurchases,
+            $this->numberOfStyles,
+            $this->numberOfSkus,
+            $this->numberOfUnits,
+            $this->numberOfHighRiskUnits,
         ];
     }
 }
