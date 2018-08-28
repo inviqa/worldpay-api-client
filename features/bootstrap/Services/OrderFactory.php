@@ -28,6 +28,8 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Paymen
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\AddressTwo;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\City;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\CountryCode;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\FirstName;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\LastName;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\PostalCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\State;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\TelephoneNumber;
@@ -59,6 +61,8 @@ class OrderFactory
         $encryptedData = new EncryptedData("eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiMSIsImNvbS53b3JsZHBheS5hcGlWZXJzaW9uIjoiMS4wIiwiY29tLndvcmxkcGF5LmxpYlZlcnNpb24iOiIxLjAuMSIsImNvbS53b3JsZHBheS5jaGFubmVsIjoiamF2YXNjcmlwdCJ9.dKfhn7pnZKfMA4Sy8ODL30o0IAsJgGkYqgaObvWpahlhW2owo-Y3xwyeXc82_kd4UJ-UN4VNxJPuENYCNEa0iq4WE_vSMiBV9d_vZK91e-lJvpHqtucc9HI0T7fh5t7-QU0qhkLj_06W57hE3-HkKhI8-ZfOLbxN0XsQk7ZFpCrK4MT-IPJTk4Twrk2b9eAbnRuTMT-mFNh8lFeZZLp42FaTuLuchPGh1SqE3ln_1oUQppnm8mYkKWNgZlY3pjFpmJFlyrhK-7y-OxVz_FtKpd79fyxtAY1nLB_WO_gmAwFVGOnKwvdsTk_FDVPZ8lRe3LRLJ7pc9gzmw8oyH1gSRQ.dTOinx-7v0pFKvhA.8ZLx2l-HUrG6rFKOqELSyCNXw69CAEvY2F1xRoSiKtiHrxvmdBs5Wz_VPwjnYEEyhf-1Brioyq6A9O0NZZgmAMwk7GBbSKmxzoszbZ-ItSRumG714iDuQ0mqAYPPkq3bxY4mNavPreBXp7eXNg.IVkvoJ3Z2iH-6XgUMDR2LQ");
         $cardAddress = new CardAddress(
             new CardAddress\Address(
+                new FirstName("Tim"),
+                new LastName("Webster"),
                 new AddressOne("47A"),
                 new AddressTwo("Queensbridge Road"),
                 new AddressThree("Suburbia"),
@@ -87,17 +91,18 @@ class OrderFactory
         );
         $hcgAdditionalData = new HcgAdditionalData(
             new Param(new Name('RGProfileID'), new ParamValue(201477)),
-            new Param(new Name('xField1'), new ParamValue('UK Next Day')),
-            new Param(new Name('xField2'), new ParamValue('High')),
-            new Param(new Name('xField3'), new ParamValue('')),
-            new Param(new Name('xField4'), new ParamValue('Registered')),
-            new Param(new Name('nField1'), new ParamValue(4.5678)),
-            new Param(new Name('nField2'), new ParamValue(3.4567)),
-            new Param(new Name('nField3'), new ParamValue(5)),
-            new Param(new Name('nField4'), new ParamValue(2)),
-            new Param(new Name('nField5'), new ParamValue(3)),
-            new Param(new Name('nField6'), new ParamValue(3)),
-            new Param(new Name('nField7'), new ParamValue(1))
+            new Param(new Name('shippingMethod'), new ParamValue('UK Next Day')),
+            new Param(new Name('productRisk'), new ParamValue('High')),
+            new Param(new Name('productType'), new ParamValue('')),
+            new Param(new Name('checkoutMethod'), new ParamValue('Registered')),
+            new Param(new Name('orderSource'), new ParamValue('')),
+            new Param(new Name('ageOfAccountDays'), new ParamValue(4.5678)),
+            new Param(new Name('timeSinceLastOrder'), new ParamValue(3.4567)),
+            new Param(new Name('numberOfPurchases'), new ParamValue(5)),
+            new Param(new Name('numberOfStyles'), new ParamValue(2)),
+            new Param(new Name('numberOfSkus'), new ParamValue(3)),
+            new Param(new Name('numberOfUnits'), new ParamValue(3)),
+            new Param(new Name('numberOfHighRiskUnits'), new ParamValue(1))
         );
 
         $order = new AuthorisationOrder(
@@ -116,6 +121,8 @@ class OrderFactory
         $order = $order->withShippingAddress(
             new ShippingAddress(
                 new Address(
+                    new FirstName('Tim'),
+                    new LastName('Webster'),
                     new AddressOne('7'),
                     new AddressTwo('Crisswell Close'),
                     new AddressThree('Crownhill'),
@@ -152,6 +159,8 @@ class OrderFactory
           </encryptedData>
           <cardAddress>
             <address>
+              <firstName>Tim</firstName>
+              <lastName>Webster</lastName>
               <address1>47A</address1>
               <address2>Queensbridge Road</address2>
               <address3>Suburbia</address3>
@@ -174,6 +183,8 @@ class OrderFactory
       </shopper>
       <shippingAddress>
         <address>
+          <firstName>Tim</firstName>
+          <lastName>Webster</lastName>
           <address1>7</address1>
           <address2>Crisswell Close</address2>
           <address3>Crownhill</address3>
@@ -187,17 +198,18 @@ class OrderFactory
            
       <hcgAdditionalData>
         <param name="RGProfileID">201477</param>
-        <param name="xField1">UK Next Day</param>
-        <param name="xField2">High</param>
-        <param name="xField3"></param>
-        <param name="xField4">Registered</param>
-        <param name="nField1">4.5678</param>
-        <param name="nField2">3.4567</param>
-        <param name="nField3">5</param>
-        <param name="nField4">2</param>
-        <param name="nField5">3</param>
-        <param name="nField6">3</param>
-        <param name="nField7">1</param>
+        <param name="shippingMethod">UK Next Day</param>
+        <param name="productRisk">High</param>
+        <param name="productType"></param>
+        <param name="checkoutMethod">Registered</param>
+        <param name="orderSource"></param>
+        <param name="ageOfAccountDays">4.5678</param>
+        <param name="timeSinceLastOrder">3.4567</param>
+        <param name="numberOfPurchases">5</param>
+        <param name="numberOfStyles">2</param>
+        <param name="numberOfSkus">3</param>
+        <param name="numberOfUnits">3</param>
+        <param name="numberOfHighRiskUnits">1</param>
       </hcgAdditionalData>
     </order>
   </submit>
@@ -218,6 +230,8 @@ XML;
             'currencyCode' => 'GBP',
             'value' => '1500',
             'encryptedData' => 'eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiMSIsImNvbS53b3JsZHBheS5hcGlWZXJzaW9uIjoiMS4wIiwiY29tLndvcmxkcGF5LmxpYlZlcnNpb24iOiIxLjAuMSIsImNvbS53b3JsZHBheS5jaGFubmVsIjoiamF2YXNjcmlwdCJ9.dKfhn7pnZKfMA4Sy8ODL30o0IAsJgGkYqgaObvWpahlhW2owo-Y3xwyeXc82_kd4UJ-UN4VNxJPuENYCNEa0iq4WE_vSMiBV9d_vZK91e-lJvpHqtucc9HI0T7fh5t7-QU0qhkLj_06W57hE3-HkKhI8-ZfOLbxN0XsQk7ZFpCrK4MT-IPJTk4Twrk2b9eAbnRuTMT-mFNh8lFeZZLp42FaTuLuchPGh1SqE3ln_1oUQppnm8mYkKWNgZlY3pjFpmJFlyrhK-7y-OxVz_FtKpd79fyxtAY1nLB_WO_gmAwFVGOnKwvdsTk_FDVPZ8lRe3LRLJ7pc9gzmw8oyH1gSRQ.dTOinx-7v0pFKvhA.8ZLx2l-HUrG6rFKOqELSyCNXw69CAEvY2F1xRoSiKtiHrxvmdBs5Wz_VPwjnYEEyhf-1Brioyq6A9O0NZZgmAMwk7GBbSKmxzoszbZ-ItSRumG714iDuQ0mqAYPPkq3bxY4mNavPreBXp7eXNg.IVkvoJ3Z2iH-6XgUMDR2LQ',
+            'firstName' => 'Tim',
+            'lastName' => 'Webster',
             'address1' => '47A',
             'address2' => 'Queensbridge Road',
             'address3' => 'Suburbia',
@@ -235,6 +249,7 @@ XML;
             'RGProfileID'      => 201477,
             'shippingMethod'      => 'UK Next Day',
             'checkoutMethod'      => 'Registered',
+            'orderSource'      => '',
             'ageOfAccount'        => 4.5678,
             'timeSinceLastOrder'  => 3.4567,
             'numberPurchases'     => 5,
@@ -245,6 +260,8 @@ XML;
             'numberHighRiskUnits' => 1,
             'dynamic3DS' => true,
             'shippingAddress' => [
+                'firstName' => 'Tim',
+                'lastName' => 'Webster',
                 'address1' => '7',
                 'address2' => 'Crisswell Close',
                 'address3' => 'Crownhill',

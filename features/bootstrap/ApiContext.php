@@ -43,18 +43,20 @@ class ApiContext implements Context
             $address = explode(',', $params['shippingAddress']);
             $params['shippingAddress'] = [];
 
-            if (count($address) != 8) {
-                throw new InvalidArgumentException("A shipping address must contain exactly 7 elements");
+            if (count($address) != 10) {
+                throw new InvalidArgumentException("A shipping address must contain exactly 9 elements");
             }
 
-            $params['shippingAddress']['address1'] = $address[0];
-            $params['shippingAddress']['address2'] = $address[1];
-            $params['shippingAddress']['address3'] = $address[2];
-            $params['shippingAddress']['postalCode'] = $address[3];
-            $params['shippingAddress']['city'] = $address[4];
-            $params['shippingAddress']['state'] = $address[5];
-            $params['shippingAddress']['countryCode'] = $address[6];
-            $params['shippingAddress']['telephoneNumber'] = $address[7];
+            $params['shippingAddress']['firstName'] = $address[0];
+            $params['shippingAddress']['lastName'] = $address[1];
+            $params['shippingAddress']['address1'] = $address[2];
+            $params['shippingAddress']['address2'] = $address[3];
+            $params['shippingAddress']['address3'] = $address[4];
+            $params['shippingAddress']['postalCode'] = $address[5];
+            $params['shippingAddress']['city'] = $address[6];
+            $params['shippingAddress']['state'] = $address[7];
+            $params['shippingAddress']['countryCode'] = $address[8];
+            $params['shippingAddress']['telephoneNumber'] = $address[9];
         }
 
         $this->response = $this->application->authorizePayment($params);
