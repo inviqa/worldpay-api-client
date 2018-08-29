@@ -96,8 +96,6 @@ class AuthorizeRequestFactory
      */
     public function buildFromRequestParameters(array $parameters): PaymentService
     {
-        var_dump($parameters);
-
         if (!empty($parameters['shippingAddress'])) {
             $parameters['shippingAddress'] += $this->defaultAddressParameters;
         }
