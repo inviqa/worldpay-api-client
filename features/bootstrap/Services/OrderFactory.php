@@ -91,18 +91,18 @@ class OrderFactory
         );
         $hcgAdditionalData = new HcgAdditionalData(
             new Param(new Name('RGProfileID'), new ParamValue(201477)),
-            new Param(new Name('shippingMethod'), new ParamValue('UK Next Day')),
-            new Param(new Name('productRisk'), new ParamValue('High')),
-            new Param(new Name('productType'), new ParamValue('')),
-            new Param(new Name('checkoutMethod'), new ParamValue('Registered')),
-            new Param(new Name('orderSource'), new ParamValue('')),
-            new Param(new Name('ageOfAccountDays'), new ParamValue(4.5678)),
-            new Param(new Name('timeSinceLastOrder'), new ParamValue(3.4567)),
-            new Param(new Name('numberOfPurchases'), new ParamValue(5)),
-            new Param(new Name('numberOfStyles'), new ParamValue(2)),
-            new Param(new Name('numberOfSkus'), new ParamValue(3)),
-            new Param(new Name('numberOfUnits'), new ParamValue(3)),
-            new Param(new Name('numberOfHighRiskUnits'), new ParamValue(1))
+            new Param(new Name('xField1'), new ParamValue('UK Next Day')),
+            new Param(new Name('xField2'), new ParamValue('High')),
+            new Param(new Name('xField3'), new ParamValue('')),
+            new Param(new Name('xField4'), new ParamValue('Registered')),
+            new Param(new Name('xField5'), new ParamValue('')),
+            new Param(new Name('nField1'), new ParamValue(4.5678)),
+            new Param(new Name('nField2'), new ParamValue(3.4567)),
+            new Param(new Name('nField3'), new ParamValue(5)),
+            new Param(new Name('nField4'), new ParamValue(2)),
+            new Param(new Name('nField5'), new ParamValue(3)),
+            new Param(new Name('nField6'), new ParamValue(3)),
+            new Param(new Name('nField7'), new ParamValue(1))
         );
 
         $order = new AuthorisationOrder(
@@ -198,18 +198,18 @@ class OrderFactory
            
       <hcgAdditionalData>
         <param name="RGProfileID">201477</param>
-        <param name="shippingMethod">UK Next Day</param>
-        <param name="productRisk">High</param>
-        <param name="productType"></param>
-        <param name="checkoutMethod">Registered</param>
-        <param name="orderSource"></param>
-        <param name="ageOfAccountDays">4.5678</param>
-        <param name="timeSinceLastOrder">3.4567</param>
-        <param name="numberOfPurchases">5</param>
-        <param name="numberOfStyles">2</param>
-        <param name="numberOfSkus">3</param>
-        <param name="numberOfUnits">3</param>
-        <param name="numberOfHighRiskUnits">1</param>
+        <param name="xField1">UK Next Day</param>
+        <param name="xField2">High</param>
+        <param name="xField3"></param>
+        <param name="xField4">Registered</param>
+        <param name="xField5"></param>
+        <param name="nField1">4.5678</param>
+        <param name="nField2">3.4567</param>
+        <param name="nField3">5</param>
+        <param name="nField4">2</param>
+        <param name="nField5">3</param>
+        <param name="nField6">3</param>
+        <param name="nField7">1</param>
       </hcgAdditionalData>
     </order>
   </submit>

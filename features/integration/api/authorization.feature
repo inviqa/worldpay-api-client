@@ -252,18 +252,18 @@ Feature: A payment authorization request is made against the Worldpay payment ga
    </shippingAddress>
    <hcgAdditionalData>
     <param name="RGProfileID">201477</param>
-    <param name="shippingMethod">UK Next Day</param>
-    <param name="productRisk">normal</param>
-    <param name="productType"></param>
-    <param name="checkoutMethod">Registered</param>
-    <param name="orderSource"></param>
-    <param name="ageOfAccountDays">4.5678</param>
-    <param name="timeSinceLastOrder">3.4567</param>
-    <param name="numberOfPurchases">5</param>
-    <param name="numberOfStyles">2</param>
-    <param name="numberOfSkus">3</param>
-    <param name="numberOfUnits">3</param>
-    <param name="numberOfHighRiskUnits">0</param>
+    <param name="xField1">UK Next Day</param>
+    <param name="xField2">normal</param>
+    <param name="xField3"></param>
+    <param name="xField4">Registered</param>
+    <param name="xField5"></param>
+    <param name="nField1">4.5678</param>
+    <param name="nField2">3.4567</param>
+    <param name="nField3">5</param>
+    <param name="nField4">2</param>
+    <param name="nField5">3</param>
+    <param name="nField6">3</param>
+    <param name="nField7">0</param>
    </hcgAdditionalData>
   </order>
  </submit>
@@ -362,18 +362,18 @@ Feature: A payment authorization request is made against the Worldpay payment ga
    </shippingAddress>
    <hcgAdditionalData>
     <param name="RGProfileID">201477</param>
-    <param name="shippingMethod">UK Next Day</param>
-    <param name="productRisk">normal</param>
-    <param name="productType"></param>
-    <param name="checkoutMethod">Registered</param>
-    <param name="orderSource"></param>
-    <param name="ageOfAccountDays">4.5678</param>
-    <param name="timeSinceLastOrder">3.4567</param>
-    <param name="numberOfPurchases">5</param>
-    <param name="numberOfStyles">2</param>
-    <param name="numberOfSkus">3</param>
-    <param name="numberOfUnits">3</param>
-    <param name="numberOfHighRiskUnits">0</param>
+    <param name="xField1">UK Next Day</param>
+    <param name="xField2">normal</param>
+    <param name="xField3"></param>
+    <param name="xField4">Registered</param>
+    <param name="xField5"></param>
+    <param name="nField1">4.5678</param>
+    <param name="nField2">3.4567</param>
+    <param name="nField3">5</param>
+    <param name="nField4">2</param>
+    <param name="nField5">3</param>
+    <param name="nField6">3</param>
+    <param name="nField7">0</param>
    </hcgAdditionalData>
   </order>
  </submit>

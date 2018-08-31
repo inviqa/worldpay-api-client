@@ -144,18 +144,18 @@ class AuthorizeRequestFactory
 
         $hcgAdditionalData = new HcgAdditionalData(
             new Param(new Name('RGProfileID'), new ParamValue($parameters['RGProfileID'])),
-            new Param(new Name('shippingMethod'), new ParamValue($parameters['shippingMethod'])),
-            new Param(new Name('productRisk'), new ParamValue($parameters['productRisk'] ? 'High' : 'normal')),
-            new Param(new Name('productType'), new ParamValue('')),
-            new Param(new Name('checkoutMethod'), new ParamValue($parameters['checkoutMethod'])),
-            new Param(new Name('orderSource'), new ParamValue($parameters['orderSource'])),
-            new Param(new Name('ageOfAccountDays'), new ParamValue($parameters['ageOfAccount'])),
-            new Param(new Name('timeSinceLastOrder'), new ParamValue($parameters['timeSinceLastOrder'])),
-            new Param(new Name('numberOfPurchases'), new ParamValue($parameters['numberPurchases'])),
-            new Param(new Name('numberOfStyles'), new ParamValue($parameters['numberStyles'])),
-            new Param(new Name('numberOfSkus'), new ParamValue($parameters['numberSkus'])),
-            new Param(new Name('numberOfUnits'), new ParamValue($parameters['numberUnits'])),
-            new Param(new Name('numberOfHighRiskUnits'), new ParamValue($parameters['numberHighRiskUnits']))
+            new Param(new Name('xField1'), new ParamValue($parameters['shippingMethod'])),
+            new Param(new Name('xField2'), new ParamValue($parameters['productRisk'] ? 'High' : 'normal')),
+            new Param(new Name('xField3'), new ParamValue('')),
+            new Param(new Name('xField4'), new ParamValue($parameters['checkoutMethod'])),
+            new Param(new Name('xField5'), new ParamValue($parameters['orderSource'])),
+            new Param(new Name('nField1'), new ParamValue($parameters['ageOfAccount'])),
+            new Param(new Name('nField2'), new ParamValue($parameters['timeSinceLastOrder'])),
+            new Param(new Name('nField3'), new ParamValue($parameters['numberPurchases'])),
+            new Param(new Name('nField4'), new ParamValue($parameters['numberStyles'])),
+            new Param(new Name('nField5'), new ParamValue($parameters['numberSkus'])),
+            new Param(new Name('nField6'), new ParamValue($parameters['numberUnits'])),
+            new Param(new Name('nField7'), new ParamValue($parameters['numberHighRiskUnits']))
         );
 
         $order = new AuthorisationOrder(
