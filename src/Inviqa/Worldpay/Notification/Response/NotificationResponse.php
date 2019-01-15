@@ -8,6 +8,7 @@ class NotificationResponse
     const EVENT_CAPTURE_FAILED = "CAPTURE_FAILED";
     const EVENT_SENT_FOR_REFUND = "SENT_FOR_REFUND";
     const EVENT_REFUND_FAILED = "REFUND_FAILED";
+    const EVENT_CANCELLED = "CANCELLED";
 
     /**
      * @var string
@@ -50,6 +51,11 @@ class NotificationResponse
     public function isRefundFailed()
     {
         return $this->nodeValue("lastEvent") === self::EVENT_REFUND_FAILED;
+    }
+
+    public function isCancelled()
+    {
+        return $this->nodeValue("lastEvent") === self::EVENT_CANCELLED;
     }
 
     public function rawNotification()
