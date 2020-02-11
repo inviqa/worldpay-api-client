@@ -3,12 +3,16 @@
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
+use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\CancelResponse;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
 use Inviqa\Worldpay\Api\Response\RefundResponse;
+use Inviqa\Worldpay\Api\XmlNodeConverter;
 use Inviqa\Worldpay\Application;
+use Sabre\Xml\Writer;
 use Services\TestConfig;
 use Services\FakeClient;
 use Webmozart\Assert\Assert;
@@ -26,6 +30,9 @@ class ApiContext implements Context
      * @var AuthorisedResponse
      */
     private $response;
+
+    /** @var string */
+    private $generatedXml;
 
     public function __construct()
     {
@@ -328,6 +335,34 @@ class ApiContext implements Context
     {
         FakeClient::enableCardDetails();
     }
+
+    /**
+     * @When I generate xml with the following details
+     */
+    public function iGenerateXmlWithTheFollowingDetails(TableNode $table)
+    {
+        $params = $this->paramsWithBooleanFlags($table->getRowsHash());
+
+        $authRequestFactor = new AuthorizeRequestFactory();
+        $xmlNodeConverter = new XmlNodeConverter(
+            new Writer()
+        );
+
+        /** @var PaymentService $paymentService */
+        $paymentService = $authRequestFactor->buildApplePayFromRequestParameters($params);
+
+        $this->generatedXml = $xmlNodeConverter->toXml($paymentService);
+    }
+
+
+    /**
+     * @Then the generated XMl should match the following xml
+     */
+    public function theGeneratedXmlShouldMatchTheFollowingXml(PyStringNode $xml)
+    {
+        Assert::eq($this->generatedXml, (string)$xml);
+    }
+
 
     private function paramsWithBooleanFlags(array $paymentParameters): array
     {

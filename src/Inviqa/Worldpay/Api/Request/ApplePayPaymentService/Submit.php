@@ -1,6 +1,6 @@
 <?php
 
-namespace Inviqa\Worldpay\Api\Request\PaymentService;
+namespace Inviqa\Worldpay\Api\Request\ApplePayPaymentService;
 
 use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Order;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
