@@ -77,7 +77,7 @@ class OrderFactory
         $session = new Session(
             new Session\Id("0215ui8ib1")
         );
-        $paymentDetails = new PaymentDetailsApplePay(
+        $paymentDetails = new PaymentDetails(
             $cseData,
             $session->withShopperIPAddress(new Session\ShopperIPAddress("123.123.123.123"))
         );

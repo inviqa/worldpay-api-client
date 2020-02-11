@@ -19,7 +19,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderC
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Name;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Param;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Value as ParamValue;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetailsApplePay;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\AddressOne;
@@ -133,7 +133,7 @@ class AuthorizeRequestFactory
             $session = $session->withShopperIPAddress(new Session\ShopperIPAddress($parameters['shopperIPAddress']));
         }
 
-        $paymentDetails = new PaymentDetailsApplePay($cseData, $session);
+        $paymentDetails = new PaymentDetails($cseData, $session);
         $browser = new Browser(
             new Browser\AcceptHeader($parameters['acceptHeader']),
             new Browser\UserAgentHeader($parameters['userAgentHeader'])
