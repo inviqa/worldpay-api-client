@@ -4,6 +4,7 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
+use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactoryApplePay;
 use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\CancelResponse;
@@ -343,7 +344,7 @@ class ApiContext implements Context
     {
         $params = $this->paramsWithBooleanFlags($table->getRowsHash());
 
-        $authRequestFactor = new AuthorizeRequestFactory();
+        $authRequestFactor = new AuthorizeRequestFactoryApplePay();
         $xmlNodeConverter = new XmlNodeConverter(
             new Writer()
         );

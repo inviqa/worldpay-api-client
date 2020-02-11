@@ -1,10 +1,10 @@
 <?php
 
-namespace Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL;
+namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL;
 
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Header\EphemeralPublicKey;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Header\PublicKeyHash;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Header\TransactionId;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Header\EphemeralPublicKey;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Header\PublicKeyHash;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Header\TransactionId;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
 class Header extends XmlNodeDefaults

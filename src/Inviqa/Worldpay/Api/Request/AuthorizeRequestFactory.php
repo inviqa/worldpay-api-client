@@ -4,24 +4,6 @@ namespace Inviqa\Worldpay\Api\Request;
 
 use http\Header;
 use Inviqa\Worldpay\Api\Exception\InvalidRequestParameterException;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\AuthorisationOrder as ApplePayAuthorisationOrder;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\Amount as ApplePayAmount;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\Amount\CurrencyCode as ApplePayCurrencyCode;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\Amount\Exponent as ApplePayExponent;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\Amount\Value as ApplePayValue;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Header as ApplePayHeader;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\Description as ApplePayDescription;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\OrderCode as ApplePayOrderCode;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails as ApplePayPaymentDetails;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Data;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Header\EphemeralPublicKey;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Header\PublicKeyHash;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Header\TransactionId;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Signature;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Version as ApplePayVersion;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\Shopper as ApplePayShopper;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\Shopper\ShopperEmailAddress;
 use Inviqa\Worldpay\Api\Request\PaymentService\MerchantCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\AuthorisationOrder;
@@ -37,7 +19,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderC
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Name;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Param;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Value as ParamValue;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetailsApplePay;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\AddressOne;
@@ -107,21 +89,6 @@ class AuthorizeRequestFactory
         'telephoneNumber' => "",
     ];
 
-    private $defaultApplePayParameters = [
-        'version' => "1.4",
-        'orderCode' => "",
-        'description' => "",
-        'currencyCode' => "",
-        'exponent' => "2",
-        'value' => "",
-        'data' => "",
-        'signature' => "dummy signature",
-        'version' => "dummy version",
-        'ephemeralPublicKey' => "dummy public key",
-        'publicKeyHash' => "dummy hash",
-        'transactionId' => "123456",
-    ];
-
     /**
      * @param array $parameters
      * @return PaymentService
@@ -166,7 +133,7 @@ class AuthorizeRequestFactory
             $session = $session->withShopperIPAddress(new Session\ShopperIPAddress($parameters['shopperIPAddress']));
         }
 
-        $paymentDetails = new PaymentDetails($cseData, $session);
+        $paymentDetails = new PaymentDetailsApplePay($cseData, $session);
         $browser = new Browser(
             new Browser\AcceptHeader($parameters['acceptHeader']),
             new Browser\UserAgentHeader($parameters['userAgentHeader'])
@@ -227,62 +194,6 @@ class AuthorizeRequestFactory
             );
         }
 
-        $paymentService = new PaymentService(
-            new Version($parameters['version']),
-            new MerchantCode($parameters['merchantCode']),
-            new Submit($order)
-        );
-
-        return $paymentService;
-    }
-
-    /**
-     * @param array $parameters
-     *
-     * @return PaymentService
-     * @throws InvalidRequestParameterException
-     */
-    public function buildApplePayFromRequestParameters(array $parameters): PaymentService
-    {
-        if (!empty($parameters['shippingAddress'])) {
-            $parameters['shippingAddress'] += $this->defaultAddressParameters;
-        }
-        $parameters += $this->defaultApplePayParameters;
-
-        $orderCode = new ApplePayOrderCode($parameters['orderCode']);
-        $description = new ApplePayDescription($parameters['description']);
-        $amount = new ApplePayAmount(
-            new ApplePayValue($parameters['value']),
-            new ApplePayCurrencyCode($parameters['currencyCode']),
-            new ApplePayExponent($parameters['exponent'])
-        );
-        $ephemeralPublicKey = new EphemeralPublicKey($parameters['ephemeralPublicKey']);
-        $publicKeyHash = new PublicKeyHash($parameters['publicKeyHash']);
-        $transactonId = new TransactionId($parameters['transactionId']);
-        $header = new ApplePayHeader(
-            $ephemeralPublicKey,
-            $publicKeyHash,
-            $transactonId
-        );
-        $signature = new Signature($parameters['signature']);
-        $version = new ApplePayVersion($parameters['version']);
-        $data = new Data($parameters['encryptedData']);
-        $applePaySSL = new ApplePaySSL(
-            $header,
-            $signature,
-            $version,
-            $data
-        );
-        $paymentDetails = new ApplePayPaymentDetails($applePaySSL);
-        $emailAddress = new ShopperEmailAddress($parameters['email']);
-        $shopper = new ApplePayShopper($emailAddress);
-        $order = new ApplePayAuthorisationOrder(
-            $orderCode,
-            $description,
-            $amount,
-            $paymentDetails,
-            $shopper
-        );
         $paymentService = new PaymentService(
             new Version($parameters['version']),
             new MerchantCode($parameters['merchantCode']),

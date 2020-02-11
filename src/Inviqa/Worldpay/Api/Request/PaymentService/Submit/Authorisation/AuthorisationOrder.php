@@ -7,7 +7,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Descri
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\HcgAdditionalData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderCode;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetailsApplePay;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\ShippingAddress;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order;
@@ -28,7 +28,7 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
         OrderCode $orderCode,
         Description $description,
         Amount $amount,
-        PaymentDetails $paymentDetails,
+        PaymentDetailsApplePay $paymentDetails,
         Shopper $shopper,
         HcgAdditionalData $hcgAdditionalData
     ) {

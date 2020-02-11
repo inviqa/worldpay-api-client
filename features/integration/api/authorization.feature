@@ -438,7 +438,7 @@ Feature: A payment authorization request is made against the Worldpay payment ga
  <submit>
   <order orderCode="77766633301">
    <description>This is a beautiful order</description>
-   <amount value="15" currencyCode="GBP" exponent="2"/>
+   <amount currencyCode="GBP" exponent="2" value="15"/>
    <paymentDetails>
     <APPLEPAY-SSL>
      <header>

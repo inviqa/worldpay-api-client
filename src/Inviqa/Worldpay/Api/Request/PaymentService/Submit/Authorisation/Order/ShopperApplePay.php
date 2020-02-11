@@ -1,11 +1,11 @@
 <?php
 
-namespace Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order;
+namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order;
 
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\Shopper\ShopperEmailAddress;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\ShopperEmailAddress;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class Shopper extends XmlNodeDefaults
+class ShopperApplePay extends XmlNodeDefaults
 {
     private $shopperEmailAddress;
 
@@ -20,5 +20,10 @@ class Shopper extends XmlNodeDefaults
         return [
             $this->shopperEmailAddress,
         ];
+    }
+
+    public function xmlLabel()
+    {
+        return 'shopper';
     }
 }

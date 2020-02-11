@@ -1,16 +1,16 @@
 <?php
 
-namespace Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation;
+namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation;
 
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\Amount;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\Description;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\OrderCode;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\PaymentDetails;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Authorisation\Order\Shopper;
-use Inviqa\Worldpay\Api\Request\ApplePayPaymentService\Submit\Order;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Description;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderCode;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetailsApplePay;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\ShopperApplePay;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class AuthorisationOrder extends XmlNodeDefaults implements Order
+class AuthorisationOrderApplePay extends XmlNodeDefaults implements Order
 {
     private $orderCode;
     private $description;
@@ -22,8 +22,8 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
         OrderCode $orderCode,
         Description $description,
         Amount $amount,
-        PaymentDetails $paymentDetails,
-        Shopper $shopper
+        PaymentDetailsApplePay $paymentDetails,
+        ShopperApplePay $shopper
     ) {
         $this->orderCode = $orderCode;
         $this->description = $description;
