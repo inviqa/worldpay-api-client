@@ -53,7 +53,7 @@ class PaymentAuthorizerSpec extends ObjectBehavior
         $authorizeRequestFactory->buildFromRequestParameters($requestParameters)->willReturn($paymentService);
         $xmlNodeConverter->toXml($paymentService)->willReturn(self::REQUEST_XML);
 
-        $client->sendRequest(self::REQUEST_XML)->willThrow(\Exception::class);
+        $client->sendRequest(self::REQUEST_XML)->willThrow(new\Exception());
 
         $this->shouldThrow(ConnectionFailedException::class)->duringAuthorizePayment($requestParameters);
     }
