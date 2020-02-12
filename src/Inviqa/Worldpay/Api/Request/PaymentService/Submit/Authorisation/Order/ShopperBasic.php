@@ -5,7 +5,7 @@ namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\ShopperEmailAddress;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class ShopperApplePay extends XmlNodeDefaults
+class ShopperBasic extends XmlNodeDefaults
 {
     private $shopperEmailAddress;
 

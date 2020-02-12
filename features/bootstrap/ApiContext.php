@@ -5,6 +5,7 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactoryApplePay;
+use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactoryGooglePay;
 use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\CancelResponse;
@@ -338,9 +339,9 @@ class ApiContext implements Context
     }
 
     /**
-     * @When I generate xml with the following details
+     * @When I generate apple pay xml with the following details
      */
-    public function iGenerateXmlWithTheFollowingDetails(TableNode $table)
+    public function iGenerateApplePayXmlWithTheFollowingDetails(TableNode $table)
     {
         $params = $this->paramsWithBooleanFlags($table->getRowsHash());
 
@@ -351,6 +352,24 @@ class ApiContext implements Context
 
         /** @var PaymentService $paymentService */
         $paymentService = $authRequestFactor->buildApplePayFromRequestParameters($params);
+
+        $this->generatedXml = $xmlNodeConverter->toXml($paymentService);
+    }
+
+    /**
+     * @When I generate google pay xml with the following details
+     */
+    public function iGenerateGooglePayXmlWithTheFollowingDetails(TableNode $table)
+    {
+        $params = $this->paramsWithBooleanFlags($table->getRowsHash());
+
+        $authRequestFactor = new AuthorizeRequestFactoryGooglePay();
+        $xmlNodeConverter = new XmlNodeConverter(
+            new Writer()
+        );
+
+        /** @var PaymentService $paymentService */
+        $paymentService = $authRequestFactor->buildGooglePayFromRequestParameters($params);
 
         $this->generatedXml = $xmlNodeConverter->toXml($paymentService);
     }
