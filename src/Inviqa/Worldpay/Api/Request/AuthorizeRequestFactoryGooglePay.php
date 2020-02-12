@@ -24,7 +24,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Version;
 
 class AuthorizeRequestFactoryGooglePay
 {
-    private $defaultApplePayParameters = [
+    private $defaultGooglePayParameters = [
         'version' => "1.4",
         'orderCode' => "",
         'description' => "",
@@ -44,7 +44,7 @@ class AuthorizeRequestFactoryGooglePay
      */
     public function buildGooglePayFromRequestParameters(array $parameters): PaymentService
     {
-        $parameters += $this->defaultApplePayParameters;
+        $parameters += $this->defaultGooglePayParameters;
         $orderCode = new OrderCode($parameters['orderCode']);
         $description = new Description($parameters['description']);
         $amount = new Amount(
