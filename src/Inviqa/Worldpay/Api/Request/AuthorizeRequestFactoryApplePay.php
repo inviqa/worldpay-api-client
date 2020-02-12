@@ -2,6 +2,7 @@
 
 namespace Inviqa\Worldpay\Api\Request;
 
+use Inviqa\Worldpay\Api\Exception\InvalidRequestParameterException;
 use Inviqa\Worldpay\Api\Request\PaymentService\MerchantCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\AuthorisationOrderApplePay;
@@ -45,7 +46,7 @@ class AuthorizeRequestFactoryApplePay
      * @param array $parameters
      *
      * @return PaymentService
-     * @throws \Inviqa\Worldpay\Api\Exception\InvalidRequestParameterException
+     * @throws InvalidRequestParameterException
      */
     public function buildApplePayFromRequestParameters(array $parameters): PaymentService
     {

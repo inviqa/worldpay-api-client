@@ -2,7 +2,6 @@
 
 namespace Inviqa\Worldpay\Api\Request;
 
-use http\Header;
 use Inviqa\Worldpay\Api\Exception\InvalidRequestParameterException;
 use Inviqa\Worldpay\Api\Request\PaymentService\MerchantCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit;
