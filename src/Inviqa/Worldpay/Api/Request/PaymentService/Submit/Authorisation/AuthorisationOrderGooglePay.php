@@ -5,12 +5,12 @@ namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Description;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderCode;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetailsApplePay;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetailsGooglePay;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\ShopperBasic;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class AuthorisationOrderApplePay extends XmlNodeDefaults implements Order
+class AuthorisationOrderGooglePay extends XmlNodeDefaults implements Order
 {
     private $orderCode;
     private $description;
@@ -22,7 +22,7 @@ class AuthorisationOrderApplePay extends XmlNodeDefaults implements Order
         OrderCode $orderCode,
         Description $description,
         Amount $amount,
-        PaymentDetailsApplePay $paymentDetails,
+        PaymentDetailsGooglePay $paymentDetails,
         ShopperBasic $shopper
     ) {
         $this->orderCode = $orderCode;
