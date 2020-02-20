@@ -9,6 +9,7 @@ use Inviqa\Worldpay\Api\PaymentAuthorizer;
 use Inviqa\Worldpay\Api\PaymentModifier;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactoryApplePay;
+use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactoryGooglePay;
 use Inviqa\Worldpay\Api\Request\CancelRequestFactory;
 use Inviqa\Worldpay\Api\Request\CaptureRequestFactory;
 use Inviqa\Worldpay\Api\Request\RefundRequestFactory;
@@ -51,6 +52,14 @@ class Application
             $this->client
         );
 
+        $this->paymentAuthorizerGooglePay = PaymentAuthorizer::googlePayAuthorizer(
+            new AuthorizeRequestFactoryGooglePay(),
+            new XmlNodeConverter(
+                new Writer()
+            ),
+            $this->client
+        );
+
         $this->paymentModifier = new PaymentModifier(
             new CaptureRequestFactory(),
             new RefundRequestFactory(),
@@ -82,6 +91,17 @@ class Application
     public function authorizeApplePayPayment(array $paymentParameters)
     {
         return $this->paymentAuthorizerApplePay->authorizePayment($paymentParameters);
+    }
+
+    /**
+     * @param array $paymentParameters
+     * @return AuthorisedResponse
+     *
+     * @throws WorldpayException
+     */
+    public function authorizeGooglePayPayment(array $paymentParameters)
+    {
+        return $this->paymentAuthorizerGooglePay->authorizePayment($paymentParameters);
     }
 
     /**

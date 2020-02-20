@@ -47,6 +47,19 @@ class PaymentAuthorizer
         return $instance;
     }
 
+    public static function googlePayAuthorizer(
+        RequestFactory $authRequestFactory,
+        XmlNodeConverter $xmlNodeConverter,
+        Client $client
+    ) {
+        $instance = new self();
+        $instance->authRequestFactory = $authRequestFactory;
+        $instance->xmlNodeConverter = $xmlNodeConverter;
+        $instance->client = $client;
+
+        return $instance;
+    }
+
     /**
      * @param array $paymentParameters
      *
