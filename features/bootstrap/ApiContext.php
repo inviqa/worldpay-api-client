@@ -356,13 +356,13 @@ class ApiContext implements Context
     {
         $params = $this->paramsWithBooleanFlags($table->getRowsHash());
 
-        $authRequestFactor = new AuthorizeRequestFactoryApplePay();
+        $authRequestFactory = new AuthorizeRequestFactoryApplePay();
         $xmlNodeConverter = new XmlNodeConverter(
             new Writer()
         );
 
         /** @var PaymentService $paymentService */
-        $paymentService = $authRequestFactor->buildFromRequestParameters($params);
+        $paymentService = $authRequestFactory->buildFromRequestParameters($params);
 
         $this->generatedXml = $xmlNodeConverter->toXml($paymentService);
     }
@@ -374,13 +374,13 @@ class ApiContext implements Context
     {
         $params = $this->paramsWithBooleanFlags($table->getRowsHash());
 
-        $authRequestFactor = new AuthorizeRequestFactoryGooglePay();
+        $authRequestFactory = new AuthorizeRequestFactoryGooglePay();
         $xmlNodeConverter = new XmlNodeConverter(
             new Writer()
         );
 
         /** @var PaymentService $paymentService */
-        $paymentService = $authRequestFactor->buildFromRequestParameters($params);
+        $paymentService = $authRequestFactory->buildFromRequestParameters($params);
 
         $this->generatedXml = $xmlNodeConverter->toXml($paymentService);
     }
