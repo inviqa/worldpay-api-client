@@ -3,8 +3,8 @@
 namespace Inviqa\Worldpay\Api;
 
 use Inviqa\Worldpay\Api\Exception\ConnectionFailedException;
-use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
 use Inviqa\Worldpay\Api\Request\PaymentService;
+use Inviqa\Worldpay\Api\Request\RequestFactory;
 use Inviqa\Worldpay\Api\Request\ThreeDSRequestFactory;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 
@@ -15,16 +15,36 @@ class PaymentAuthorizer
     private $xmlNodeConverter;
     private $client;
 
-    public function __construct(
-        AuthorizeRequestFactory $authRequestFactory,
+    private function __construct()
+    {
+    }
+
+    public static function worldpayAuthorizer(
+        RequestFactory $authRequestFactory,
         ThreeDSRequestFactory $threeDSRequestFactory,
         XmlNodeConverter $xmlNodeConverter,
         Client $client
     ) {
-        $this->authRequestFactory = $authRequestFactory;
-        $this->threeDSRequestFactory = $threeDSRequestFactory;
-        $this->xmlNodeConverter = $xmlNodeConverter;
-        $this->client = $client;
+        $instance = new self();
+        $instance->authRequestFactory = $authRequestFactory;
+        $instance->threeDSRequestFactory = $threeDSRequestFactory;
+        $instance->xmlNodeConverter = $xmlNodeConverter;
+        $instance->client = $client;
+
+        return $instance;
+    }
+
+    public static function applePayAuthorizer(
+        RequestFactory $authRequestFactory,
+        XmlNodeConverter $xmlNodeConverter,
+        Client $client
+    ) {
+        $instance = new self();
+        $instance->authRequestFactory = $authRequestFactory;
+        $instance->xmlNodeConverter = $xmlNodeConverter;
+        $instance->client = $client;
+
+        return $instance;
     }
 
     /**
@@ -69,6 +89,8 @@ class PaymentAuthorizer
     {
         try {
             $requestXml = $this->xmlNodeConverter->toXml($paymentService);
+
+            var_dump($requestXml);
 
             $httpResponse = $this->client->sendRequest(
                 $requestXml,

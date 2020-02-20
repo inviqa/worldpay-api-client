@@ -72,6 +72,17 @@ class ApiContext implements Context
     }
 
     /**
+     * @When I authorize the following payment using Apple Pay
+     */
+    public function iAuthorizeTheFollowingPaymentUsingApplePay(TableNode $table)
+    {
+        $params = $this->paramsWithBooleanFlags($table->getRowsHash());
+
+        $this->response = $this->application->authorizeApplePayPayment($params);
+    }
+
+
+    /**
      * @When the authorization for the following payment is completed
      */
     public function theAuthorizationForTheFollowingPaymentIsCompleted(TableNode $table)
@@ -351,7 +362,7 @@ class ApiContext implements Context
         );
 
         /** @var PaymentService $paymentService */
-        $paymentService = $authRequestFactor->buildApplePayFromRequestParameters($params);
+        $paymentService = $authRequestFactor->buildFromRequestParameters($params);
 
         $this->generatedXml = $xmlNodeConverter->toXml($paymentService);
     }
@@ -369,7 +380,7 @@ class ApiContext implements Context
         );
 
         /** @var PaymentService $paymentService */
-        $paymentService = $authRequestFactor->buildGooglePayFromRequestParameters($params);
+        $paymentService = $authRequestFactor->buildFromRequestParameters($params);
 
         $this->generatedXml = $xmlNodeConverter->toXml($paymentService);
     }

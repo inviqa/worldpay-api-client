@@ -8,6 +8,7 @@ use Inviqa\Worldpay\Api\Exception\WorldpayException;
 use Inviqa\Worldpay\Api\PaymentAuthorizer;
 use Inviqa\Worldpay\Api\PaymentModifier;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
+use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactoryApplePay;
 use Inviqa\Worldpay\Api\Request\CancelRequestFactory;
 use Inviqa\Worldpay\Api\Request\CaptureRequestFactory;
 use Inviqa\Worldpay\Api\Request\RefundRequestFactory;
@@ -33,9 +34,17 @@ class Application
         /** @var Client $client */
         $this->client = $clientFactory->getClient();
 
-        $this->paymentAuthorizer = new PaymentAuthorizer(
+        $this->paymentAuthorizer = PaymentAuthorizer::worldpayAuthorizer(
             new AuthorizeRequestFactory(),
             new ThreeDSRequestFactory(),
+            new XmlNodeConverter(
+                new Writer()
+            ),
+            $this->client
+        );
+
+        $this->paymentAuthorizerApplePay = PaymentAuthorizer::applePayAuthorizer(
+            new AuthorizeRequestFactoryApplePay(),
             new XmlNodeConverter(
                 new Writer()
             ),
@@ -62,6 +71,17 @@ class Application
     public function authorizePayment(array $paymentParameters)
     {
         return $this->paymentAuthorizer->authorizePayment($paymentParameters);
+    }
+
+    /**
+     * @param array $paymentParameters
+     * @return AuthorisedResponse
+     *
+     * @throws WorldpayException
+     */
+    public function authorizeApplePayPayment(array $paymentParameters)
+    {
+        return $this->paymentAuthorizerApplePay->authorizePayment($paymentParameters);
     }
 
     /**
