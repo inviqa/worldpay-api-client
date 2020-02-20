@@ -81,6 +81,17 @@ class ApiContext implements Context
         $this->response = $this->application->authorizeApplePayPayment($params);
     }
 
+    /**
+     * @When I authorize the following payment using Google Pay
+     */
+    public function iAuthorizeTheFollowingPaymentUsingGooglePay(TableNode $table)
+    {
+        $params = $this->paramsWithBooleanFlags($table->getRowsHash());
+
+        $this->response = $this->application->authorizeGooglePayPayment($params);
+    }
+
+
 
     /**
      * @When the authorization for the following payment is completed

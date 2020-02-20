@@ -421,36 +421,3 @@ Feature: A payment authorization request is made against the Worldpay payment ga
         Then I should receive an authorised response
         And the response should be successful
         And the response should contain "11" as card expiry month and "2020" as card expiry year
-
-    Scenario: Generate Google pay auth request xml
-        When I generate google pay xml with the following details
-            | merchantCode        | REISSECOMGBP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-            | orderCode           | 77766633301                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-            | description         | This is a beautiful order                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-            | currencyCode        | GBP                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-            | value               | 15                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-            | encryptedData       | eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiMSIsImNvbS53b3JsZHBheS5hcGlWZXJzaW9uIjoiMS4wIiwiY29tLndvcmxkcGF5LmxpYlZlcnNpb24iOiIxLjAuMSIsImNvbS53b3JsZHBheS5jaGFubmVsIjoiamF2YXNjcmlwdCJ9.dRLdwIEaFobISQRn7Nw_CSuDPcdyD_ssic5NWP838bEnqqaiv1NROkM_hEzGssVXIS4384vtmgc7ZeScIaNAuckEGeA3L8Fr_ucpxCtS0w05VadzqzQLSX1SOFDRnWxjBKh2zX2JpPOPBjXZXpIwwTx4k3jxaxbqzjAzcz2IgpDvIVHJGJ45ziRD8H9LmjN_3sx-cFLEzDpsproz9VuioRtV2tFe0hWSxxA1dGOhS0renspASmmMWznfAv48tDMPkGDBQeCUkCFEdy5fyTP6vwo__eLWwDWThexPI750MH6yDAb6ZMlN_DcN-B3MDjYRNx9tuJK9uYZVOKx1HM8pvg.H5bv_exIuNXZcZ6c.Ly05HljJ_2d68dRATe2uKH6eN1qdE-AOWj0YRIMFsyCumH4QbVh4X_y0KGfcb9ORCLxEhCIF3Nfw5GZYW3FCecT24zpAljHfeVQjHmZxAcYB2BxuTfpkdCnGG4e6SD5Ohg60Gy-34P-fbcj4.tBCqnBmDyNeS8ZDxtYCGpQ |
-            | email               | lpanainte+test@inviqa.com                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-        Then the generated XMl should match the following xml
-"""
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE paymentService PUBLIC "-//Worldpay//DTD Worldpay PaymentService v1//EN" "http://dtd.worldpay.com/paymentService_v1.dtd"><paymentService version="1.4" merchantCode="REISSECOMGBP">
- <submit>
-  <order orderCode="77766633301">
-   <description>This is a beautiful order</description>
-   <amount currencyCode="GBP" exponent="2" value="15"/>
-   <paymentDetails>
-    <PAYWITHGOOGLE-SSL>
-     <protocolVersion>dummy protocol version</protocolVersion>
-     <signature>dummy signature</signature>
-     <signedMessage>eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiMSIsImNvbS53b3JsZHBheS5hcGlWZXJzaW9uIjoiMS4wIiwiY29tLndvcmxkcGF5LmxpYlZlcnNpb24iOiIxLjAuMSIsImNvbS53b3JsZHBheS5jaGFubmVsIjoiamF2YXNjcmlwdCJ9.dRLdwIEaFobISQRn7Nw_CSuDPcdyD_ssic5NWP838bEnqqaiv1NROkM_hEzGssVXIS4384vtmgc7ZeScIaNAuckEGeA3L8Fr_ucpxCtS0w05VadzqzQLSX1SOFDRnWxjBKh2zX2JpPOPBjXZXpIwwTx4k3jxaxbqzjAzcz2IgpDvIVHJGJ45ziRD8H9LmjN_3sx-cFLEzDpsproz9VuioRtV2tFe0hWSxxA1dGOhS0renspASmmMWznfAv48tDMPkGDBQeCUkCFEdy5fyTP6vwo__eLWwDWThexPI750MH6yDAb6ZMlN_DcN-B3MDjYRNx9tuJK9uYZVOKx1HM8pvg.H5bv_exIuNXZcZ6c.Ly05HljJ_2d68dRATe2uKH6eN1qdE-AOWj0YRIMFsyCumH4QbVh4X_y0KGfcb9ORCLxEhCIF3Nfw5GZYW3FCecT24zpAljHfeVQjHmZxAcYB2BxuTfpkdCnGG4e6SD5Ohg60Gy-34P-fbcj4.tBCqnBmDyNeS8ZDxtYCGpQ</signedMessage>
-    </PAYWITHGOOGLE-SSL>
-   </paymentDetails>
-   <shopper>
-    <shopperEmailAddress>lpanainte+test@inviqa.com</shopperEmailAddress>
-   </shopper>
-  </order>
- </submit>
-</paymentService>
-
-"""
