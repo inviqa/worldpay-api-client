@@ -23,7 +23,7 @@ class PaymentAuthorizerSpec extends ObjectBehavior
         XmlNodeConverter $xmlNodeConverter,
         Client $client
     ) {
-        $this->beConstructedWith($authorizeRequestFactory, $threeDSRequestFactory, $xmlNodeConverter, $client);
+        $this->beConstructedWorldpayAuthorizer($authorizeRequestFactory, $threeDSRequestFactory, $xmlNodeConverter, $client);
     }
 
     function it_delegates_building_of_a_request_and_sending_it_to_the_client(

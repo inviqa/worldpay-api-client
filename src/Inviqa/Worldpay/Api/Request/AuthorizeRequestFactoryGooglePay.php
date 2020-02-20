@@ -22,7 +22,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shoppe
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\ShopperBasic;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
 
-class AuthorizeRequestFactoryGooglePay
+class AuthorizeRequestFactoryGooglePay implements RequestFactory
 {
     private $defaultGooglePayParameters = [
         'version' => "1.4",
@@ -42,7 +42,7 @@ class AuthorizeRequestFactoryGooglePay
      * @return PaymentService
      * @throws InvalidRequestParameterException
      */
-    public function buildGooglePayFromRequestParameters(array $parameters): PaymentService
+    public function buildFromRequestParameters(array $parameters): PaymentService
     {
         $parameters += $this->defaultGooglePayParameters;
         $orderCode = new OrderCode($parameters['orderCode']);

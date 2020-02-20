@@ -38,7 +38,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shoppe
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\Browser;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
 
-class AuthorizeRequestFactory
+class AuthorizeRequestFactory implements RequestFactory
 {
     private $defaultParameters = [
         'version' => "1.4",

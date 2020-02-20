@@ -25,7 +25,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shoppe
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\ShopperBasic;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
 
-class AuthorizeRequestFactoryApplePay
+class AuthorizeRequestFactoryApplePay implements RequestFactory
 {
     private $defaultApplePayParameters = [
         'version' => "1.4",
@@ -48,7 +48,7 @@ class AuthorizeRequestFactoryApplePay
      * @return PaymentService
      * @throws InvalidRequestParameterException
      */
-    public function buildApplePayFromRequestParameters(array $parameters): PaymentService
+    public function buildFromRequestParameters(array $parameters): PaymentService
     {
         $parameters += $this->defaultApplePayParameters;
         $orderCode = new OrderCode($parameters['orderCode']);

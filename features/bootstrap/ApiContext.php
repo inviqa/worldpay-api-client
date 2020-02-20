@@ -72,6 +72,17 @@ class ApiContext implements Context
     }
 
     /**
+     * @When I authorize the following payment using Apple Pay
+     */
+    public function iAuthorizeTheFollowingPaymentUsingApplePay(TableNode $table)
+    {
+        $params = $this->paramsWithBooleanFlags($table->getRowsHash());
+
+        $this->response = $this->application->authorizeApplePayPayment($params);
+    }
+
+
+    /**
      * @When the authorization for the following payment is completed
      */
     public function theAuthorizationForTheFollowingPaymentIsCompleted(TableNode $table)
@@ -345,13 +356,13 @@ class ApiContext implements Context
     {
         $params = $this->paramsWithBooleanFlags($table->getRowsHash());
 
-        $authRequestFactor = new AuthorizeRequestFactoryApplePay();
+        $authRequestFactory = new AuthorizeRequestFactoryApplePay();
         $xmlNodeConverter = new XmlNodeConverter(
             new Writer()
         );
 
         /** @var PaymentService $paymentService */
-        $paymentService = $authRequestFactor->buildApplePayFromRequestParameters($params);
+        $paymentService = $authRequestFactory->buildFromRequestParameters($params);
 
         $this->generatedXml = $xmlNodeConverter->toXml($paymentService);
     }
@@ -363,13 +374,13 @@ class ApiContext implements Context
     {
         $params = $this->paramsWithBooleanFlags($table->getRowsHash());
 
-        $authRequestFactor = new AuthorizeRequestFactoryGooglePay();
+        $authRequestFactory = new AuthorizeRequestFactoryGooglePay();
         $xmlNodeConverter = new XmlNodeConverter(
             new Writer()
         );
 
         /** @var PaymentService $paymentService */
-        $paymentService = $authRequestFactor->buildGooglePayFromRequestParameters($params);
+        $paymentService = $authRequestFactory->buildFromRequestParameters($params);
 
         $this->generatedXml = $xmlNodeConverter->toXml($paymentService);
     }
