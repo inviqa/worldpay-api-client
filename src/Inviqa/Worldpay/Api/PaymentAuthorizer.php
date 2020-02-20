@@ -89,9 +89,6 @@ class PaymentAuthorizer
     {
         try {
             $requestXml = $this->xmlNodeConverter->toXml($paymentService);
-
-            var_dump($requestXml);
-
             $httpResponse = $this->client->sendRequest(
                 $requestXml,
                 $cookie
