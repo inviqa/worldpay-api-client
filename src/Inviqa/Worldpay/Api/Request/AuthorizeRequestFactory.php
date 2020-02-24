@@ -40,7 +40,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Version;
 
 class AuthorizeRequestFactory implements RequestFactory
 {
-    private $defaultParameters = [
+    const DEFAULT_PARAMETERS = [
         'version' => "1.4",
         'orderCode' => "",
         'description' => "",
@@ -77,7 +77,7 @@ class AuthorizeRequestFactory implements RequestFactory
         'shippingAddress' => null,
     ];
 
-    private $defaultAddressParameters = [
+    const DEFAULT_ADDRESS_PARAMETERS = [
         'address1' => "",
         'address2' => "",
         'address3' => "",
@@ -97,66 +97,27 @@ class AuthorizeRequestFactory implements RequestFactory
     public function buildFromRequestParameters(array $parameters): PaymentService
     {
         if (!empty($parameters['shippingAddress'])) {
-            $parameters['shippingAddress'] += $this->defaultAddressParameters;
+            $parameters['shippingAddress'] += self::DEFAULT_ADDRESS_PARAMETERS;
         }
-        $parameters += $this->defaultParameters;
+        $parameters += self::DEFAULT_PARAMETERS;
+        $treeBuilder = new AuthoriseRequestTreeBuilder($parameters);
 
         $orderCode = new OrderCode($parameters['orderCode']);
         $description = new Description($parameters['description']);
-        $amount = new Amount(
-            new CurrencyCode($parameters['currencyCode']),
-            new Exponent($parameters['exponent']),
-            new Value($parameters['value'])
-        );
+        $amount = $treeBuilder->buildAmount($parameters);
         $encryptedData = new EncryptedData($parameters['encryptedData']);
-        $cardAddress = new CardAddress(
-            new CardAddress\Address(
-                new FirstName($parameters['firstName']),
-                new LastName($parameters['lastName']),
-                new AddressOne($parameters['address1']),
-                new AddressTwo($parameters['address2']),
-                new AddressThree($parameters['address3']),
-                new PostalCode($parameters['postalCode']),
-                new City($parameters['city']),
-                new State($parameters['state']),
-                new CountryCode($parameters['countryCode']),
-                new TelephoneNumber($parameters['telephoneNumber'])
-            )
-        );
+        $cardAddress = $treeBuilder->buildCardAddress();
         $cseData = new CseData($encryptedData, $cardAddress);
-        $session = new Session(
-            new Session\Id($parameters['sessionId'])
-        );
+        $session = new Session(new Session\Id($parameters['sessionId']));
 
         if ($parameters['shopperIPAddress']) {
             $session = $session->withShopperIPAddress(new Session\ShopperIPAddress($parameters['shopperIPAddress']));
         }
 
         $paymentDetails = new PaymentDetails($cseData, $session);
-        $browser = new Browser(
-            new Browser\AcceptHeader($parameters['acceptHeader']),
-            new Browser\UserAgentHeader($parameters['userAgentHeader'])
-        );
-        $shopper = new Shopper(
-            new Shopper\ShopperEmailAddress($parameters['email']),
-            $browser
-        );
+        $shopper = $treeBuilder->buildShopper();
 
-        $hcgAdditionalData = new HcgAdditionalData(
-            new Param(new Name('RGProfileID'), new ParamValue($parameters['RGProfileID'])),
-            new Param(new Name('xField1'), new ParamValue($parameters['shippingMethod'])),
-            new Param(new Name('xField2'), new ParamValue($parameters['productRisk'] ? 'High' : 'normal')),
-            new Param(new Name('xField3'), new ParamValue('')),
-            new Param(new Name('xField4'), new ParamValue($parameters['checkoutMethod'])),
-            new Param(new Name('xField5'), new ParamValue($parameters['orderSource'])),
-            new Param(new Name('nField1'), new ParamValue($parameters['ageOfAccount'])),
-            new Param(new Name('nField2'), new ParamValue($parameters['timeSinceLastOrder'])),
-            new Param(new Name('nField3'), new ParamValue($parameters['numberPurchases'])),
-            new Param(new Name('nField4'), new ParamValue($parameters['numberStyles'])),
-            new Param(new Name('nField5'), new ParamValue($parameters['numberSkus'])),
-            new Param(new Name('nField6'), new ParamValue($parameters['numberUnits'])),
-            new Param(new Name('nField7'), new ParamValue($parameters['numberHighRiskUnits']))
-        );
+        $hcgAdditionalData = $treeBuilder->buildHcgAdditionalData();
 
         $order = new AuthorisationOrder(
             $orderCode,
@@ -167,38 +128,12 @@ class AuthorizeRequestFactory implements RequestFactory
             $hcgAdditionalData
         );
 
-        if ($shippingAddress = $parameters['shippingAddress']) {
-            $order = $order->withShippingAddress(
-                new ShippingAddress(
-                    new CardAddress\Address(
-                        new FirstName($shippingAddress['firstName']),
-                        new LastName($shippingAddress['lastName']),
-                        new AddressOne($shippingAddress['address1']),
-                        new AddressTwo($shippingAddress['address2']),
-                        new AddressThree($shippingAddress['address3']),
-                        new PostalCode($shippingAddress['postalCode']),
-                        new City($shippingAddress['city']),
-                        new State($shippingAddress['state']),
-                        new CountryCode($shippingAddress['countryCode']),
-                        new TelephoneNumber($shippingAddress['telephoneNumber'])
-                    )
-                )
-            );
-        }
+        $order = $treeBuilder->buildAdditionalOrderDetails($parameters, $order);
 
-        if ($parameters['dynamic3DS']) {
-            $dynamic3DSOverride = $parameters['dynamic3DSOverride'] ? "do3DS" : "no3DS";
-            $order = $order->withDynamic3DS(
-                new Dynamic3DS(new OverrideAdvice($dynamic3DSOverride))
-            );
-        }
-
-        $paymentService = new PaymentService(
+        return new PaymentService(
             new Version($parameters['version']),
             new MerchantCode($parameters['merchantCode']),
             new Submit($order)
         );
-
-        return $paymentService;
     }
 }
