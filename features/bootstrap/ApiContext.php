@@ -53,7 +53,7 @@ class ApiContext implements Context
             $params['shippingAddress'] = [];
 
             if (count($address) != 10) {
-                throw new InvalidArgumentException("A shipping address must contain exactly 9 elements");
+                throw new InvalidArgumentException("A shipping address must contain exactly 10 elements");
             }
 
             $params['shippingAddress']['firstName'] = $address[0];
@@ -87,6 +87,26 @@ class ApiContext implements Context
     public function iAuthorizeTheFollowingPaymentUsingGooglePay(TableNode $table)
     {
         $params = $this->paramsWithBooleanFlags($table->getRowsHash());
+
+        if (!empty($params['shippingAddress'])) {
+            $address = explode(',', $params['shippingAddress']);
+            $params['shippingAddress'] = [];
+
+            if (count($address) != 10) {
+                throw new InvalidArgumentException("A shipping address must contain exactly 10 elements");
+            }
+
+            $params['shippingAddress']['firstName'] = $address[0];
+            $params['shippingAddress']['lastName'] = $address[1];
+            $params['shippingAddress']['address1'] = $address[2];
+            $params['shippingAddress']['address2'] = $address[3];
+            $params['shippingAddress']['address3'] = $address[4];
+            $params['shippingAddress']['postalCode'] = $address[5];
+            $params['shippingAddress']['city'] = $address[6];
+            $params['shippingAddress']['state'] = $address[7];
+            $params['shippingAddress']['countryCode'] = $address[8];
+            $params['shippingAddress']['telephoneNumber'] = $address[9];
+        }
 
         $this->response = $this->application->authorizeGooglePayPayment($params);
     }
@@ -384,6 +404,26 @@ class ApiContext implements Context
     public function iGenerateGooglePayXmlWithTheFollowingDetails(TableNode $table)
     {
         $params = $this->paramsWithBooleanFlags($table->getRowsHash());
+
+        if (!empty($params['shippingAddress'])) {
+            $address = explode(',', $params['shippingAddress']);
+            $params['shippingAddress'] = [];
+
+            if (count($address) != 10) {
+                throw new InvalidArgumentException("A shipping address must contain exactly 10 elements");
+            }
+
+            $params['shippingAddress']['firstName'] = $address[0];
+            $params['shippingAddress']['lastName'] = $address[1];
+            $params['shippingAddress']['address1'] = $address[2];
+            $params['shippingAddress']['address2'] = $address[3];
+            $params['shippingAddress']['address3'] = $address[4];
+            $params['shippingAddress']['postalCode'] = $address[5];
+            $params['shippingAddress']['city'] = $address[6];
+            $params['shippingAddress']['state'] = $address[7];
+            $params['shippingAddress']['countryCode'] = $address[8];
+            $params['shippingAddress']['telephoneNumber'] = $address[9];
+        }
 
         $authRequestFactory = new AuthorizeRequestFactoryGooglePay();
         $xmlNodeConverter = new XmlNodeConverter(
