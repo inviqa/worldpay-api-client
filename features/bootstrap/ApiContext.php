@@ -53,7 +53,7 @@ class ApiContext implements Context
             $params['shippingAddress'] = [];
 
             if (count($address) != 10) {
-                throw new InvalidArgumentException("A shipping address must contain exactly 9 elements");
+                throw new InvalidArgumentException("A shipping address must contain exactly 10 elements");
             }
 
             $params['shippingAddress']['firstName'] = $address[0];
@@ -410,7 +410,7 @@ class ApiContext implements Context
             $params['shippingAddress'] = [];
 
             if (count($address) != 10) {
-                throw new InvalidArgumentException("A shipping address must contain exactly 9 elements");
+                throw new InvalidArgumentException("A shipping address must contain exactly 10 elements");
             }
 
             $params['shippingAddress']['firstName'] = $address[0];
