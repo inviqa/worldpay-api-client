@@ -93,7 +93,7 @@ class ApiContext implements Context
             $params['shippingAddress'] = [];
 
             if (count($address) != 10) {
-                throw new InvalidArgumentException("A shipping address must contain exactly 9 elements");
+                throw new InvalidArgumentException("A shipping address must contain exactly 10 elements");
             }
 
             $params['shippingAddress']['firstName'] = $address[0];
@@ -432,8 +432,6 @@ class ApiContext implements Context
 
         /** @var PaymentService $paymentService */
         $paymentService = $authRequestFactory->buildFromRequestParameters($params);
-
-        var_dump($paymentService);
 
         $this->generatedXml = $xmlNodeConverter->toXml($paymentService);
     }
