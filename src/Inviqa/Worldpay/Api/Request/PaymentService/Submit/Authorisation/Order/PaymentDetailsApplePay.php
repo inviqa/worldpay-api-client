@@ -5,7 +5,7 @@ namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class PaymentDetailsApplePay extends XmlNodeDefaults
+class PaymentDetailsApplePay extends XmlNodeDefaults implements PaymentDetails
 {
     private $applePaySSL;
 

@@ -19,7 +19,6 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\OrderC
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Name;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Param;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Value as ParamValue;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address;
@@ -35,6 +34,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Paymen
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\CardAddress\Address\TelephoneNumber;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\CseData\EncryptedData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\Session;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetailsWorldpay;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\ShippingAddress;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\Browser;
@@ -77,7 +77,7 @@ class OrderFactory
         $session = new Session(
             new Session\Id("0215ui8ib1")
         );
-        $paymentDetails = new PaymentDetails(
+        $paymentDetails = new PaymentDetailsWorldpay(
             $cseData,
             $session->withShopperIPAddress(new Session\ShopperIPAddress("123.123.123.123"))
         );

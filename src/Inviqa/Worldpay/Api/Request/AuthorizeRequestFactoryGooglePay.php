@@ -8,10 +8,6 @@ use Inviqa\Worldpay\Api\Request\PaymentService\MerchantCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\AuthorisationOrder;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\AuthorisationOrderGooglePay;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\CurrencyCode;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\Exponent;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\Value;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Description;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS\OverrideAdvice;
@@ -25,8 +21,6 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Paymen
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\PayWithGoogleSSL\SignedMessage;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\Session;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetailsGooglePay;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\ShopperEmailAddress;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\ShopperBasic;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
 
 class AuthorizeRequestFactoryGooglePay implements RequestFactory
@@ -68,7 +62,7 @@ class AuthorizeRequestFactoryGooglePay implements RequestFactory
 
         $hcgAdditionalData = $treeBuilder->buildHcgAdditionalData();
 
-        $order = new AuthorisationOrderGooglePay(
+        $order = new AuthorisationOrder(
             $orderCode,
             $description,
             $amount,
