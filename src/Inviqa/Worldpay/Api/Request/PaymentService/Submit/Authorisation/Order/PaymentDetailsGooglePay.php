@@ -5,7 +5,7 @@ namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\PayWithGoogleSSL;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class PaymentDetailsGooglePay extends XmlNodeDefaults
+class PaymentDetailsGooglePay extends XmlNodeDefaults implements PaymentDetails
 {
     private $payWithGoogleSSL;
 
