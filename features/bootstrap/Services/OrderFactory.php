@@ -96,6 +96,7 @@ class OrderFactory
             new Param(new Name('xField3'), new ParamValue('')),
             new Param(new Name('xField4'), new ParamValue('Registered')),
             new Param(new Name('xField5'), new ParamValue('')),
+            new Param(new Name('xField6'), new ParamValue('')),
             new Param(new Name('nField1'), new ParamValue(4.5678)),
             new Param(new Name('nField2'), new ParamValue(3.4567)),
             new Param(new Name('nField3'), new ParamValue(5)),
@@ -203,6 +204,7 @@ class OrderFactory
         <param name="xField3"></param>
         <param name="xField4">Registered</param>
         <param name="xField5"></param>
+        <param name="xField6"></param>
         <param name="nField1">4.5678</param>
         <param name="nField2">3.4567</param>
         <param name="nField3">5</param>
@@ -250,6 +252,7 @@ XML;
             'shippingMethod'      => 'UK Next Day',
             'checkoutMethod'      => 'Registered',
             'orderSource'      => '',
+            'paymentSubtype'      => '',
             'ageOfAccount'        => 4.5678,
             'timeSinceLastOrder'  => 3.4567,
             'numberPurchases'     => 5,

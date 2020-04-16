@@ -14,6 +14,7 @@ class HcgAdditionalData extends XmlNodeDefaults implements XmlConvertibleNode
     private $xField3;
     private $xField4;
     private $xField5;
+    private $xField6;
     private $nField1;
     private $nField2;
     private $nField3;
@@ -29,6 +30,7 @@ class HcgAdditionalData extends XmlNodeDefaults implements XmlConvertibleNode
         Param $xField3,
         Param $xField4,
         Param $xField5,
+        Param $xField6,
         Param $nField1,
         Param $nField2,
         Param $nField3,
@@ -43,6 +45,7 @@ class HcgAdditionalData extends XmlNodeDefaults implements XmlConvertibleNode
         $this->xField3     = $xField3;
         $this->xField4     = $xField4;
         $this->xField5     = $xField5;
+        $this->xField6     = $xField6;
         $this->nField1     = $nField1;
         $this->nField2     = $nField2;
         $this->nField3     = $nField3;
@@ -61,6 +64,7 @@ class HcgAdditionalData extends XmlNodeDefaults implements XmlConvertibleNode
             $this->xField3,
             $this->xField4,
             $this->xField5,
+            $this->xField6,
             $this->nField1,
             $this->nField2,
             $this->nField3,

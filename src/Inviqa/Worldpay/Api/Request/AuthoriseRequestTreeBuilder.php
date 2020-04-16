@@ -107,6 +107,7 @@ class AuthoriseRequestTreeBuilder
             new Param(new Name('xField3'), new ParamValue('')),
             new Param(new Name('xField4'), new ParamValue($this->parameters['checkoutMethod'])),
             new Param(new Name('xField5'), new ParamValue($this->parameters['orderSource'])),
+            new Param(new Name('xField6'), new ParamValue($this->parameters['paymentSubtype'] ?? '')),
             new Param(new Name('nField1'), new ParamValue($this->parameters['ageOfAccount'])),
             new Param(new Name('nField2'), new ParamValue($this->parameters['timeSinceLastOrder'])),
             new Param(new Name('nField3'), new ParamValue($this->parameters['numberPurchases'])),
@@ -144,7 +145,7 @@ class AuthoriseRequestTreeBuilder
     /**
      * @param array $parameters
      * @param Order $order
-     *
+     *AuthorizeRequestFactoryApplePay
      * @return Order
      * @throws \Inviqa\Worldpay\Api\Exception\InvalidRequestParameterException
      */

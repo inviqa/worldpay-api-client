@@ -42,6 +42,7 @@ class AuthorizeRequestFactory implements RequestFactory
         'shippingMethod' => "",
         'checkoutMethod' => "",
         'orderSource' => "",
+        'paymentSubtype' => "",
         'ageOfAccount' => "",
         'timeSinceLastOrder' => "",
         'numberPurchases' => "",
