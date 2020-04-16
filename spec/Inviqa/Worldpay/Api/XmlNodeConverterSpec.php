@@ -101,6 +101,7 @@ class XmlNodeConverterSpec extends ObjectBehavior
         $writer->write("xField3")->shouldBeCalled();
         $writer->write("xField4")->shouldBeCalled();
         $writer->write("xField5")->shouldBeCalled();
+        $writer->write("xField6")->shouldBeCalled();
         $writer->write("nField1")->shouldBeCalled();
         $writer->write("nField2")->shouldBeCalled();
         $writer->write("nField3")->shouldBeCalled();
