@@ -54,31 +54,6 @@ class AuthorisedResponse
         $this->requestXml = $requestXml;
     }
 
-    private function nodeValue(string $nodeName): string
-    {
-        $node = $this->findNodeByName($nodeName);
-        if ($node) {
-            return trim($node);
-        }
-
-        return '';
-    }
-
-    private function nodeAttributeValue(string $nodeName, string $attributeName): string
-    {
-        $node = $this->findNodeByName($nodeName);
-        if ($node) {
-            return (string)$node[$attributeName];
-        }
-
-        return '';
-    }
-
-    private function hasNode(string $nodeName): bool
-    {
-        return count($this->response->xpath("//$nodeName")) > 0;
-    }
-
     public function isSuccessful(): bool
     {
         return $this->successful;
@@ -119,6 +94,11 @@ class AuthorisedResponse
         return $this->hasNode('request3DSecure');
     }
 
+    public function is3DSFlexChallengeRequired(): bool
+    {
+        return $this->hasNode('challengeRequired');
+    }
+
     public function paRequestValue(): string
     {
         return $this->nodeValue('paRequest');
@@ -138,6 +118,47 @@ class AuthorisedResponse
     {
         return $this->cardDetails;
     }
+
+    public function payloadValue(): string
+    {
+        return $this->nodeValue('payload');
+    }
+
+    public function transactionId3DSValue(): string
+    {
+        return $this->nodeValue('payload');
+    }
+
+    public function acsURLValue(): string
+    {
+        return $this->nodeValue('payload');
+    }
+
+    private function nodeValue(string $nodeName): string
+    {
+        $node = $this->findNodeByName($nodeName);
+        if ($node) {
+            return trim($node);
+        }
+
+        return '';
+    }
+
+    private function nodeAttributeValue(string $nodeName, string $attributeName): string
+    {
+        $node = $this->findNodeByName($nodeName);
+        if ($node) {
+            return (string)$node[$attributeName];
+        }
+
+        return '';
+    }
+
+    private function hasNode(string $nodeName): bool
+    {
+        return count($this->response->xpath("//$nodeName")) > 0;
+    }
+
 
     private function setCardDetails(): void
     {

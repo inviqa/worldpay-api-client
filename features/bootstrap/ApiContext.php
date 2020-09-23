@@ -249,9 +249,10 @@ class ApiContext implements Context
      */
     public function theResponseShouldReferenceAValidValue($node)
     {
-        if (strlen($this->response->paRequestValue()) === 0) {
+        $func = $node . "Value";
+        if (strlen($this->response->$func()) === 0) {
             throw new InvalidArgumentException(
-                "The response doesn't reference a valid paRequest value.\nExpected non-empty string. \nActual ''"
+                "The response doesn't reference a valid " . $node . " value.\nExpected non-empty string. \nActual ''"
             );
         }
     }
@@ -405,6 +406,15 @@ class ApiContext implements Context
         Assert::eq($this->generatedXml, (string)$xml);
     }
 
+    /**
+     * @Then I should receive a 3ds flex challenge required resposne
+     */
+    public function iShouldReceiveADsFlexChallengeRequiredResposne()
+    {
+        if (!$this->response->is3DSFlexChallengeRequired()) {
+            throw new \Exception("Expected a 3D Secure response, but didn't get one.");
+        }
+    }
 
     private function paramsWithBooleanFlags(array $paymentParameters): array
     {

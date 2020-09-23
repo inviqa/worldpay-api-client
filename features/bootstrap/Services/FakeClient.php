@@ -35,6 +35,10 @@ class FakeClient implements Client
             return HttpResponse::fromContentAndCookie(OrderFactory::cse3DSResponseXMl($orderCode));
         }
 
+        if (strstr($xml, '3ds_flex_challenge_required"') !== false) {
+            return HttpResponse::fromContentAndCookie(OrderFactory::cse3DSFlexResponseXMl($orderCode));
+        }
+
         if (strstr($xml, "<capture>") !== false) {
             return HttpResponse::fromContentAndCookie(
                 CaptureFactory::cseCaptureResponseXmlForOrderCode($orderCode),

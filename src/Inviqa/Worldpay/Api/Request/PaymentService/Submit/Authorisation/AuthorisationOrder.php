@@ -2,6 +2,7 @@
 
 namespace Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation;
 
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Additional3DSData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Description;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS;
@@ -23,6 +24,7 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
     private $shippingAddress;
     private $hcgAdditionalData;
     private $dynamic3DS;
+    private $additional3DSData;
 
     public function __construct(
         OrderCode $orderCode,
@@ -56,6 +58,14 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
         return $instance;
     }
 
+    public function with3DSFlex(Additional3DSData $additional3DSData): self
+    {
+        $instance = clone $this;
+        $instance->additional3DSData = $additional3DSData;
+
+        return $instance;
+    }
+
     public function xmlChildren()
     {
         return [
@@ -67,6 +77,7 @@ class AuthorisationOrder extends XmlNodeDefaults implements Order
             $this->shippingAddress,
             $this->hcgAdditionalData,
             $this->dynamic3DS,
+            $this->additional3DSData,
         ];
     }
 

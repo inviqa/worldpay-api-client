@@ -442,4 +442,29 @@ XML;
             'cookie'       => 'machine value'
         ];
     }
+
+    public static function cse3DSFlexResponseXMl($orderCode)
+    {
+        $xml = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE paymentService PUBLIC "-//WorldPay//DTD WorldPay PaymentService v1//EN"
+      "http://dtd.worldpay.com/paymentService v1.dtd">
+<paymentService version="1.4" merchantCode="YOUR_MERCHANT_CODE">
+    <reply>
+        <orderStatus orderCode='YOUR_ORDER_CODE'>
+            <challengeRequired>
+                <threeDSChallengeDetails>
+                    <threeDSVersion>2.1.0</threeDSVersion>
+                    <transactionId3DS>rUT8fLKDviHXr8aUn3l1</transactionId3DS>
+                    <acsURL><![CDATA[https://worldpay.com]]></acsURL>
+                    <payload>P.25de9db33221a55eedc6ac352b927a8c3a08d747643c592dd8f8ab7d3...</payload>
+                </threeDSChallengeDetails>
+            </challengeRequired>
+        </orderStatus>
+    </reply>
+</paymentService>
+XML;
+
+        return $xml;
+    }
 }

@@ -2,6 +2,10 @@
 
 namespace Inviqa\Worldpay\Api\Request;
 
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Additional3DSData;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Additional3DSData\ChallengePreference;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Additional3DSData\ChallengeWindowSize;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Additional3DSData\DfReferenceId;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\CurrencyCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\Exponent;
@@ -157,7 +161,13 @@ class AuthoriseRequestTreeBuilder
             );
         }
 
-        if ($parameters['dynamic3DS']) {
+        if(!empty($parameters['dfReferenceId'])){
+            $order = $order->with3DSFlex(
+                new Additional3DSData(
+                    new DfReferenceId($parameters['dfReferenceId'])
+                )
+            );
+        }elseif ($parameters['dynamic3DS']) {
             $dynamic3DSOverride = $parameters['dynamic3DSOverride'] ? "do3DS" : "no3DS";
             $order = $order->withDynamic3DS(
                 new Dynamic3DS(new OverrideAdvice($dynamic3DSOverride))
