@@ -161,13 +161,13 @@ class AuthoriseRequestTreeBuilder
             );
         }
 
-        if(!empty($parameters['dfReferenceId'])){
+        if (!empty($parameters['dfReferenceId'])) {
             $order = $order->with3DSFlex(
                 new Additional3DSData(
                     new DfReferenceId($parameters['dfReferenceId'])
                 )
             );
-        }elseif ($parameters['dynamic3DS']) {
+        } elseif ($parameters['dynamic3DS']) {
             $dynamic3DSOverride = $parameters['dynamic3DSOverride'] ? "do3DS" : "no3DS";
             $order = $order->withDynamic3DS(
                 new Dynamic3DS(new OverrideAdvice($dynamic3DSOverride))
