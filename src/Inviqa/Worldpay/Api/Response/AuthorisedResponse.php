@@ -126,12 +126,12 @@ class AuthorisedResponse
 
     public function transactionId3DSValue(): string
     {
-        return $this->nodeValue('payload');
+        return $this->nodeValue('transactionId3DS');
     }
 
     public function acsURLValue(): string
     {
-        return $this->nodeValue('payload');
+        return $this->nodeValue('acsURL');
     }
 
     private function nodeValue(string $nodeName): string
