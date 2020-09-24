@@ -252,7 +252,7 @@ class ApiContext implements Context
         $func = $node . "Value";
         if (strlen($this->response->$func()) === 0) {
             throw new InvalidArgumentException(
-                "The response doesn't reference a valid " . $node . " value.\nExpected non-empty string. \nActual ''"
+                sprintf("The response doesn't reference a valid %s value.\nExpected non-empty string. \nActual ''", $node)
             );
         }
     }

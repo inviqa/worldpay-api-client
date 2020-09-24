@@ -445,7 +445,7 @@ XML;
 
     public static function cse3DSFlexResponseXMl($orderCode)
     {
-        $xml = <<<XML
+        $xml = <<<XMLRESPONSE
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE paymentService PUBLIC "-//WorldPay//DTD WorldPay PaymentService v1//EN"
       "http://dtd.worldpay.com/paymentService v1.dtd">
@@ -463,7 +463,7 @@ XML;
         </orderStatus>
     </reply>
 </paymentService>
-XML;
+XMLRESPONSE;
 
         return $xml;
     }
