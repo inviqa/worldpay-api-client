@@ -7,6 +7,7 @@ use Inviqa\Worldpay\Api\Client\HttpResponse;
 use Inviqa\Worldpay\Api\Exception\ConnectionFailedException;
 use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
+use Inviqa\Worldpay\Api\Request\ThreeDSFlexRequestFactory;
 use Inviqa\Worldpay\Api\Request\ThreeDSRequestFactory;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\ResponseFactory;
@@ -20,10 +21,17 @@ class PaymentAuthorizerSpec extends ObjectBehavior
     function let(
         AuthorizeRequestFactory $authorizeRequestFactory,
         ThreeDSRequestFactory $threeDSRequestFactory,
+        ThreeDSFlexRequestFactory $threeDSFlexRequestFactory,
         XmlNodeConverter $xmlNodeConverter,
         Client $client
     ) {
-        $this->beConstructedWorldpayAuthorizer($authorizeRequestFactory, $threeDSRequestFactory, $xmlNodeConverter, $client);
+        $this->beConstructedWorldpayAuthorizer(
+            $authorizeRequestFactory,
+            $threeDSRequestFactory,
+            $threeDSFlexRequestFactory,
+            $xmlNodeConverter,
+            $client
+        );
     }
 
     function it_delegates_building_of_a_request_and_sending_it_to_the_client(
