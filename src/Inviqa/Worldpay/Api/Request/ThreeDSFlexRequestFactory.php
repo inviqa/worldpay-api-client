@@ -22,7 +22,7 @@ class ThreeDSFlexRequestFactory
      * @return PaymentService
      * @throws \Inviqa\Worldpay\Api\Exception\InvalidRequestParameterException
      */
-    public function buildFromRequestParameters($parameters)
+    public function buildFromRequestParameters(array $parameters): PaymentService
     {
         $parameters += $this->defaultParameters;
 
@@ -39,6 +39,11 @@ class ThreeDSFlexRequestFactory
             $info3DSFlex,
             $session
         );
+
+        if (empty($parameters['merchantCode'])) {
+            throw new \InvalidArgumentException('Merchande code must be defined');
+        }
+
         $paymentService = new PaymentService(
             new Version($parameters['version']),
             new MerchantCode($parameters['merchantCode']),
