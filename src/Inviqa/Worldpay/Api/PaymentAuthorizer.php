@@ -5,6 +5,7 @@ namespace Inviqa\Worldpay\Api;
 use Inviqa\Worldpay\Api\Exception\ConnectionFailedException;
 use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Request\RequestFactory;
+use Inviqa\Worldpay\Api\Request\ThreeDSFlexRequestFactory;
 use Inviqa\Worldpay\Api\Request\ThreeDSRequestFactory;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 
@@ -12,6 +13,10 @@ class PaymentAuthorizer
 {
     private $authRequestFactory;
     private $threeDSRequestFactory;
+    /**
+     * @var ThreeDSFlexRequestFactory
+     */
+    private $threeDSFlexRequestFactory;
     private $xmlNodeConverter;
     private $client;
 
@@ -22,12 +27,14 @@ class PaymentAuthorizer
     public static function worldpayAuthorizer(
         RequestFactory $authRequestFactory,
         ThreeDSRequestFactory $threeDSRequestFactory,
+        ThreeDSFlexRequestFactory $threeDSFlexRequestFactory,
         XmlNodeConverter $xmlNodeConverter,
         Client $client
     ) {
         $instance = new self();
         $instance->authRequestFactory = $authRequestFactory;
         $instance->threeDSRequestFactory = $threeDSRequestFactory;
+        $instance->threeDSFlexRequestFactory = $threeDSFlexRequestFactory;
         $instance->xmlNodeConverter = $xmlNodeConverter;
         $instance->client = $client;
 
@@ -87,6 +94,22 @@ class PaymentAuthorizer
     {
         return $this->makeRequest(
             $this->threeDSRequestFactory->buildFromRequestParameters($paymentParameters),
+            $paymentParameters['cookie']
+        );
+    }
+
+    /**
+     * @param array $paymentParameters
+     *
+     * @return AuthorisedResponse
+     *
+     * @throws ConnectionFailedException
+     * @throws Exception\InvalidRequestParameterException
+     */
+    public function authorize3DSFlex(array $paymentParameters)
+    {
+        return $this->makeRequest(
+            $this->threeDSFlexRequestFactory->buildFromRequestParameters($paymentParameters),
             $paymentParameters['cookie']
         );
     }

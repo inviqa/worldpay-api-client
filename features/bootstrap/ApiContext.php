@@ -96,6 +96,17 @@ class ApiContext implements Context
     }
 
     /**
+     * @When the authorization for the following payment is completed for 3ds flex
+     */
+    public function theAuthorizationForTheFollowingPaymentIsCompletedForDsFlex(TableNode $table)
+    {
+        $this->response = $this->application->completePaymentAuthorization3DSFlex(
+            $this->paramsWithBooleanFlags($table->getRowsHash())
+        );
+    }
+
+
+    /**
      * @Then I should receive a successful response
      */
     public function iShouldReceiveASuccessfulResponse()

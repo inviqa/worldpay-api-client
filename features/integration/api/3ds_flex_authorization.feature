@@ -156,3 +156,22 @@ Feature: A payment authorization request is made against the Worldpay payment us
         And the response should reference a valid "payload" value
         And the response should reference a valid "transactionId3DS" value
         And the response should reference a valid "acsURL" value
+
+    Scenario: 3DS Flex payment authorisation completion
+        When the authorization for the following payment is completed for 3ds flex
+            | merchantCode | SESSIONECOM                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+            | orderCode    | reiss-28Sept-2                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+            | sessionId    | 0215ui8ib1                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+            | cookie       | machine=0aa20016;path=/                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+        Then I should receive an authorised response
+        And the response should be successful
+        And the response should reference the "reiss-28Sept-2" order code
+
+    Scenario: Failed 3D Secure payment authorisation completion
+        When the authorization for the following payment is completed for 3ds flex
+            | merchantCode | SESSIONECOM             |
+            | orderCode    | reiss-9mar-2            |
+            | sessionId    | trigger-refused-event   |
+            | cookie       | machine=0aa20016;path=/ |
+        Then I should receive an authorised response
+        And the response should not be successful

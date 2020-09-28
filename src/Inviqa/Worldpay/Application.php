@@ -13,6 +13,7 @@ use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactoryGooglePay;
 use Inviqa\Worldpay\Api\Request\CancelRequestFactory;
 use Inviqa\Worldpay\Api\Request\CaptureRequestFactory;
 use Inviqa\Worldpay\Api\Request\RefundRequestFactory;
+use Inviqa\Worldpay\Api\Request\ThreeDSFlexRequestFactory;
 use Inviqa\Worldpay\Api\Request\ThreeDSRequestFactory;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
 use Inviqa\Worldpay\Api\Response\CancelResponse;
@@ -38,6 +39,7 @@ class Application
         $this->paymentAuthorizer = PaymentAuthorizer::worldpayAuthorizer(
             new AuthorizeRequestFactory(),
             new ThreeDSRequestFactory(),
+            new ThreeDSFlexRequestFactory(),
             new XmlNodeConverter(
                 new Writer()
             ),
@@ -113,6 +115,17 @@ class Application
     public function completePaymentAuthorization(array $paymentParameters)
     {
         return $this->paymentAuthorizer->authorize3DSecure($paymentParameters);
+    }
+
+    /**
+     * @param array $paymentParameters
+     * @return AuthorisedResponse
+     *
+     * @throws WorldpayException
+     */
+    public function completePaymentAuthorization3DSFlex(array $paymentParameters)
+    {
+        return $this->paymentAuthorizer->authorize3DSFlex($paymentParameters);
     }
 
     /**

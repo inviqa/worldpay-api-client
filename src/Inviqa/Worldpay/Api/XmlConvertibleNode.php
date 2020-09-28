@@ -11,6 +11,7 @@ namespace Inviqa\Worldpay\Api;
 interface XmlConvertibleNode
 {
     const NODE_TYPE = "node";
+    const NODE_TYPE_EMPTY = "empty_node";
     const ATTR_TYPE = "attribute";
     const VALUE_TYPE = "value";
 
