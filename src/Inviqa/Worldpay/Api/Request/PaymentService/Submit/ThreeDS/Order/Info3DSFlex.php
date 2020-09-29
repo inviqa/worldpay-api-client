@@ -25,6 +25,6 @@ class Info3DSFlex extends XmlNodeDefaults
 
     public function xmlLabel()
     {
-        return 'Info3DSecure';
+        return 'info3DSecure';
     }
 }

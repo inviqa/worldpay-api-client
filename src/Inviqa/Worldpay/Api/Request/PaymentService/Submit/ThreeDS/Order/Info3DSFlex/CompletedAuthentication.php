@@ -8,6 +8,6 @@ class CompletedAuthentication extends XmlNodeEmpty
 {
     public function xmlLabel()
     {
-        return 'CompletedAuthentication';
+        return 'completedAuthentication';
     }
 }
