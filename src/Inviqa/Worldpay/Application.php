@@ -10,12 +10,14 @@ use Inviqa\Worldpay\Api\PaymentModifier;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactoryApplePay;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactoryGooglePay;
+use Inviqa\Worldpay\Api\Request\CancelOrRefundRequestFactory;
 use Inviqa\Worldpay\Api\Request\CancelRequestFactory;
 use Inviqa\Worldpay\Api\Request\CaptureRequestFactory;
 use Inviqa\Worldpay\Api\Request\RefundRequestFactory;
 use Inviqa\Worldpay\Api\Request\ThreeDSFlexRequestFactory;
 use Inviqa\Worldpay\Api\Request\ThreeDSRequestFactory;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
+use Inviqa\Worldpay\Api\Response\CancelOrRefundResponse;
 use Inviqa\Worldpay\Api\Response\CancelResponse;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\RefundResponse;
@@ -66,6 +68,7 @@ class Application
             new CaptureRequestFactory(),
             new RefundRequestFactory(),
             new CancelRequestFactory(),
+            new CancelOrRefundRequestFactory(),
             new XmlNodeConverter(
                 new Writer()
             ),
@@ -169,5 +172,16 @@ class Application
     public function parseNotification(string $notification): NotificationResponse
     {
         return NotificationResponse::fromRawNotification($notification);
+    }
+
+    /**
+     * @param array $paymentParameters
+     * @return CancelOrRefundResponse
+     *
+     * @throws WorldpayException
+     */
+    public function cancelOrRefund(array $paymentParameters): CancelOrRefundResponse
+    {
+        return $this->paymentModifier->cancelOrRefundPayment($paymentParameters);
     }
 }
