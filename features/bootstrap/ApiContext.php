@@ -3,11 +3,11 @@
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactory;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactoryApplePay;
 use Inviqa\Worldpay\Api\Request\AuthorizeRequestFactoryGooglePay;
 use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Response\AuthorisedResponse;
+use Inviqa\Worldpay\Api\Response\CancelOrRefundResponse;
 use Inviqa\Worldpay\Api\Response\CancelResponse;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\PaymentService\Reply\OrderStatus\OrderCode;
@@ -168,7 +168,7 @@ class ApiContext implements Context
     public function theResponseShouldBeSuccessful()
     {
         if (!$this->response->isSuccessful()) {
-            throw new \Exception("Expected a successful response, but got an unsuccessful one.");
+            throw new Exception("Expected a successful response, but got an unsuccessful one.");
         }
     }
 
@@ -199,7 +199,7 @@ class ApiContext implements Context
     public function theResponseShouldBeAnError()
     {
         if (!$this->response->isError()) {
-            throw new \Exception("Expected an error response, but didn't get one.");
+            throw new Exception("Expected an error response, but didn't get one.");
         }
     }
 
@@ -209,7 +209,7 @@ class ApiContext implements Context
     public function theResponseShouldNotBeSuccessful()
     {
         if ($this->response->isSuccessful()) {
-            throw new \Exception("Did not expect a successful response, but got one.");
+            throw new Exception("Did not expect a successful response, but got one.");
         }
     }
 
@@ -251,7 +251,7 @@ class ApiContext implements Context
     public function iShouldReceiveA3DSecureResponse()
     {
         if (!$this->response->is3DSecure()) {
-            throw new \Exception("Expected a 3D Secure response, but didn't get one.");
+            throw new Exception("Expected a 3D Secure response, but didn't get one.");
         }
     }
 
@@ -423,7 +423,7 @@ class ApiContext implements Context
     public function iShouldReceiveADsFlexChallengeRequiredResposne()
     {
         if (!$this->response->is3DSFlexChallengeRequired()) {
-            throw new \Exception("Expected a 3D Secure response, but didn't get one.");
+            throw new Exception("Expected a 3D Secure response, but didn't get one.");
         }
     }
 
@@ -452,7 +452,7 @@ class ApiContext implements Context
     private function assertCardAttributeExist(string $attributeName, array $cardDetails, string $message): void
     {
         if (empty($cardDetails['creditCard'][$attributeName])) {
-            throw new \Exception($message);
+            throw new Exception($message);
         }
     }
 
@@ -466,7 +466,7 @@ class ApiContext implements Context
     private function assertCardAttributeMatches(string $attributeName, $expectedValue, array $cardDetails): void
     {
         if ($expectedValue !== $cardDetails['creditCard'][$attributeName]) {
-            throw new \Exception(
+            throw new Exception(
                 sprintf(
                     'Expected to get "%s" value "%s", but got "%s".',
                     $attributeName,
@@ -503,5 +503,23 @@ class ApiContext implements Context
         $params['shippingAddress']['telephoneNumber'] = $address[9];
 
         return $params;
+    }
+
+    /**
+     * @When I send the following void modification
+     */
+    public function iSendTheFollowingVoidModification(TableNode $table)
+    {
+        $this->response = $this->application->cancelOrRefund(
+            $this->paramsWithBooleanFlags($table->getRowsHash())
+        );
+    }
+
+    /**
+     * @Then I should receive a void response
+     */
+    public function iShouldReceiveAVoidResponse()
+    {
+        Assert::isInstanceOf($this->response, CancelOrRefundResponse::class);
     }
 }

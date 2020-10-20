@@ -22,7 +22,7 @@
             "php bin/phpspec run --format=pretty"
         ],
         "behat": [
-            "php bin/behat --colors"
+            "php bin/behat --colors" 
         ]
     },
     "autoload": {

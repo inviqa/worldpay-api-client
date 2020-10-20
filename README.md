@@ -19,8 +19,8 @@ class MyConfig implements Inviqa\Worldpay\Config
 {
     public function isTestMode(): bool { return false; }
     public function username(): string { return "insert_username"; }
-    public function password(): string; { return "insert_password"; }
-    public function uri(): string; { return "insert_api_endpoint"; }
+    public function password(): string { return "insert_password"; }
+    public function uri(): string { return "insert_api_endpoint"; }
 }
 ````
 

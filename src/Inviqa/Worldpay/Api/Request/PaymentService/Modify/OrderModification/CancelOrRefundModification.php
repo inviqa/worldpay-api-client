@@ -3,27 +3,27 @@
 namespace Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification;
 
 use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification;
-use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\Cancel\Cancel;
+use Inviqa\Worldpay\Api\Request\PaymentService\Modify\OrderModification\CancelOrRefund\CancelOrRefund;
 use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
-class CancelModification extends XmlNodeDefaults implements OrderModification
+class CancelOrRefundModification extends XmlNodeDefaults implements OrderModification
 {
-    private $cancel;
+    private $cancelOrRefund;
     private $orderCode;
 
     public function __construct(
         OrderCode $orderCode,
-        Cancel $cancelOrRefund
+        CancelOrRefund $cancelOrRefund
     ) {
         $this->orderCode = $orderCode;
-        $this->cancel    = $cancelOrRefund;
+        $this->cancelOrRefund    = $cancelOrRefund;
     }
 
     public function xmlChildren()
     {
         return [
             $this->orderCode,
-            $this->cancel
+            $this->cancelOrRefund
         ];
     }
 

@@ -2,11 +2,14 @@
 
 namespace Inviqa\Worldpay\Api;
 
+use Exception;
 use Inviqa\Worldpay\Api\Exception\ConnectionFailedException;
+use Inviqa\Worldpay\Api\Request\CancelOrRefundRequestFactory;
 use Inviqa\Worldpay\Api\Request\CancelRequestFactory;
 use Inviqa\Worldpay\Api\Request\CaptureRequestFactory;
 use Inviqa\Worldpay\Api\Request\PaymentService;
 use Inviqa\Worldpay\Api\Request\RefundRequestFactory;
+use Inviqa\Worldpay\Api\Response\CancelOrRefundResponse;
 use Inviqa\Worldpay\Api\Response\CancelResponse;
 use Inviqa\Worldpay\Api\Response\CaptureResponse;
 use Inviqa\Worldpay\Api\Response\ModifiedResponse;
@@ -39,16 +42,23 @@ class PaymentModifier
     private $cancelRequestFactory;
 
     /**
+     * @var CancelOrRefundRequestFactory
+     */
+    private $cancelOrRefundRequestFactory;
+
+    /**
      * @param CaptureRequestFactory $captureRequestFactory
-     * @param RefundRequestFactory  $refundRequestFactory
-     * @param CancelRequestFactory  $cancelRequestFactory
-     * @param XmlNodeConverter      $xmlNodeConverter
-     * @param Client                $client
+     * @param RefundRequestFactory $refundRequestFactory
+     * @param CancelRequestFactory $cancelRequestFactory
+     * @param CancelOrRefundRequestFactory $cancelOrRefundRequestFactory
+     * @param XmlNodeConverter $xmlNodeConverter
+     * @param Client $client
      */
     public function __construct(
         CaptureRequestFactory $captureRequestFactory,
         RefundRequestFactory $refundRequestFactory,
         CancelRequestFactory $cancelRequestFactory,
+        CancelOrRefundRequestFactory $cancelOrRefundRequestFactory,
         XmlNodeConverter $xmlNodeConverter,
         Client $client
     ) {
@@ -57,6 +67,7 @@ class PaymentModifier
         $this->client                = $client;
         $this->refundRequestFactory  = $refundRequestFactory;
         $this->cancelRequestFactory = $cancelRequestFactory;
+        $this->cancelOrRefundRequestFactory = $cancelOrRefundRequestFactory;
     }
 
     /**
@@ -102,6 +113,20 @@ class PaymentModifier
     }
 
     /**
+     * @param array $paymentParameters
+     *
+     * @return mixed
+     *
+     * @throws ConnectionFailedException
+     */
+    public function cancelOrRefundPayment(array $paymentParameters)
+    {
+        $paymentService = $this->cancelOrRefundRequestFactory->buildFromRequestParameters($paymentParameters);
+
+        return $this->makeRequest($paymentService, CancelOrRefundResponse::class);
+    }
+
+    /**
      * @param $paymentService
      *
      * @param string $responseClass
@@ -115,7 +140,7 @@ class PaymentModifier
             $httpResponse = $this->client->sendRequest($requestXml);
 
             return new $responseClass($httpResponse, $requestXml);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new ConnectionFailedException(
                 sprintf("Worldpay connection failure. Error message: %s", $e->getMessage())
             );

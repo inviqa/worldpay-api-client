@@ -60,6 +60,13 @@ class FakeClient implements Client
             );
         }
 
+        if (strstr($xml, "</cancelOrRefund>") !== false) {
+            return HttpResponse::fromContentAndCookie(
+                CancelOrRefundFactory::cseCancelOrRefundResponseXmlForOrderCode($orderCode),
+                "machine:123"
+            );
+        }
+
         if (self::$isCardDetailsEnabled) {
             return HttpResponse::fromContentAndCookie(
                 OrderFactory::cseResponseXmlForOrderCode($orderCode),
