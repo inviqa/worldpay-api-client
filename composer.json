@@ -17,6 +17,14 @@
         "behat/behat": "^3.4",
         "webmozart/assert": "^1.3"
     },
+    "scripts": {
+        "spec": [
+            "php bin/phpspec run --format=pretty"
+        ],
+        "behat": [
+            "php bin/behat --colors"
+        ]
+    },
     "autoload": {
         "psr-4": {
             "": [
