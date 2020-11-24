@@ -33,6 +33,11 @@ class NotificationResponse
         return $this->nodeAttributeValue("orderStatusEvent", "orderCode");
     }
 
+    public function amount(): string
+    {
+        return $this->nodeAttributeValue("amount", "value");
+    }
+
     public function isCaptured()
     {
         return $this->nodeValue("lastEvent") === self::EVENT_CAPTURED;
