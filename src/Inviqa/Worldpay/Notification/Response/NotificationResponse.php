@@ -91,7 +91,7 @@ class NotificationResponse
 
     private function nodeAttributeValue(string $nodeName, string $attributeName): string
     {
-        if (preg_match("~<$nodeName.*$attributeName=['\"]([^'\"]*)['\"]/?>~", $this->rawNotification, $matches)) {
+        if (preg_match("~<$nodeName.*$attributeName=['\"]([^'\"]*)['\"].*/?>~", $this->rawNotification, $matches)) {
             return $matches[1];
         }
 
