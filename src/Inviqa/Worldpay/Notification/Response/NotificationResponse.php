@@ -33,6 +33,11 @@ class NotificationResponse
         return $this->nodeAttributeValue("orderStatusEvent", "orderCode");
     }
 
+    public function amount(): string
+    {
+        return $this->nodeAttributeValue("amount", "value");
+    }
+
     public function isCaptured()
     {
         return $this->nodeValue("lastEvent") === self::EVENT_CAPTURED;
@@ -86,7 +91,7 @@ class NotificationResponse
 
     private function nodeAttributeValue(string $nodeName, string $attributeName): string
     {
-        if (preg_match("~<$nodeName.*$attributeName=['\"]([^'\"]*)['\"]/?>~", $this->rawNotification, $matches)) {
+        if (preg_match("~<$nodeName.*$attributeName=['\"]([^'\"]*)['\"].*/?>~", $this->rawNotification, $matches)) {
             return $matches[1];
         }
 
