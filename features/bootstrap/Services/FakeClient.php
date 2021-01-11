@@ -39,7 +39,7 @@ class FakeClient implements Client
             return HttpResponse::fromContentAndCookie(OrderFactory::cse3DSFlexResponseXMl($orderCode));
         }
 
-        if (strstr($xml, "<capture>") !== false) {
+        if (strstr($xml, "<capture>") !== false || preg_match('/<capture reference="\d+">/', $xml) === 1) {
             return HttpResponse::fromContentAndCookie(
                 CaptureFactory::cseCaptureResponseXmlForOrderCode($orderCode),
                 "machine:123"

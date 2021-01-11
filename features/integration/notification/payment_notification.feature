@@ -13,7 +13,7 @@ Feature: a payment notification request is to a notification response
                 <paymentMethod>VISA-SSL</paymentMethod>
                   <amount value="1000" currencyCode="EUR" exponent="2" debitCreditIndicator="credit"/>
                 <lastEvent>CAPTURED</lastEvent>
-                <reference>YourReference</reference> <!--Returned if added to capture modifications-->
+                <reference>1234</reference> <!--Returned if added to capture modifications-->
                 <balance accountType="IN_PROCESS_CAPTURED">
                   <amount value="1000" currencyCode="EUR" exponent="2" debitCreditIndicator="credit"/>
                 </balance>
@@ -38,6 +38,10 @@ Feature: a payment notification request is to a notification response
         """
         Then a successful notification response should be returned
         And the notification response should reference the 123456 order code
+        And the notification reference is
+        """
+        1234
+        """
         And the notification response is captured
 
     Scenario: Converting a capture failed notification request
