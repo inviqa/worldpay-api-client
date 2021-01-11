@@ -46,7 +46,7 @@ class FakeClient implements Client
             );
         }
 
-        if (strstr($xml, "</refund>") !== false) {
+        if (strstr($xml, "<refund>") !== false || preg_match('/<refund reference="\d+">/', $xml) === 1) {
             return HttpResponse::fromContentAndCookie(
                 RefundFactory::cseRefundResponseXmlForOrderCode($orderCode),
                 "machine:123"

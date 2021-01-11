@@ -24,7 +24,7 @@ class RefundRequestFactory
         'exponent'         => "2",
         'amount'           => "",
         'debitCreditValue' => "",
-        'reference'        => "",
+        'reference'        => null,
     ];
 
     public function buildFromRequestParameters(array $parameters): PaymentService
@@ -39,7 +39,7 @@ class RefundRequestFactory
         );
 
         $orderCode          = new OrderCode($parameters['orderCode']);
-        $reference          = new Reference($parameters['reference']);
+        $reference          = empty($parameters['reference']) ? null : new Reference($parameters['reference']);
         $refund             = new Refund($reference, $amount);
         $refundModification = new RefundModification($orderCode, $refund);
 

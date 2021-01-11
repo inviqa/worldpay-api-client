@@ -97,7 +97,7 @@ Feature: a payment notification request is to a notification response
                 <paymentMethod>VISA-SSL</paymentMethod>
                   <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
                 <lastEvent>SENT_FOR_REFUND</lastEvent>
-                <reference>{"notifyClient":true,"returnNumber":"RN0000000"}</reference>
+                <reference>1234</reference>
                 <balance accountType="IN_PROCESS_CAPTURED">
                   <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
                 </balance>
@@ -125,7 +125,7 @@ Feature: a payment notification request is to a notification response
         And the notification response is refunded
         And the notification reference is
         """
-        {"notifyClient":true,"returnNumber":"RN0000000"}
+        1234
         """
 
     Scenario: Converting a refund notification request
@@ -141,7 +141,7 @@ Feature: a payment notification request is to a notification response
                 <paymentMethod>VISA-SSL</paymentMethod>
                   <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
                 <lastEvent>REFUND_FAILED</lastEvent>
-                <reference>{"notifyClient":true,"returnNumber":"RN0000000"}</reference>
+                <reference>1234</reference>
                 <balance accountType="IN_PROCESS_CAPTURED">
                   <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
                 </balance>
@@ -169,5 +169,5 @@ Feature: a payment notification request is to a notification response
         And the notification response is refund failed
         And the notification reference is
         """
-        {"notifyClient":true,"returnNumber":"RN0000000"}
+        1234
         """
