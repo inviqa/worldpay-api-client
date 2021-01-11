@@ -38,10 +38,7 @@ Feature: a payment notification request is to a notification response
         """
         Then a successful notification response should be returned
         And the notification response should reference the 123456 order code
-        And the notification reference is
-        """
-        1234
-        """
+        And the notification reference is "1234"
         And the notification response is captured
 
     Scenario: Converting a capture failed notification request
@@ -123,10 +120,7 @@ Feature: a payment notification request is to a notification response
         Then a successful notification response should be returned
         And the notification response should reference the 456789 order code
         And the notification response is refunded
-        And the notification reference is
-        """
-        1234
-        """
+        And the notification reference is "1234"
 
     Scenario: Converting a refund notification request
         When the following notification request is parsed
@@ -167,7 +161,4 @@ Feature: a payment notification request is to a notification response
         Then a successful notification response should be returned
         And the notification response should reference the 456789 order code
         And the notification response is refund failed
-        And the notification reference is
-        """
-        1234
-        """
+        And the notification reference is "1234"
