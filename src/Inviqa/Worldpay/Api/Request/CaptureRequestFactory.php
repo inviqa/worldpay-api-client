@@ -23,6 +23,7 @@ class CaptureRequestFactory
         'exponent' => "2",
         'amount' => "",
         'debitCreditValue' => "",
+        'reference' => null,
     ];
 
     public function buildFromRequestParameters(array $parameters): PaymentService
@@ -36,8 +37,9 @@ class CaptureRequestFactory
             new Value($parameters['amount'])
         );
 
+        $reference           = empty($parameters['reference']) ? null : new Capture\Reference($parameters['reference']);
         $orderCode           = new OrderCode($parameters['orderCode']);
-        $capture             = new Capture($amount);
+        $capture             = new Capture($amount, $reference);
         $captureModification = new CaptureModification($orderCode, $capture);
 
         $paymentService = new PaymentService(

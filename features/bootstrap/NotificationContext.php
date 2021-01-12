@@ -80,10 +80,10 @@ class NotificationContext implements Context
     }
 
     /**
-     * @Then the notification reference is
+     * @Then the notification reference is :reference
      */
-    public function theNotificationReferenceIs(PyStringNode $reference)
+    public function theNotificationReferenceIs(string $reference)
     {
-        Assert::eq($this->response->reference(), (string) $reference);
+        Assert::eq($this->response->reference(), $reference);
     }
 }

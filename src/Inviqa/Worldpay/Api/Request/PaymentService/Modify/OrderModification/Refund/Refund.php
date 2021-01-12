@@ -11,7 +11,7 @@ class Refund extends XmlNodeDefaults implements OrderModification
     private $reference;
 
     public function __construct(
-        Reference $reference,
+        ?Reference $reference = null,
         Amount $amount
     ) {
         $this->reference = $reference;

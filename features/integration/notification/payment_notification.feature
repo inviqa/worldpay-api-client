@@ -13,7 +13,7 @@ Feature: a payment notification request is to a notification response
                 <paymentMethod>VISA-SSL</paymentMethod>
                   <amount value="1000" currencyCode="EUR" exponent="2" debitCreditIndicator="credit"/>
                 <lastEvent>CAPTURED</lastEvent>
-                <reference>YourReference</reference> <!--Returned if added to capture modifications-->
+                <reference>1234</reference> <!--Returned if added to capture modifications-->
                 <balance accountType="IN_PROCESS_CAPTURED">
                   <amount value="1000" currencyCode="EUR" exponent="2" debitCreditIndicator="credit"/>
                 </balance>
@@ -38,6 +38,7 @@ Feature: a payment notification request is to a notification response
         """
         Then a successful notification response should be returned
         And the notification response should reference the 123456 order code
+        And the notification reference is "1234"
         And the notification response is captured
 
     Scenario: Converting a capture failed notification request
@@ -93,7 +94,7 @@ Feature: a payment notification request is to a notification response
                 <paymentMethod>VISA-SSL</paymentMethod>
                   <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
                 <lastEvent>SENT_FOR_REFUND</lastEvent>
-                <reference>{"notifyClient":true,"returnNumber":"RN0000000"}</reference>
+                <reference>1234</reference>
                 <balance accountType="IN_PROCESS_CAPTURED">
                   <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
                 </balance>
@@ -119,10 +120,7 @@ Feature: a payment notification request is to a notification response
         Then a successful notification response should be returned
         And the notification response should reference the 456789 order code
         And the notification response is refunded
-        And the notification reference is
-        """
-        {"notifyClient":true,"returnNumber":"RN0000000"}
-        """
+        And the notification reference is "1234"
 
     Scenario: Converting a refund notification request
         When the following notification request is parsed
@@ -137,7 +135,7 @@ Feature: a payment notification request is to a notification response
                 <paymentMethod>VISA-SSL</paymentMethod>
                   <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
                 <lastEvent>REFUND_FAILED</lastEvent>
-                <reference>{"notifyClient":true,"returnNumber":"RN0000000"}</reference>
+                <reference>1234</reference>
                 <balance accountType="IN_PROCESS_CAPTURED">
                   <amount value="1000" currencyCode="GBP" exponent="2" debitCreditIndicator="credit"/>
                 </balance>
@@ -163,7 +161,4 @@ Feature: a payment notification request is to a notification response
         Then a successful notification response should be returned
         And the notification response should reference the 456789 order code
         And the notification response is refund failed
-        And the notification reference is
-        """
-        {"notifyClient":true,"returnNumber":"RN0000000"}
-        """
+        And the notification reference is "1234"
