@@ -39,14 +39,14 @@ class FakeClient implements Client
             return HttpResponse::fromContentAndCookie(OrderFactory::cse3DSFlexResponseXMl($orderCode));
         }
 
-        if (strstr($xml, "<capture>") !== false || preg_match('/<capture reference="\d+">/', $xml) === 1) {
+        if (strstr($xml, "<capture>") !== false || preg_match('/<capture reference="[^"]+">/', $xml) === 1) {
             return HttpResponse::fromContentAndCookie(
                 CaptureFactory::cseCaptureResponseXmlForOrderCode($orderCode),
                 "machine:123"
             );
         }
 
-        if (strstr($xml, "<refund>") !== false || preg_match('/<refund reference="\d+">/', $xml) === 1) {
+        if (strstr($xml, "<refund>") !== false || preg_match('/<refund reference="[^"]+">/', $xml) === 1) {
             return HttpResponse::fromContentAndCookie(
                 RefundFactory::cseRefundResponseXmlForOrderCode($orderCode),
                 "machine:123"
