@@ -2,6 +2,12 @@
 
 namespace Inviqa\Worldpay\Notification\Response;
 
+use Inviqa\Worldpay\Notification\Response\JournalTransactions;
+use DOMDocument;
+use DOMNode;
+use DOMXPath;
+use function iterator_to_array;
+
 class NotificationResponse
 {
     const EVENT_CAPTURED = "CAPTURED";
@@ -15,12 +21,20 @@ class NotificationResponse
      */
     private $rawNotification;
 
+    /**
+     * @var DOMXPath|null
+     */
+    private $xpath;
+
+    private function __construct(string $rawNotification, DOMXPath $xpath)
+    {
+        $this->rawNotification = $rawNotification;
+        $this->xpath = $xpath;
+    }
+
     public static function fromRawNotification(string $rawNotification = "")
     {
-        $instance                  = new NotificationResponse();
-        $instance->rawNotification = $rawNotification;
-
-        return $instance;
+        return new self($rawNotification, self::loadXpath($rawNotification));
     }
 
     public function isSuccessful(): bool
@@ -80,6 +94,16 @@ class NotificationResponse
         return $this->nodeValue('reference');
     }
 
+    public function transactions(): JournalTransactions
+    {
+        return new JournalTransactions(array_map(function (DOMNode $node) {
+            return new JournalTransaction(
+                $node->parentNode->attributes->getNamedItem('accountType')->nodeValue,
+                $node->attributes->getNamedItem('value')->nodeValue
+            );
+        }, (array)iterator_to_array($this->xpath->query('//journal/accountTx/amount'))));
+    }
+
     private function nodeValue(string $nodeName): string
     {
         if (preg_match("~$nodeName>([^<]+)</$nodeName~", $this->rawNotification, $matches)) {
@@ -98,7 +122,10 @@ class NotificationResponse
         return '';
     }
 
-    private function __construct()
+    private static function loadXpath(string $rawNotification)
     {
+        $dom = new DOMDocument('1.0');
+        $dom->loadXML($rawNotification);
+        return new DOMXPath($dom);
     }
 }
