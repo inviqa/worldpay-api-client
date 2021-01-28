@@ -67,7 +67,7 @@ class NotificationResponseSpec extends ObjectBehavior
     {
         $this->beConstructedFromRawNotification(self::CAPTURED_NOTIFICATION);
 
-        $this->orderCode()->shouldBe("123456");
+        $this->orderCode()->shouldBe("123456-1234");
     }
 
     function it_returns_true_when_the_last_event_is_captured()
