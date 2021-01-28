@@ -11,7 +11,7 @@ class NotificationResponseSpec extends ObjectBehavior
     const CAPTURED_NOTIFICATION = '
 <paymentService version="1.4" merchantCode="SESSIONECOM">
   <notify>
-    <orderStatusEvent orderCode="123456"> <!--The orderCode you supplied in the order-->
+    <orderStatusEvent orderCode="123456-1234"> <!--The orderCode you supplied in the order-->
       <payment>
         <paymentMethod>VISA-SSL</paymentMethod>
           <amount value="1000" currencyCode="EUR" exponent="2" debitCreditIndicator="credit"/>

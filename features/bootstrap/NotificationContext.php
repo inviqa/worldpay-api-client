@@ -2,7 +2,9 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
+use Behat\Gherkin\Node\TableNode;
 use Inviqa\Worldpay\Application;
+use Inviqa\Worldpay\Notification\Response\JournalTransaction;
 use Inviqa\Worldpay\Notification\Response\NotificationResponse;
 use Services\TestConfig;
 use Webmozart\Assert\Assert;
@@ -85,5 +87,17 @@ class NotificationContext implements Context
     public function theNotificationReferenceIs(string $reference)
     {
         Assert::eq($this->response->reference(), $reference);
+    }
+
+    /**
+     * @Then the following journal transactions are available:
+     */
+    public function jorunalTranscations(TableNode $table)
+    {
+        foreach ($table->getColumnsHash() as $expectedTransaction) {
+            $transaction = $this->response->transactions()->oneByType($expectedTransaction['type']);
+            Assert::isInstanceOf($transaction, JournalTransaction::class);
+            Assert::eq($transaction->getAmount(), $expectedTransaction['amount']);
+        }
     }
 }

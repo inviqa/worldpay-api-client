@@ -162,3 +162,7 @@ Feature: a payment notification request is to a notification response
         And the notification response should reference the 456789 order code
         And the notification response is refund failed
         And the notification reference is "1234"
+        And the following journal transactions are available:
+            | type                | amount |
+            | SETTLED_BIBIT_NET   | 900    |
+            | IN_PROCESS_CAPTURED | 900    |
