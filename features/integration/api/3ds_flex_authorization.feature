@@ -107,7 +107,7 @@ Feature: A payment authorization request is made against the Worldpay payment us
     <param name="nField6">3</param>
     <param name="nField7">0</param>
    </hcgAdditionalData>
-   <additional3DSData dfReferenceId="0_76607b65-03a2-45da-bf3c-858b1ea54f2c"/>
+   <additional3DSData dfReferenceId="0_76607b65-03a2-45da-bf3c-858b1ea54f2c" challengeWindowSize="fullPage"/>
   </order>
  </submit>
 </paymentService>

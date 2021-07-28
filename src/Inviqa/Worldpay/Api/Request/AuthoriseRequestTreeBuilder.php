@@ -164,7 +164,8 @@ class AuthoriseRequestTreeBuilder
         if (!empty($parameters['dfReferenceId'])) {
             $order = $order->with3DSFlex(
                 new Additional3DSData(
-                    new DfReferenceId($parameters['dfReferenceId'])
+                    new DfReferenceId($parameters['dfReferenceId']),
+                    new ChallengeWindowSize('fullPage')
                 )
             );
         } elseif ($parameters['dynamic3DS']) {
