@@ -6,4 +6,8 @@ use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
 class Address2 extends XmlNodeDefaults
 {
+    public function __construct(string $string = null)
+    {
+        $this->string = $string;
+    }
 }
