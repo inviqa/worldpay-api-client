@@ -3,15 +3,33 @@
 namespace Inviqa\Worldpay\Api\Request;
 
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Additional3DSData;
-use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Additional3DSData\ChallengePreference;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Additional3DSData\ChallengeWindowSize;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Additional3DSData\DfReferenceId;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\CurrencyCode;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\Exponent;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Amount\Value;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\DeviceSession;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\DeviceSession\SessionId;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS\OverrideAdvice;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\BirthDate;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\BirthDate\Date;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\BirthDate\Date\DayOfMonth;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\BirthDate\Date\Month;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\BirthDate\Date\Year;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\ShopperAddress;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\ShopperAddress\Address as ShopperFieldsAddress;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\ShopperAddress\Address\Address1;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\ShopperAddress\Address\Address2;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\ShopperAddress\Address\Address3;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\ShopperAddress\Address\City as ShopperCity;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\ShopperAddress\Address\CountryCode as ShopperCountryCode;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\ShopperAddress\Address\TelephoneNumber as ShopperTelephoneNumber;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\ShopperId;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\ShopperName;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\HcgAdditionalData;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Name;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Param\Param;
@@ -175,6 +193,52 @@ class AuthoriseRequestTreeBuilder
             );
         }
 
+        if (!empty($parameters['fsSession'])) {
+            $order = $order->withFraudsightData(
+                $this->buildFraudsightData($parameters)
+            );
+            $order = $order->withFraudsightSession(
+                new DeviceSession(
+                    new SessionId($parameters['fsSession'])
+                )
+            );
+        }
+
         return $order;
+    }
+
+    /**
+     * @param array $parameters
+     *
+     * @return FraudSightData
+     */
+    public function buildFraudsightData(array $parameters)
+    {
+        return new FraudSightData(
+            new ShopperFields(
+                new ShopperName($parameters['firstName'] .' ' . $parameters['lastName']),
+                new ShopperId($parameters['customerId']),
+                new BirthDate(
+                    new Date(
+                        new DayOfMonth($parameters['birthday']['day']),
+                        new Month($parameters['birthday']['month']),
+                        new Year($parameters['birthday']['year'])
+                    )
+                ),
+                new ShopperAddress(
+                    new ShopperFieldsAddress(
+                        new ShopperFieldsAddress\FirstName($parameters['firstName']),
+                        new ShopperFieldsAddress\LastName($parameters['lastName']),
+                        new Address1($parameters['address1']),
+                        new Address2($parameters['address2']),
+                        new Address3($parameters['address3']),
+                        new ShopperFieldsAddress\PostalCode($parameters['postalCode']),
+                        new ShopperCity($parameters['city']),
+                        new ShopperCountryCode($parameters['countryCode']),
+                        new ShopperTelephoneNumber($parameters['telephoneNumber'])
+                    )
+                )
+            )
+        );
     }
 }

@@ -51,6 +51,9 @@ class ApiContext implements Context
         if (!empty($params['shippingAddress'])) {
             $params = $this->defineShippingAddressParams($params);
         }
+        if (!empty($params['birthday'])) {
+            $params = $this->defineBirthdayParams($params);
+        }
 
         $this->response = $this->application->authorizePayment($params);
     }
@@ -501,6 +504,27 @@ class ApiContext implements Context
         $params['shippingAddress']['state']           = $address[7];
         $params['shippingAddress']['countryCode']     = $address[8];
         $params['shippingAddress']['telephoneNumber'] = $address[9];
+
+        return $params;
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return array
+     */
+    private function defineBirthdayParams(array $params): array
+    {
+        $birthday           = explode(',', $params['birthday']);
+        $params['birthday'] = [];
+
+        if (count($birthday) != 3) {
+            throw new InvalidArgumentException("A birthday must contain exactly 3 elements");
+        }
+
+        $params['birthday']['day']   = $birthday[0];
+        $params['birthday']['month'] = $birthday[1];
+        $params['birthday']['year']  = $birthday[2];
 
         return $params;
     }
