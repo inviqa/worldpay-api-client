@@ -21,4 +21,9 @@ class FraudSightData extends XmlNodeDefaults
             $this->shopperFields,
         ];
     }
+
+    public function xmlLabel()
+    {
+        return 'FraudSightData';
+    }
 }

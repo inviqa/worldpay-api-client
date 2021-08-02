@@ -111,7 +111,7 @@ Feature: A payment authorization request is made against the Worldpay payment us
     <param name="nField7">0</param>
    </hcgAdditionalData>
    <additional3DSData dfReferenceId="0_76607b65-03a2-45da-bf3c-858b1ea54f2c" challengeWindowSize="fullPage"/>
-   <fraudSightData>
+   <FraudSightData>
     <shopperFields>
      <shopperName>Tim Webster</shopperName>
      <shopperId>123456</shopperId>
@@ -132,7 +132,7 @@ Feature: A payment authorization request is made against the Worldpay payment us
       </address>
      </shopperAddress>
     </shopperFields>
-   </fraudSightData>
+   </FraudSightData>
    <deviceSession>
     <sessionId>465c8d58-2cd1-4d2e-9a52-201449b6c043</sessionId>
    </deviceSession>
