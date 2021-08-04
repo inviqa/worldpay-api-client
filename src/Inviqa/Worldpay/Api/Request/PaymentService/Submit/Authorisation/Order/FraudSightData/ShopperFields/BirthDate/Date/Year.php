@@ -6,4 +6,8 @@ use Inviqa\Worldpay\Api\XmlAttributeDefaults;
 
 class Year extends XmlAttributeDefaults
 {
+    public function __construct(string $string = null)
+    {
+        $this->string = $string;
+    }
 }
