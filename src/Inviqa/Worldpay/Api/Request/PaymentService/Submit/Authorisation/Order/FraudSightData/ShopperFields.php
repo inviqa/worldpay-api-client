@@ -18,7 +18,7 @@ class ShopperFields extends XmlNodeDefaults
     public function __construct(
         ShopperName $shopperName,
         ShopperId $shopperId,
-        BirthDate $birthDate,
+        ?BirthDate $birthDate,
         ShopperAddress $shopperAddress
     ) {
         $this->shopperName = $shopperName;

@@ -214,17 +214,22 @@ class AuthoriseRequestTreeBuilder
      */
     public function buildFraudsightData(array $parameters)
     {
+        $birthday = null;
+        if (!empty($parameters['birthday']['day'])) {
+            $birthday = new BirthDate(
+                new Date(
+                    new DayOfMonth(!empty($parameters['birthday']['day']) ?: ''),
+                    new Month(!empty($parameters['birthday']['month']) ?: ''),
+                    new Year(!empty($parameters['birthday']['year']) ?: '')
+                )
+            );
+        }
+
         return new FraudSightData(
             new ShopperFields(
                 new ShopperName($parameters['firstName'] .' ' . $parameters['lastName']),
                 new ShopperId($parameters['customerId']),
-                new BirthDate(
-                    new Date(
-                        new DayOfMonth($parameters['birthday']['day']),
-                        new Month($parameters['birthday']['month']),
-                        new Year($parameters['birthday']['year'])
-                    )
-                ),
+                $birthday,
                 new ShopperAddress(
                     new ShopperFieldsAddress(
                         new ShopperFieldsAddress\FirstName($parameters['firstName']),
