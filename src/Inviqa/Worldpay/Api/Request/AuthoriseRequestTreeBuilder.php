@@ -179,7 +179,7 @@ class AuthoriseRequestTreeBuilder
             );
         }
 
-        if (!empty($parameters['dfReferenceId'])) {
+        if (array_key_exists('dfReferenceId', $parameters)) {
             $order = $order->with3DSFlex(
                 new Additional3DSData(
                     new DfReferenceId($parameters['dfReferenceId']),
