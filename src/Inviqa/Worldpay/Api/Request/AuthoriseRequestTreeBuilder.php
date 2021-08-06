@@ -14,6 +14,10 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Device
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Dynamic3DS\OverrideAdvice;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\CustomField\CustomField;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\CustomField\Value as CustomValue;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\CustomNumericFields;
+use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\CustomStringFields;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\BirthDate;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\FraudSightData\ShopperFields\BirthDate\Date;
@@ -52,6 +56,7 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shoppe
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\Browser\UserAgentHeader;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\ShopperEmailAddress;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order;
+use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
 class AuthoriseRequestTreeBuilder
 {
@@ -226,6 +231,8 @@ class AuthoriseRequestTreeBuilder
         }
 
         return new FraudSightData(
+            $this->buildCustomStringFields(),
+            $this->buildCustomNumericFields(),
             new ShopperFields(
                 new ShopperName($parameters['firstName'] .' ' . $parameters['lastName']),
                 new ShopperId($parameters['customerId']),
@@ -246,4 +253,47 @@ class AuthoriseRequestTreeBuilder
             )
         );
     }
+
+    /**
+     * @return CustomStringFields
+     *
+     * @throws \Inviqa\Worldpay\Api\Exception\InvalidRequestParameterException
+     */
+    public function buildCustomStringFields()
+    {
+        return new CustomStringFields(
+            new CustomField('customStringField1', new CustomValue($this->parameters['shippingMethod'])),
+            new CustomField('customStringField2', new CustomValue($this->parameters['productRisk'] ? 'High' : 'normal')),
+            new CustomField('customStringField3', new CustomValue('')),
+            new CustomField('customStringField4', new CustomValue($this->parameters['checkoutMethod'])),
+            new CustomField('customStringField5', new CustomValue($this->parameters['orderSource'])),
+            new CustomField('customStringField6', new CustomValue($this->parameters['paymentSubtype'] ?? '')),
+            new CustomField('customStringField7', new CustomValue('')),
+            new CustomField('customStringField8', new CustomValue('')),
+            new CustomField('customStringField9', new CustomValue('')),
+            new CustomField('customStringField10', new CustomValue(''))
+        );
+    }
+
+    /**
+     * @return CustomNumericFields
+     *
+     * @throws \Inviqa\Worldpay\Api\Exception\InvalidRequestParameterException
+     */
+    public function buildCustomNumericFields()
+    {
+        return new CustomNumericFields(
+            new CustomField('customNumericField1', new CustomValue($this->parameters['ageOfAccount'])),
+            new CustomField('customNumericField2', new CustomValue($this->parameters['timeSinceLastOrder'])),
+            new CustomField('customNumericField3', new CustomValue($this->parameters['numberPurchases'])),
+            new CustomField('customNumericField4', new CustomValue($this->parameters['numberStyles'])),
+            new CustomField('customNumericField5', new CustomValue($this->parameters['numberSkus'])),
+            new CustomField('customNumericField6', new CustomValue($this->parameters['numberUnits'])),
+            new CustomField('customNumericField7', new CustomValue($this->parameters['numberHighRiskUnits'])),
+            new CustomField('customNumericField8', new CustomValue('')),
+            new CustomField('customNumericField9', new CustomValue('')),
+            new CustomField('customNumericField10', new CustomValue(''))
+        );
+    }
+
 }

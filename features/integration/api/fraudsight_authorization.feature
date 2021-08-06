@@ -112,6 +112,30 @@ Feature: A payment authorization request is made against the Worldpay payment us
    </hcgAdditionalData>
    <additional3DSData dfReferenceId="0_76607b65-03a2-45da-bf3c-858b1ea54f2c" challengeWindowSize="fullPage"/>
    <FraudSightData>
+    <customStringFields>
+     <customStringField1>UK Next Day</customStringField1>
+     <customStringField2>normal</customStringField2>
+     <customStringField3></customStringField3>
+     <customStringField4>Registered</customStringField4>
+     <customStringField5></customStringField5>
+     <customStringField6></customStringField6>
+     <customStringField7></customStringField7>
+     <customStringField8></customStringField8>
+     <customStringField9></customStringField9>
+     <customStringField10></customStringField10>
+    </customStringFields>
+    <customNumericFields>
+     <customNumericField1>4.5678</customNumericField1>
+     <customNumericField2>3.4567</customNumericField2>
+     <customNumericField3>5</customNumericField3>
+     <customNumericField4>2</customNumericField4>
+     <customNumericField5>3</customNumericField5>
+     <customNumericField6>3</customNumericField6>
+     <customNumericField7>0</customNumericField7>
+     <customNumericField8></customNumericField8>
+     <customNumericField9></customNumericField9>
+     <customNumericField10></customNumericField10>
+    </customNumericFields>
     <shopperFields>
      <shopperName>Tim Webster</shopperName>
      <shopperId>123456</shopperId>
