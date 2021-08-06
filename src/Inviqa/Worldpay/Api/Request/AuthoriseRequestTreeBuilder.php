@@ -218,9 +218,9 @@ class AuthoriseRequestTreeBuilder
         if (!empty($parameters['birthday']['day'])) {
             $birthday = new BirthDate(
                 new Date(
-                    new DayOfMonth(!empty($parameters['birthday']['day']) ?: ''),
-                    new Month(!empty($parameters['birthday']['month']) ?: ''),
-                    new Year(!empty($parameters['birthday']['year']) ?: '')
+                    new DayOfMonth(!empty($parameters['birthday']['day']) ? $parameters['birthday']['day'] : ''),
+                    new Month(!empty($parameters['birthday']['month']) ? $parameters['birthday']['month'] : ''),
+                    new Year(!empty($parameters['birthday']['year']) ? $parameters['birthday']['year'] : '')
                 )
             );
         }
