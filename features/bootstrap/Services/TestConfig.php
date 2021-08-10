@@ -25,4 +25,9 @@ class TestConfig implements Config
     {
         return "https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp";
     }
+
+    public function sendEmptyFraudsightFields(): bool
+    {
+        return true;
+    }
 }

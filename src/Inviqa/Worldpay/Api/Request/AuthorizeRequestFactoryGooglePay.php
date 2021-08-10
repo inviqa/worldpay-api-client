@@ -22,13 +22,24 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Paymen
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\Session;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetailsGooglePay;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
+use Inviqa\Worldpay\Config;
 
 class AuthorizeRequestFactoryGooglePay implements RequestFactory
 {
+    /**
+     * @var Config
+     */
+    private $config;
+
     private $defaultGooglePayParameters = [
         'protocolVersion' => "dummy protocol version",
         'signature' => "dummy signature",
     ];
+
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * @param array $parameters
@@ -43,7 +54,7 @@ class AuthorizeRequestFactoryGooglePay implements RequestFactory
         }
         $parameters += AuthorizeRequestFactory::DEFAULT_PARAMETERS;
         $parameters += $this->defaultGooglePayParameters;
-        $treeBuilder = new AuthoriseRequestTreeBuilder($parameters);
+        $treeBuilder = new AuthoriseRequestTreeBuilder($parameters, $this->config);
 
         $orderCode = new OrderCode($parameters['orderCode']);
         $description = new Description($parameters['description']);

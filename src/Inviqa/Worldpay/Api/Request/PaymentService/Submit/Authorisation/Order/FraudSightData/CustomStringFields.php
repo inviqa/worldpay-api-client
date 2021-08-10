@@ -7,6 +7,10 @@ use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
 class CustomStringFields extends XmlNodeDefaults
 {
+    /**
+     * @var bool
+     */
+    private $renderEmptyFields;
     private $customStringField1;
     private $customStringField2;
     private $customStringField3;
@@ -19,6 +23,7 @@ class CustomStringFields extends XmlNodeDefaults
     private $customStringField10;
 
     public function __construct(
+        $renderEmptyFields,
         CustomField $customStringField1,
         CustomField $customStringField2,
         CustomField $customStringField3,
@@ -30,6 +35,7 @@ class CustomStringFields extends XmlNodeDefaults
         CustomField $customStringField9,
         CustomField $customStringField10
     ) {
+        $this->renderEmptyFields = $renderEmptyFields;
         $this->customStringField1 = $customStringField1;
         $this->customStringField2 = $customStringField2;
         $this->customStringField3 = $customStringField3;
@@ -44,7 +50,7 @@ class CustomStringFields extends XmlNodeDefaults
 
     public function xmlChildren()
     {
-        return [
+        return array_filter([
             $this->customStringField1,
             $this->customStringField2,
             $this->customStringField3,
@@ -55,6 +61,8 @@ class CustomStringFields extends XmlNodeDefaults
             $this->customStringField8,
             $this->customStringField9,
             $this->customStringField10
-        ];
+        ], function(CustomField $field) {
+            return $this->renderEmptyFields || !empty($field->string);
+        });
     }
 }

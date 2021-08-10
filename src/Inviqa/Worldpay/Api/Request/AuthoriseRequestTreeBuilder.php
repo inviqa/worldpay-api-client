@@ -56,18 +56,24 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shoppe
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\Browser\UserAgentHeader;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Shopper\ShopperEmailAddress;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Order;
-use Inviqa\Worldpay\Api\XmlNodeDefaults;
+use Inviqa\Worldpay\Config;
 
 class AuthoriseRequestTreeBuilder
 {
+    /**
+     * @var Config
+     */
+    private $config;
+
     /**
      * @var array
      */
     private $parameters;
 
-    public function __construct(array $parameters)
+    public function __construct(array $parameters, Config $config)
     {
         $this->parameters = $parameters;
+        $this->config = $config;
     }
 
     /**
@@ -262,6 +268,7 @@ class AuthoriseRequestTreeBuilder
     public function buildCustomStringFields()
     {
         return new CustomStringFields(
+            $this->config->sendEmptyFraudsightFields(),
             new CustomField('customStringField1', new CustomValue($this->parameters['shippingMethod'])),
             new CustomField('customStringField2', new CustomValue($this->parameters['productRisk'] ? 'High' : 'normal')),
             new CustomField('customStringField3', new CustomValue('')),
@@ -283,6 +290,7 @@ class AuthoriseRequestTreeBuilder
     public function buildCustomNumericFields()
     {
         return new CustomNumericFields(
+            $this->config->sendEmptyFraudsightFields(),
             new CustomField('customNumericField1', new CustomValue($this->parameters['ageOfAccount'])),
             new CustomField('customNumericField2', new CustomValue($this->parameters['timeSinceLastOrder'])),
             new CustomField('customNumericField3', new CustomValue($this->parameters['numberPurchases'])),

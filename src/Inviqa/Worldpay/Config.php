@@ -8,4 +8,5 @@ interface Config
     public function username(): string;
     public function password(): string;
     public function uri(): string;
+    public function sendEmptyFraudsightFields(): bool;
 }
