@@ -378,7 +378,7 @@ class ApiContext implements Context
             $params = $this->defineShippingAddressParams($params);
         }
 
-        $authRequestFactory = new AuthorizeRequestFactoryApplePay();
+        $authRequestFactory = new AuthorizeRequestFactoryApplePay(new TestConfig());
         $xmlNodeConverter = new XmlNodeConverter(
             new Writer()
         );
@@ -400,7 +400,7 @@ class ApiContext implements Context
             $params = $this->defineShippingAddressParams($params);
         }
 
-        $authRequestFactory = new AuthorizeRequestFactoryGooglePay();
+        $authRequestFactory = new AuthorizeRequestFactoryGooglePay(new TestConfig());
         $xmlNodeConverter = new XmlNodeConverter(
             new Writer()
         );

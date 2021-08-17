@@ -13,9 +13,20 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Paymen
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\Session;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetailsWorldpay;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
+use Inviqa\Worldpay\Config;
 
 class AuthorizeRequestFactory implements RequestFactory
 {
+    /**
+     * @var Config
+     */
+    private $config;
+
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+    }
+
     const DEFAULT_PARAMETERS = [
         'version' => "1.4",
         'orderCode' => "",
@@ -77,7 +88,7 @@ class AuthorizeRequestFactory implements RequestFactory
             $parameters['shippingAddress'] += self::DEFAULT_ADDRESS_PARAMETERS;
         }
         $parameters += self::DEFAULT_PARAMETERS;
-        $treeBuilder = new AuthoriseRequestTreeBuilder($parameters);
+        $treeBuilder = new AuthoriseRequestTreeBuilder($parameters, $this->config);
 
         $orderCode = new OrderCode($parameters['orderCode']);
         $description = new Description($parameters['description']);

@@ -39,7 +39,7 @@ class Application
         $this->client = $clientFactory->getClient();
 
         $this->paymentAuthorizer = PaymentAuthorizer::worldpayAuthorizer(
-            new AuthorizeRequestFactory(),
+            new AuthorizeRequestFactory($config),
             new ThreeDSRequestFactory(),
             new ThreeDSFlexRequestFactory(),
             new XmlNodeConverter(
@@ -49,7 +49,7 @@ class Application
         );
 
         $this->paymentAuthorizerApplePay = PaymentAuthorizer::applePayAuthorizer(
-            new AuthorizeRequestFactoryApplePay(),
+            new AuthorizeRequestFactoryApplePay($config),
             new XmlNodeConverter(
                 new Writer()
             ),
@@ -57,7 +57,7 @@ class Application
         );
 
         $this->paymentAuthorizerGooglePay = PaymentAuthorizer::googlePayAuthorizer(
-            new AuthorizeRequestFactoryGooglePay(),
+            new AuthorizeRequestFactoryGooglePay($config),
             new XmlNodeConverter(
                 new Writer()
             ),

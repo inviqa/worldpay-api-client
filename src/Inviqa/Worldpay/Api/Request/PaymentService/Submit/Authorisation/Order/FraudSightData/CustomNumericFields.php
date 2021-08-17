@@ -7,6 +7,10 @@ use Inviqa\Worldpay\Api\XmlNodeDefaults;
 
 class CustomNumericFields extends XmlNodeDefaults
 {
+    /**
+     * @var bool
+     */
+    private $renderEmptyFields;
     private $customNumericField1;
     private $customNumericField2;
     private $customNumericField3;
@@ -19,6 +23,7 @@ class CustomNumericFields extends XmlNodeDefaults
     private $customNumericField10;
 
     public function __construct(
+        $renderEmptyFields,
         CustomField $customNumericField1,
         CustomField $customNumericField2,
         CustomField $customNumericField3,
@@ -30,6 +35,7 @@ class CustomNumericFields extends XmlNodeDefaults
         CustomField $customNumericField9,
         CustomField $customNumericField10
     ) {
+        $this->renderEmptyFields = $renderEmptyFields;
         $this->customNumericField1 = $customNumericField1;
         $this->customNumericField2 = $customNumericField2;
         $this->customNumericField3 = $customNumericField3;
@@ -44,7 +50,7 @@ class CustomNumericFields extends XmlNodeDefaults
 
     public function xmlChildren()
     {
-        return [
+        return array_filter([
             $this->customNumericField1,
             $this->customNumericField2,
             $this->customNumericField3,
@@ -55,6 +61,8 @@ class CustomNumericFields extends XmlNodeDefaults
             $this->customNumericField8,
             $this->customNumericField9,
             $this->customNumericField10
-        ];
+        ], function(CustomField $field) {
+            return $this->renderEmptyFields || !empty($field->string);
+        });
     }
 }

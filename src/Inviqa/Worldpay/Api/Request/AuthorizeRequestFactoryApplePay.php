@@ -19,9 +19,15 @@ use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\Paymen
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetails\ApplePaySSL\Version as ApplePayVersion;
 use Inviqa\Worldpay\Api\Request\PaymentService\Submit\Authorisation\Order\PaymentDetailsApplePay;
 use Inviqa\Worldpay\Api\Request\PaymentService\Version;
+use Inviqa\Worldpay\Config;
 
 class AuthorizeRequestFactoryApplePay implements RequestFactory
 {
+    /**
+     * @var Config
+     */
+    private $config;
+
     private $defaultApplePayParameters = [
         'signature' => "dummy signature",
         'applePayVersion' => "dummy version",
@@ -29,6 +35,11 @@ class AuthorizeRequestFactoryApplePay implements RequestFactory
         'publicKeyHash' => "dummy hash",
         'transactionId' => "123456",
     ];
+
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+    }
 
     /**
      * @param array $parameters
@@ -44,7 +55,7 @@ class AuthorizeRequestFactoryApplePay implements RequestFactory
         $parameters += AuthorizeRequestFactory::DEFAULT_PARAMETERS;
         $parameters += $this->defaultApplePayParameters;
 
-        $treeBuilder = new AuthoriseRequestTreeBuilder($parameters);
+        $treeBuilder = new AuthoriseRequestTreeBuilder($parameters, $this->config);
 
         $orderCode = new OrderCode($parameters['orderCode']);
         $description = new Description($parameters['description']);
