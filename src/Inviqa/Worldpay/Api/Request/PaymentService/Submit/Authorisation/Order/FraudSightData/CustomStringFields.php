@@ -62,7 +62,7 @@ class CustomStringFields extends XmlNodeDefaults
             $this->customStringField9,
             $this->customStringField10
         ], function(CustomField $field) {
-            return $this->renderEmptyFields || !empty($field->string);
+            return $this->renderEmptyFields || !empty($field->getValue()->string);
         });
     }
 }

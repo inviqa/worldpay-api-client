@@ -29,4 +29,9 @@ class CustomField extends XmlNodeDefaults
     {
         return $this->label;
     }
+
+    public function getValue()
+    {
+        return $this->value;
+    }
 }
