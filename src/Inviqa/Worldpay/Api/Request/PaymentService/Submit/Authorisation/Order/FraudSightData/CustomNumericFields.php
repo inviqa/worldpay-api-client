@@ -62,7 +62,7 @@ class CustomNumericFields extends XmlNodeDefaults
             $this->customNumericField9,
             $this->customNumericField10
         ], function(CustomField $field) {
-            return $this->renderEmptyFields || !empty($field->string);
+            return $this->renderEmptyFields || !empty($field->getValue()->string);
         });
     }
 }
