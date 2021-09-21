@@ -11,7 +11,7 @@ class XmlNodeDefaults implements XmlConvertibleNode
     public function __construct(string $string = null) {
         if ('' == $string) {
             throw new InvalidRequestParameterException(sprintf(
-                "We are missing billing %s request parameter. Please check your details and submit again.",
+                "We are missing billing %s. Please check your details and submit again.",
                 $this->xmlLabel()
             ));
         }
