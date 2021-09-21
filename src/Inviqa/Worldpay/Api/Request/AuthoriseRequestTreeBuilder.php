@@ -105,7 +105,7 @@ class AuthoriseRequestTreeBuilder
                 new PostalCode($this->parameters['postalCode']),
                 new City($this->parameters['city']),
                 new State($this->parameters['state']),
-                new CountryCode($this->parameters['countryCode']),
+                new CountryCode(strtoupper($this->parameters['countryCode'])),
                 new TelephoneNumber($this->parameters['telephoneNumber'])
             )
         );
@@ -169,7 +169,7 @@ class AuthoriseRequestTreeBuilder
                 new PostalCode($shippingAddress['postalCode']),
                 new City($shippingAddress['city']),
                 new State($shippingAddress['state']),
-                new CountryCode($shippingAddress['countryCode']),
+                new CountryCode(strtoupper($shippingAddress['countryCode'])),
                 new TelephoneNumber($shippingAddress['telephoneNumber'])
             )
         );
@@ -252,7 +252,7 @@ class AuthoriseRequestTreeBuilder
                         new Address3($parameters['address3']),
                         new ShopperFieldsAddress\PostalCode($parameters['postalCode']),
                         new ShopperCity($parameters['city']),
-                        new ShopperCountryCode($parameters['countryCode']),
+                        new ShopperCountryCode(strtoupper($parameters['countryCode'])),
                         new ShopperTelephoneNumber($parameters['telephoneNumber'])
                     )
                 )
